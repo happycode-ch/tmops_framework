@@ -1,0 +1,190 @@
+# TeamOps Framework .gitignore
+
+# Archive directory
+.archive/
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.vim/
+*.sublime-project
+*.sublime-workspace
+
+# Environment and Config
+.env
+.env.local
+.env.*.local
+*.env
+config.local.json
+settings.local.json
+
+# Dependencies
+node_modules/
+venv/
+env/
+.venv/
+*.egg-info/
+dist/
+build/
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+
+# Logs and Runtime
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage/
+.coverage
+.coverage.*
+*.cover
+.hypothesis/
+.pytest_cache/
+.phpunit.result.cache
+htmlcov/
+test-results/
+*.lcov
+
+# Build outputs
+out/
+dist/
+build/
+target/
+*.dll
+*.exe
+*.o
+*.so
+*.dylib
+
+# Package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.sql.backup
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+.cache/
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Git worktrees (keep these tracked for TeamOps)
+# Uncomment if you want to exclude worktrees
+# wt-*/
+
+# TeamOps specific temporary files
+.tmops/**/logs/
+.tmops/**/session.md
+.tmops/**/recovery/
+.tmops/**/*.backup
+
+# Claude specific
+.claude/
+claude_artifacts/
+
+# Security
+*.pem
+*.key
+*.crt
+*.p12
+.secrets/
+credentials.json
+
+# Documentation build
+docs/_build/
+docs/site/
+.docusaurus/
+
+# Package managers
+.npm/
+.yarn/
+.pnpm-store/
+
+# Python specific
+*.pyc
+__pycache__/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# JavaScript/TypeScript
+.next/
+.nuxt/
+.turbo/
+.vercel/
+.parcel-cache/
+*.tsbuildinfo
+
+# Java
+.gradle/
+.m2/
+*.class
+
+# Ruby
+*.gem
+.bundle/
+vendor/bundle/
+
+# Rust
+target/
+Cargo.lock
+
+# Go
+*.exe
+*.test
+*.out
+vendor/
+
+# C/C++
+*.out
+*.app
+*.i
+*.ii
+*.gpu
+*.ptx
+*.cubin
+*.fatbin
