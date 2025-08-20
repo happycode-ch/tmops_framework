@@ -1,0 +1,17 @@
+{
+  "name": "hello-api-tests",
+  "version": "1.0.0",
+  "description": "Test suite for Hello API endpoint",
+  "scripts": {
+    "test": "mocha hello_api.test.js --reporter spec",
+    "test:verbose": "mocha hello_api.test.js --reporter spec --verbose",
+    "test:coverage": "nyc --reporter=text --reporter=html mocha hello_api.test.js"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0",
+    "nyc": "^15.1.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
