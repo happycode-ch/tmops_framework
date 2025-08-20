@@ -1,6 +1,13 @@
 #!/bin/bash
 # TeamOps Feature Cleanup Script
 # Removes all artifacts from a previous feature run
+# This script will:
+# - Remove .tmops/<feature>/ directory
+# - Remove git worktrees (wt-*)
+# - Remove feature branch
+# - Identify test/src files for manual removal
+# - Check package.json files for feature contamination
+# - Optionally remove feature-specific package.json files
 
 set -e
 
@@ -103,6 +110,56 @@ if [[ -d "src" ]]; then
     fi
 fi
 
+# Step 5b: Check for feature-specific package.json files
+echo ""
+echo "Checking for feature-specific package.json files..."
+
+# Check root package.json
+if [[ -f "package.json" ]]; then
+    # Look for feature name or common test patterns
+    if grep -qi "$FEATURE\|hello" package.json 2>/dev/null; then
+        echo -e "${YELLOW}Found feature references in package.json${NC}"
+        echo "  Contains: $(grep -o '"name": "[^"]*"' package.json | head -1)"
+        
+        # Check if package.json existed before this feature in git history
+        if git ls-tree HEAD~10 -- package.json >/dev/null 2>&1; then
+            echo -e "${YELLOW}  Warning: package.json may have existed before this feature${NC}"
+            echo -e "${YELLOW}  Consider checking: git log --oneline -- package.json${NC}"
+        else
+            echo -e "${YELLOW}  This package.json appears to be feature-specific${NC}"
+        fi
+        
+        read -p "  Remove package.json and package-lock.json? (y/n) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            rm -f package.json package-lock.json
+            echo -e "${GREEN}  Removed root package files${NC}"
+        else
+            echo "  Keeping package files"
+        fi
+    else
+        echo "  Root package.json appears clean"
+    fi
+fi
+
+# Check test/package.json
+if [[ -f "test/package.json" ]]; then
+    if grep -qi "$FEATURE\|hello" test/package.json 2>/dev/null; then
+        echo -e "${YELLOW}Found feature references in test/package.json${NC}"
+        echo "  Contains: $(grep -o '"name": "[^"]*"' test/package.json | head -1)"
+        read -p "  Remove test/package.json and test/package-lock.json? (y/n) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            rm -f test/package.json test/package-lock.json
+            echo -e "${GREEN}  Removed test package files${NC}"
+        else
+            echo "  Keeping test package files"
+        fi
+    else
+        echo "  test/package.json appears clean"
+    fi
+fi
+
 # Step 6: Verify cleanup
 echo ""
 echo "Verification:"
@@ -126,6 +183,20 @@ if ! git show-ref --verify --quiet refs/heads/feature/$FEATURE; then
     echo -e "${GREEN}✓ Removed${NC}"
 else
     echo -e "${YELLOW}⚠ Still exists${NC}"
+fi
+
+echo -n "  Package files: "
+package_clean=true
+if [[ -f "package.json" ]] && grep -qi "$FEATURE\|hello" package.json 2>/dev/null; then
+    package_clean=false
+fi
+if [[ -f "test/package.json" ]] && grep -qi "$FEATURE\|hello" test/package.json 2>/dev/null; then
+    package_clean=false
+fi
+if [[ "$package_clean" == true ]]; then
+    echo -e "${GREEN}✓ Clean${NC}"
+else
+    echo -e "${YELLOW}⚠ Feature references remain${NC}"
 fi
 
 echo ""
