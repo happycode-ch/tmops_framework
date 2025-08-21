@@ -4,20 +4,20 @@
 
 TeamOps is a sophisticated orchestration protocol that coordinates multiple Claude AI instances to work collaboratively on software development tasks. By dividing responsibilities across specialized instances and using a checkpoint-based communication system, TeamOps enables parallel, conflict-free development with built-in quality gates.
 
-**Version 5.2.0** brings reality-based architecture, automated setup tools, comprehensive logging, and metrics extraction.
+**Version 6.0.0** introduces manual orchestration for 100% reliability with human-coordinated handoffs between instances.
 
 ## 🎯 Key Features
 
 - **4-Instance Architecture**: Specialized roles for Orchestrator, Tester, Implementer, and Verifier
+- **Manual Orchestration** (v6.0.0): Human-coordinated handoffs for 100% reliability
 - **Checkpoint-Based Communication**: Filesystem-based protocol for inter-instance coordination
 - **Test-Driven Development**: Built-in TDD workflow with automated test creation
-- **Automated Setup** (v5.2.0): One-command feature initialization with `tmops_tools`
-- **Comprehensive Logging** (v5.2.0): Instance-specific logs for debugging and monitoring
-- **Metrics Extraction** (v5.2.0): Automatic performance and quality metrics generation
-- **Multi-Run Support** (v5.2.0): Iterative development with context inheritance
-- **Reality-Based Architecture** (v5.2.0): Tests and code in standard project locations
+- **Automated Setup**: One-command feature initialization with `tmops_tools`
+- **Comprehensive Logging**: Instance-specific logs for debugging and monitoring
+- **Metrics Extraction**: Automatic performance and quality metrics generation
+- **Multi-Run Support**: Iterative development with context inheritance
+- **Reality-Based Architecture**: Tests and code in standard project locations
 - **Quality Gates**: Human review points at critical phases
-- **Parallel Execution**: Multiple instances work simultaneously without conflicts
 - **Git Worktree Integration**: Each instance operates in its own isolated environment
 
 ## 🏗️ Architecture Overview
@@ -66,7 +66,7 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
    - Assesses security and performance
    - Provides improvement recommendations
 
-## 🚀 Quick Start (v5.2.0 - Automated!)
+## 🚀 Quick Start (v6.0.0 - Manual Orchestration)
 
 ### Prerequisites
 
@@ -74,9 +74,9 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
 - Claude.ai account (for strategic planning)
 - Claude Code CLI access (4 terminals)
 - Unix-like environment (Linux, macOS, or WSL)
-- Python 3.6+ (for monitoring tools)
+- Python 3.6+ (for metrics extraction)
 
-### 5-Minute Setup
+### Setup & Usage
 
 1. **Clone and navigate**
    ```bash
@@ -84,15 +84,15 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
    cd tmops_framework/CODE
    ```
 
-2. **Initialize your feature (NEW - Automated!)**
+2. **Initialize your feature**
    ```bash
-   ./tmops_tools/init_feature.sh my-feature initial
+   ./tmops_tools/init_feature_v6.sh my-feature initial
    ```
-   This single command:
-   - Creates directory structure
-   - Sets up git worktrees
+   This command:
+   - Creates `.tmops/` directory structure
+   - Sets up 4 git worktrees (wt-orchestrator, wt-tester, wt-impl, wt-verify)
    - Generates TASK_SPEC template
-   - Initializes logging directories
+   - Initializes checkpoint and logging directories
 
 3. **Edit Task Specification**
    ```bash
@@ -100,23 +100,50 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
    ```
 
 4. **Launch 4 Claude Code instances**
-   Open 4 terminals and paste the prompts from [docs/tmops_docs_v5/quickstart.md](docs/tmops_docs_v5/quickstart.md)
-
-5. **Monitor progress**
    ```bash
-   # Watch checkpoints
-   watch -n 2 'ls -la .tmops/my-feature/runs/current/checkpoints/'
-   
-   # Monitor logs (NEW)
-   tail -f .tmops/my-feature/runs/current/logs/*.log
-   
-   # Extract metrics (NEW)
-   ./tmops_tools/extract_metrics.py my-feature --format report
+   # Terminal 1: cd wt-orchestrator && claude
+   # Terminal 2: cd wt-tester && claude
+   # Terminal 3: cd wt-impl && claude
+   # Terminal 4: cd wt-verify && claude
    ```
+   Paste the appropriate role section from `docs/tmops_docs_v6/tmops_claude_code.md` into each instance.
 
-For detailed instructions, see the [Quick Start Guide](docs/tmops_docs_v5/quickstart.md).
+5. **Coordinate manually**
+   - Send `[BEGIN]: Start orchestration for <feature>` to Orchestrator
+   - Relay `[CONFIRMED]` messages between instances as they complete
+   - No polling or timeouts - 100% reliable!
 
-## 📁 Project Structure (v5.2.0)
+6. **Clean up after completion**
+   ```bash
+   ./tmops_tools/cleanup_feature.sh my-feature
+   ```
+   This removes worktrees, branches, and `.tmops/` artifacts.
+
+## 🛠️ Available Tools
+
+The `tmops_tools/` directory contains essential scripts for the TeamOps workflow:
+
+- **`init_feature_v6.sh`** - Initialize a new feature with worktrees and directory structure
+  ```bash
+  ./tmops_tools/init_feature_v6.sh <feature-name> [initial|patch]
+  ```
+
+- **`cleanup_feature.sh`** - Clean up after feature completion (removes worktrees, branches, artifacts)
+  ```bash
+  ./tmops_tools/cleanup_feature.sh <feature-name>
+  ```
+
+- **`extract_metrics.py`** - Extract performance metrics and generate reports
+  ```bash
+  ./tmops_tools/extract_metrics.py <feature-name> --format report
+  ```
+
+- **`monitor_checkpoints.py`** - Monitor checkpoint creation (optional for v6)
+  ```bash
+  ./tmops_tools/monitor_checkpoints.py <feature-name>
+  ```
+
+## 📁 Project Structure (v6.0.0)
 
 ### TeamOps Orchestration Files
 ```
@@ -140,12 +167,13 @@ For detailed instructions, see the [Quick Start Guide](docs/tmops_docs_v5/quicks
         └── current -> 001-initial # Symlink to active run
 ```
 
-### Automation Tools (NEW)
+### tmops_tools Directory
 ```
 tmops_tools/
-├── init_feature.sh        # One-command feature setup
-├── monitor_checkpoints.py # Checkpoint monitoring with backoff
+├── init_feature_v6.sh     # Feature initialization with worktrees
+├── cleanup_feature.sh     # Complete cleanup after feature
 ├── extract_metrics.py     # Metrics extraction and reporting
+├── monitor_checkpoints.py # Optional checkpoint monitoring
 └── templates/             # Checkpoint templates
 ```
 
@@ -154,7 +182,7 @@ tmops_tools/
 - **Implementation**: `src/` in your project (NOT in .tmops)
 - **TeamOps artifacts**: `.tmops/<feature>/` only
 
-## 📋 Checkpoint Protocol (v5.2.0 Standardized)
+## 📋 Checkpoint Protocol (v6.0.0 Manual Coordination)
 
 Instances communicate exclusively through checkpoint files using NNN-phase-status naming:
 
@@ -178,20 +206,12 @@ Human review points ensure quality at critical phases:
 
 ## 📚 Documentation
 
-### Version 5.2.0 Documentation (Current)
-- [Quick Start Guide](docs/tmops_docs_v5/quickstart.md) - Get started in 5 minutes
-- [Complete Protocol Specification](docs/tmops_docs_v5/tmops_protocol.md) - Technical details
-- [Claude Chat Guide](docs/tmops_docs_v5/tmops_claude_chat.md) - Strategic planning
-- [Claude Code Instance Guide](docs/tmops_docs_v5/tmops_claude_code.md) - Instance roles
+### Version 6.0.0 Documentation (Current)
+- [Manual Orchestration Guide](docs/tmops_docs_v6/tmops_claude_code.md) - Complete v6 manual process
+- [Migration from v5](docs/tmops_docs_v6/MIGRATION_FROM_V5.md) - Upgrade guide
 
-### Development Documentation
-- [v5.2.0 Implementation Plan](docs/doc_development/tmops-v520-plan.md)
-- [Improvement Roadmap](docs/doc_development/improvement_plan.md)
-
-### Legacy Documentation (v5.0.0)
-- [v4 Protocol](docs/tmops_docs_v4/tmops_orchestration_protocol_4-inst.md)
-- [v4 Chat Guide](docs/tmops_docs_v4/tmops_claude_chat_4-inst.md)
-- [v4 Code Guide](docs/tmops_docs_v4/tmops_claude_code_4-inst.md)
+### Legacy Documentation
+- Previous versions archived in `.archive/` directory
 
 ## 🤝 Contributing
 
@@ -220,13 +240,12 @@ When using this framework, please include:
 
 ## 🚧 Roadmap
 
-### Completed in v5.2.0
-- [x] Automated checkpoint monitoring tools (`tmops_tools/monitor_checkpoints.py`)
-- [x] Performance metrics and analytics (`tmops_tools/extract_metrics.py`)
-- [x] Automated feature initialization (`tmops_tools/init_feature.sh`)
-- [x] Instance-specific logging system
-- [x] Multi-run support with context inheritance
-- [x] Reality-based file locations
+### Completed in v6.0.0
+- [x] Manual orchestration for 100% reliability
+- [x] Human-coordinated handoffs between instances
+- [x] Elimination of polling and timeouts
+- [x] Clear status reporting from each instance
+- [x] Simplified debugging and control
 
 ### Future Enhancements
 - [ ] Visual dashboard for checkpoint flow
@@ -257,12 +276,12 @@ Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
 
 ---
 
-**Version:** 5.2.0 | **Status:** Active Development | **Last Updated:** January 2025
+**Version:** 6.0.0 | **Status:** Active Development | **Last Updated:** January 2025
 
-### What's New in v5.2.0
-- **Automated Setup**: One-command feature initialization with `tmops_tools/init_feature.sh`
-- **Reality-Based Architecture**: Tests and code stay in standard project directories
-- **Comprehensive Logging**: Every instance logs actions for debugging and monitoring
-- **Metrics Extraction**: Automatic performance and quality metrics generation
-- **Multi-Run Support**: Patch runs with context inheritance for iterative development
-- **Enhanced Monitoring**: Tools for real-time checkpoint and log monitoring
+### What's New in v6.0.0
+- **Manual Orchestration**: Human-coordinated handoffs for 100% reliability
+- **No Polling**: Eliminated all automated polling and timeout issues
+- **Clear Communication**: Explicit status messages from each instance
+- **Simplified Control**: Direct human control over workflow progression
+- **Enhanced Debugging**: Easier to troubleshoot with manual coordination
+- **Maintained Features**: All v5 logging, metrics, and multi-run support retained
