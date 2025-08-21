@@ -1,0 +1,11 @@
+{
+  "feature": "hello-v7",
+  "run": "001-initial",
+  "phase": "planning",
+  "role": "orchestrator",
+  "started_at": "2025-08-21T11:24:59Z",
+  "phase_complete": false,
+  "version": "v7",
+  "workflow_type": "automated",
+  "run_type": "initial"
+}
