@@ -1,0 +1,28 @@
+{
+  "name": "tmops-hello-v7",
+  "version": "1.0.0",
+  "description": "Hello World API - TeamOps v7 test feature",
+  "main": "src/hello.js",
+  "scripts": {
+    "start": "node src/hello.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": ["teamops", "v7", "test", "hello-world"],
+  "author": "TeamOps",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  }
+}
