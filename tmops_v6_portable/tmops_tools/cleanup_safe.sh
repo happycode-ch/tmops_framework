@@ -7,6 +7,14 @@ set -e
 FEATURE="$1"
 MODE="${2:-safe}"  # safe or full
 
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PORTABLE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Always use the parent of tmops_v6_portable as project root
+# This ensures consistent behavior regardless of where script is run from
+PROJECT_ROOT="$(cd "$PORTABLE_DIR/.." && pwd)"
+
 # Color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -21,8 +29,8 @@ if [[ -z "$FEATURE" ]]; then
     echo "  full - Also removes test/src files (with confirmation)"
     echo ""
     echo "Available features to clean:"
-    if [[ -f ../.tmops/FEATURES.txt ]]; then
-        cut -d: -f1 ../.tmops/FEATURES.txt | sort -u | sed 's/^/  • /'
+    if [[ -f "$PROJECT_ROOT/.tmops/FEATURES.txt" ]]; then
+        cut -d: -f1 "$PROJECT_ROOT/.tmops/FEATURES.txt" | sort -u | sed 's/^/  • /'
     fi
     exit 1
 fi
@@ -51,13 +59,13 @@ fi
 echo -e "${GREEN}  ✓ Working directory clean${NC}"
 
 # Safety Check 2: Create backup
-BACKUP_DIR="../.tmops/.backups/$(date +%Y%m%d-%H%M%S)-$FEATURE"
+BACKUP_DIR="$PROJECT_ROOT/.tmops/.backups/$(date +%Y%m%d-%H%M%S)-$FEATURE"
 echo ""
 echo "💾 Creating backup..."
 mkdir -p "$BACKUP_DIR"
 
-if [[ -d "../.tmops/$FEATURE" ]]; then
-    cp -r "../.tmops/$FEATURE" "$BACKUP_DIR/"
+if [[ -d "$PROJECT_ROOT/.tmops/$FEATURE" ]]; then
+    cp -r "$PROJECT_ROOT/.tmops/$FEATURE" "$BACKUP_DIR/"
     echo -e "${GREEN}  ✓ Backed up .tmops/$FEATURE${NC}"
 fi
 
@@ -166,20 +174,20 @@ fi
 # Step 4: Archive TeamOps directory
 echo ""
 echo "📦 Archiving TeamOps artifacts..."
-if [[ -d "../.tmops/$FEATURE" ]]; then
-    ARCHIVE_DIR="../.tmops/.archive/$(date +%Y%m%d)-$FEATURE"
+if [[ -d "$PROJECT_ROOT/.tmops/$FEATURE" ]]; then
+    ARCHIVE_DIR="$PROJECT_ROOT/.tmops/.archive/$(date +%Y%m%d)-$FEATURE"
     mkdir -p "$(dirname "$ARCHIVE_DIR")"
-    mv "../.tmops/$FEATURE" "$ARCHIVE_DIR"
+    mv "$PROJECT_ROOT/.tmops/$FEATURE" "$ARCHIVE_DIR"
     echo -e "${GREEN}  ✓ Archived to: $ARCHIVE_DIR${NC}"
 else
-    echo "  No ../.tmops/$FEATURE directory found"
+    echo "  No $PROJECT_ROOT/.tmops/$FEATURE directory found"
 fi
 
 # Step 5: Update feature tracking
-if [[ -f "../.tmops/FEATURES.txt" ]]; then
-    grep -v "^$FEATURE:" "../.tmops/FEATURES.txt" > "../.tmops/FEATURES.txt.tmp" 2>/dev/null || true
-    if [[ -f "../.tmops/FEATURES.txt.tmp" ]]; then
-        mv "../.tmops/FEATURES.txt.tmp" "../.tmops/FEATURES.txt"
+if [[ -f "$PROJECT_ROOT/.tmops/FEATURES.txt" ]]; then
+    grep -v "^$FEATURE:" "$PROJECT_ROOT/.tmops/FEATURES.txt" > "$PROJECT_ROOT/.tmops/FEATURES.txt.tmp" 2>/dev/null || true
+    if [[ -f "$PROJECT_ROOT/.tmops/FEATURES.txt.tmp" ]]; then
+        mv "$PROJECT_ROOT/.tmops/FEATURES.txt.tmp" "$PROJECT_ROOT/.tmops/FEATURES.txt"
     fi
 fi
 
@@ -193,7 +201,7 @@ echo "Feature: $FEATURE"
 echo "Backup: $BACKUP_DIR"
 echo ""
 echo "To restore from backup:"
-echo "  cp -r $BACKUP_DIR/$FEATURE ../.tmops/"
+echo "  cp -r $BACKUP_DIR/$FEATURE $PROJECT_ROOT/.tmops/"
 echo ""
 echo "To start fresh:"
 echo "  ./tmops_tools/init_feature_multi.sh $FEATURE"
