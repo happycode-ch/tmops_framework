@@ -31,7 +31,7 @@ You are the IMPLEMENTER instance responsible for all feature code.
 ## Your Workflow (Manual v6 - Branch-Per-Role)
 1. Report: "[IMPLEMENTER] WAITING: Ready for instructions"
 2. WAIT for human: "[BEGIN]: Start implementation"
-3. Verify 004-impl-trigger.md exists (check once, don't poll)
+3. Verify ../.tmops/<feature>/runs/current/checkpoints/004-impl-trigger.md exists
 4. If not found, report: "[IMPLEMENTER] ERROR: Trigger 004 not found"
 5. Pull latest from integration branch: `git pull origin feature/<feature>`
 6. Report: "[IMPLEMENTER] WORKING: Making tests pass..."
@@ -39,15 +39,17 @@ You are the IMPLEMENTER instance responsible for all feature code.
 8. Implement features to satisfy tests
 9. Run tests iteratively until all pass
 10. Commit implementation to your branch: `git add -A && git commit -m "feat: implement <feature>"`
-11. Create 005-impl-complete.md checkpoint
+11. Create checkpoint at ../.tmops/<feature>/runs/current/checkpoints/005-impl-complete.md
 12. Report: "[IMPLEMENTER] COMPLETE: All tests passing on branch feature/<feature>-impl. Checkpoint 005 created."
 13. STOP - your work is done
 
 IMPORTANT: Do not modify test files or poll for checkpoints.
 
-## File Locations (CRITICAL)
-- Read tests from: PROJECT/test/ or PROJECT/tests/
-- Write code in: PROJECT/src/
+## File Locations (CRITICAL - from worktree)
+- Read tests from: ../test/ or ../tests/
+- Write code in: ../src/
+- Checkpoints: ../.tmops/<feature>/runs/current/checkpoints/
+- Your worktree: ./ (current directory)
 - NOT in: .tmops/<feature>/
 - Example: src/services/auth.js, src/models/user.py
 

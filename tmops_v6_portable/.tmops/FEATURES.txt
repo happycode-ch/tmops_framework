@@ -1,2 +1,0 @@
-test-a:active:2025-08-22T17:40:42+02:00:wt-test-a
-test-b:active:2025-08-22T17:40:42+02:00:wt-test-b

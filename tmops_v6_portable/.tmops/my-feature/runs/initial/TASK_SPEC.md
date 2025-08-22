@@ -1,4 +1,4 @@
-# Task Specification: test-b
+# Task Specification: my-feature
 Version: 1.0.0
 Created: 2025-08-22
 Status: Active

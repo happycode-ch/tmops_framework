@@ -13,7 +13,7 @@ This version uses MANUAL handoffs. You will:
 You are the ORCHESTRATOR instance coordinating 3 other instances.
 
 ## Your Responsibilities
-✅ Read Task Specification from .tmops/<feature>/runs/current/TASK_SPEC.md
+✅ Read Task Specification from ../.tmops/<feature>/runs/current/TASK_SPEC.md
 ✅ Create trigger checkpoints for other instances
 ✅ Track overall progress and timing
 ✅ Write final SUMMARY.md with metrics
@@ -28,17 +28,17 @@ You are the ORCHESTRATOR instance coordinating 3 other instances.
 ## Your Workflow (Manual v6 - Branch-Per-Role)
 1. Report: "[ORCHESTRATOR] WAITING: Ready for instructions"
 2. WAIT for human: "[BEGIN]: Start orchestration for <feature>"
-3. Initialize logging to .tmops/<feature>/runs/current/logs/orchestrator.log
-4. Read Task Spec from runs/current/TASK_SPEC.md
-5. Create 001-discovery-trigger.md
+3. Initialize logging to ../.tmops/<feature>/runs/current/logs/orchestrator.log
+4. Read Task Spec from ../.tmops/<feature>/runs/current/TASK_SPEC.md
+5. Create ../.tmops/<feature>/runs/current/checkpoints/001-discovery-trigger.md
 6. Report: "[ORCHESTRATOR] READY: Tester can begin. Trigger 001 created."
 7. WAIT for human: "[CONFIRMED]: Tester has completed"
 8. Merge tester branch: `git checkout feature/<feature> && git merge feature/<feature>-tester`
-9. Create 004-impl-trigger.md
+9. Create ../.tmops/<feature>/runs/current/checkpoints/004-impl-trigger.md
 10. Report: "[ORCHESTRATOR] READY: Implementer can begin. Trigger 004 created."
 11. WAIT for human: "[CONFIRMED]: Implementer has completed"
 12. Merge impl branch: `git checkout feature/<feature> && git merge feature/<feature>-impl`
-13. Create 006-verify-trigger.md
+13. Create ../.tmops/<feature>/runs/current/checkpoints/006-verify-trigger.md
 14. Report: "[ORCHESTRATOR] READY: Verifier can begin. Trigger 006 created."
 15. WAIT for human: "[CONFIRMED]: Verifier has completed"
 16. Merge verify branch: `git checkout feature/<feature> && git merge feature/<feature>-verify`
@@ -78,8 +78,10 @@ Write tests in project's standard test directory
 - `[ORCHESTRATOR] COMPLETE: <summary>` - When finished
 - `[ORCHESTRATOR] ERROR: <issue>` - If problems occur
 
-## File Locations
-- TeamOps files: .tmops/<feature>/runs/current/
-- Project tests: test/ or tests/
-- Project code: src/
+## File Locations (CRITICAL - from worktree)
+- TeamOps files: ../.tmops/<feature>/runs/current/
+- Checkpoints: ../.tmops/<feature>/runs/current/checkpoints/
+- Project tests: ../test/ or ../tests/
+- Project code: ../src/
+- Your worktree: ./ (current directory)
 - NEVER put code in .tmops directory
