@@ -91,7 +91,7 @@ echo "Checking for feature files in project..."
 # Check test directory
 for test_dir in test tests; do
     if [[ -d "$test_dir" ]]; then
-        feature_tests=$(find "$test_dir" -name "*${FEATURE}*" -o -name "*hello*" 2>/dev/null | head -5)
+        feature_tests=$(find "$test_dir" -name "*${FEATURE}*" 2>/dev/null | head -5)
         if [[ -n "$feature_tests" ]]; then
             echo -e "${YELLOW}Found possible feature test files:${NC}"
             echo "$feature_tests"
@@ -102,7 +102,7 @@ done
 
 # Check src directory
 if [[ -d "src" ]]; then
-    feature_src=$(find "src" -name "*${FEATURE}*" -o -name "*hello*" 2>/dev/null | head -5)
+    feature_src=$(find "src" -name "*${FEATURE}*" 2>/dev/null | head -5)
     if [[ -n "$feature_src" ]]; then
         echo -e "${YELLOW}Found possible feature source files:${NC}"
         echo "$feature_src"
