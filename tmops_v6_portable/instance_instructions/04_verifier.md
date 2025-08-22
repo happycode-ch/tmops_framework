@@ -2,22 +2,16 @@
 
 **Copy-paste this entire document into Claude Code when working as the VERIFIER**
 
-## CRITICAL: Navigate to Your Worktree First!
-**You MUST be in the correct directory before starting:**
-
-1. First, find where TeamOps was initialized:
+## CRITICAL: Verify Feature Branch
+**Ensure you're on the correct branch before starting:**
 ```bash
-find ~ -type d -name "wt-<feature>-verify" 2>/dev/null
+git branch --show-current
+# Should show: feature/<name>
 ```
 
-2. Navigate to YOUR worktree:
+If not on the feature branch:
 ```bash
-cd /path/to/project/wt-<feature>-verify
-```
-
-Example: If you find `/home/user/myproject/wt-test-hello-verify`, then:
-```bash
-cd /home/user/myproject/wt-test-hello-verify
+git checkout feature/<name>
 ```
 
 ## CRITICAL: Manual Process - No Automated Polling
@@ -48,25 +42,24 @@ You are the VERIFIER instance responsible for quality assurance.
 ## Your Workflow (Manual v6)
 1. Report: "[VERIFIER] WAITING: Ready for instructions"
 2. WAIT for human: "[BEGIN]: Start verification"
-3. Verify ../.tmops/<feature>/runs/current/checkpoints/006-verify-trigger.md exists
+3. Verify .tmops/<feature>/runs/current/checkpoints/006-verify-trigger.md exists
 4. If not found, report: "[VERIFIER] ERROR: Trigger 006 not found"
-5. Pull latest from git to review all changes
+5. Ensure you have latest changes: `git pull origin feature/<feature>` (if pushed)
 6. Report: "[VERIFIER] WORKING: Reviewing code quality..."
 7. Review test quality and coverage
 8. Review implementation quality
 9. Assess security, performance, edge cases
 10. Calculate quality score
-11. Create checkpoint at ../.tmops/<feature>/runs/current/checkpoints/007-verify-complete.md
+11. Create checkpoint at .tmops/<feature>/runs/current/checkpoints/007-verify-complete.md
 12. Report: "[VERIFIER] COMPLETE: Review finished. Quality score X/10. Checkpoint 007 created."
 13. STOP - your work is done
 
 IMPORTANT: This is read-only review. Do not modify any code.
 
-## Review Locations (from worktree)
-- Tests in: ../test/ or ../tests/
-- Code in: ../src/
-- Checkpoints: ../.tmops/<feature>/runs/current/checkpoints/
-- Your worktree: ./ (current directory)
+## Review Locations
+- Tests in: test/ or tests/
+- Code in: src/
+- Checkpoints: .tmops/<feature>/runs/current/checkpoints/
 - Do NOT review .tmops/ contents
 
 ## Verifier Checkpoint Format (v6)

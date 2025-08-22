@@ -1,9 +1,9 @@
-# TeamOps Framework v6.1 - Multi-Feature Edition
+# TeamOps Framework v6.2 - Simplified Edition
 
 **Quick setup → Rapid feature delivery**
 
 TeamOps orchestrates 4 Claude Code instances to build features using Test-Driven Development.
-Now supports multiple features in parallel!
+Simplified: No worktrees, just branches!
 
 ## 🚀 Quick Start
 
@@ -11,24 +11,25 @@ Now supports multiple features in parallel!
 # 1. Install (first time only)
 ./INSTALL.sh
 
-# 2. Start your feature (creates 4 worktrees)
+# 2. Start your feature (creates feature branch)
 ./tmops_tools/init_feature_multi.sh my-feature
 
-# 3. Open 4 Claude Code terminals
-cd wt-my-feature-orchestrator && claude
-cd wt-my-feature-tester && claude  
-cd wt-my-feature-impl && claude
-cd wt-my-feature-verify && claude
+# 3. Open 4 Claude Code instances (all in same directory)
+claude  # Terminal 1: Orchestrator
+claude  # Terminal 2: Tester
+claude  # Terminal 3: Implementer
+claude  # Terminal 4: Verifier
 
 # 4. Paste role instructions (from instance_instructions/ or docs/roles/)
 # 5. Start: You → Orchestrator: "[BEGIN]: Start orchestration"
 ```
 
-## 💡 What's New in v6.1
+## 💡 What's New in v6.2
 
-- **Multi-Feature Support** - Work on multiple features simultaneously
-- **Safe Cleanup** - Two-tier system prevents accidental deletions
-- **Simple Commands** - One README, clear structure
+- **No More Worktrees** - Simplified to just feature branches
+- **No Navigation Issues** - All instances work in main directory
+- **Faster Setup** - Initialize in seconds, not minutes
+- **Same Power** - All orchestration features preserved
 
 ## 📝 Core Commands
 
@@ -51,11 +52,12 @@ cd wt-my-feature-verify && claude
 ```bash
 # Start feature A
 ./tmops_tools/init_feature_multi.sh auth-api
-# Work in: wt-auth-api-orchestrator, wt-auth-api-tester, etc.
+# Work on branch: feature/auth-api
 
-# Start feature B (while A is active)
+# Start feature B (switch back to main first)
+git checkout main
 ./tmops_tools/init_feature_multi.sh payment-flow
-# Work in: wt-payment-flow-orchestrator, wt-payment-flow-tester, etc.
+# Work on branch: feature/payment-flow
 
 # List what's active
 ./tmops_tools/list_features.sh
@@ -73,16 +75,13 @@ your-project/
 ├── .tmops/                      # TeamOps artifacts (auto-created)
 │   ├── <feature>/              # Per-feature data
 │   └── FEATURES.txt            # Active features list
-├── wt-<feature>-orchestrator/   # Worktree on branch: feature/<feature>-orchestrator
-├── wt-<feature>-tester/         # Worktree on branch: feature/<feature>-tester
-├── wt-<feature>-impl/           # Worktree on branch: feature/<feature>-impl
-└── wt-<feature>-verify/         # Worktree on branch: feature/<feature>-verify
+└── [You work here]              # All instances in main directory
 ```
 
 ### Branch Architecture
-- Each role works on its own branch to prevent Git conflicts
-- Integration branch `feature/<feature>` merges all work
-- Orchestrator handles merging between phases
+- Single feature branch: `feature/<feature>`
+- All instances work on same branch sequentially
+- No complex merging or conflicts
 
 ## 🤝 Manual Coordination Flow
 

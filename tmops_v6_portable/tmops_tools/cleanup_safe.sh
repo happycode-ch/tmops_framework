@@ -79,62 +79,43 @@ fi
 
 echo "  Backup location: $BACKUP_DIR"
 
-# Step 1: Remove worktrees
+# Step 1: Check current branch
 echo ""
-echo "🔧 Removing worktrees..."
-WORKTREE_PREFIX="wt-${FEATURE}"
-removed_count=0
-
-for role in orchestrator tester impl verify; do
-    WORKTREE="${WORKTREE_PREFIX}-${role}"
-    if [[ -d "$WORKTREE" ]]; then
-        echo "  Removing: $WORKTREE"
-        git worktree remove "$WORKTREE" --force 2>/dev/null || rm -rf "$WORKTREE"
-        ((removed_count++))
-    fi
-done
-
-if [[ $removed_count -eq 0 ]]; then
-    echo "  No worktrees found for $FEATURE"
+echo "🌿 Checking branch..."
+CURRENT_BRANCH=$(git branch --show-current)
+if [[ "$CURRENT_BRANCH" == "feature/$FEATURE" ]]; then
+    echo "  Switching back to main branch..."
+    git checkout main 2>/dev/null || git checkout master 2>/dev/null
 fi
 
-# Step 2: Handle branches (role-specific and integration)
+# Step 2: Handle feature branch
 echo ""
-echo "🌿 Checking branches..."
+echo "🌿 Deleting feature branch..."
 
-# Delete role-specific branches
-for role in orchestrator tester impl verify; do
-    BRANCH="feature/${FEATURE}-${role}"
-    if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
-        git branch -D "$BRANCH" 2>/dev/null
-        echo -e "${GREEN}  ✓ Deleted branch $BRANCH${NC}"
-    fi
-done
-
-# Handle main integration branch
-MAIN_BRANCH="feature/$FEATURE"
-if git show-ref --verify --quiet "refs/heads/$MAIN_BRANCH"; then
+# Handle feature branch
+FEATURE_BRANCH="feature/$FEATURE"
+if git show-ref --verify --quiet "refs/heads/$FEATURE_BRANCH"; then
     # Check for unpushed commits
     UNPUSHED=0
     if git remote | grep -q origin; then
-        UNPUSHED=$(git rev-list --count "origin/$MAIN_BRANCH..$MAIN_BRANCH" 2>/dev/null || echo "0")
+        UNPUSHED=$(git rev-list --count "origin/$FEATURE_BRANCH..$FEATURE_BRANCH" 2>/dev/null || echo "0")
     fi
     
     if [[ "$UNPUSHED" -gt 0 ]]; then
-        echo -e "${YELLOW}  ⚠️  Integration branch $MAIN_BRANCH has $UNPUSHED unpushed commits${NC}"
+        echo -e "${YELLOW}  ⚠️  Feature branch $FEATURE_BRANCH has $UNPUSHED unpushed commits${NC}"
         read -p "  Delete anyway? (yes/no): " confirm
         if [[ "$confirm" == "yes" ]]; then
-            git branch -D "$MAIN_BRANCH"
-            echo -e "${GREEN}  ✓ Deleted integration branch${NC}"
+            git branch -D "$FEATURE_BRANCH"
+            echo -e "${GREEN}  ✓ Deleted feature branch${NC}"
         else
-            echo "  ✓ Kept branch (push with: git push origin $MAIN_BRANCH)"
+            echo "  ✓ Kept branch (push with: git push origin $FEATURE_BRANCH)"
         fi
     else
-        git branch -D "$MAIN_BRANCH" 2>/dev/null
-        echo -e "${GREEN}  ✓ Deleted integration branch $MAIN_BRANCH${NC}"
+        git branch -D "$FEATURE_BRANCH" 2>/dev/null
+        echo -e "${GREEN}  ✓ Deleted feature branch $FEATURE_BRANCH${NC}"
     fi
 else
-    echo "  No integration branch found"
+    echo "  No feature branch found"
 fi
 
 # Step 3: Handle test/src files (only in full mode)

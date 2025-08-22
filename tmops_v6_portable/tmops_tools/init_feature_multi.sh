@@ -33,15 +33,12 @@ if [[ -d "wt-orchestrator" ]]; then
     exit 1
 fi
 
-# Feature-specific worktree names
-WORKTREE_PREFIX="wt-${FEATURE}"
-
 echo "═══════════════════════════════════════════════"
-echo "  TeamOps v6.1 Multi-Feature Initialization"
+echo "  TeamOps v6.2 - Simplified Feature Initialization"
 echo "═══════════════════════════════════════════════"
 echo ""
 echo "Feature: $FEATURE"
-echo "Worktree prefix: ${WORKTREE_PREFIX}-*"
+echo "Branch: feature/$FEATURE"
 echo ""
 
 # Create feature directory
@@ -87,31 +84,18 @@ fi
 # Create current symlink for this feature
 ln -sfn "runs/$RUN_TYPE" "$FEATURE_DIR/current"
 
-# Create worktrees with role-specific branches
-echo "Creating worktrees with role-specific branches..."
-for role in orchestrator tester impl verify; do
-    WORKTREE="${WORKTREE_PREFIX}-${role}"
-    BRANCH="feature/${FEATURE}-${role}"
-    
-    if [[ -d "$WORKTREE" ]]; then
-        echo "  ✓ $WORKTREE (already exists on branch: $BRANCH)"
-    else
-        # Always create role-specific branch
-        git worktree add "$WORKTREE" -b "$BRANCH"
-        echo "  ✓ $WORKTREE (created with branch: $BRANCH)"
-    fi
-done
-
-# Create main integration branch if it doesn't exist
-if ! git show-ref --verify --quiet "refs/heads/feature/$FEATURE"; then
-    git branch "feature/$FEATURE" HEAD
-    echo "  ✓ Created integration branch: feature/$FEATURE"
+# Create or checkout feature branch
+echo "Setting up feature branch..."
+if git show-ref --verify --quiet "refs/heads/feature/$FEATURE"; then
+    echo "  ✓ Checking out existing branch: feature/$FEATURE"
+    git checkout "feature/$FEATURE"
 else
-    echo "  ✓ Integration branch exists: feature/$FEATURE"
+    echo "  ✓ Creating new branch: feature/$FEATURE"
+    git checkout -b "feature/$FEATURE"
 fi
 
 # Track in simple text file (not JSON)
-echo "$FEATURE:active:$(date -Iseconds):$WORKTREE_PREFIX" >> "$TMOPS_DIR/FEATURES.txt"
+echo "$FEATURE:active:$(date -Iseconds):feature/$FEATURE" >> "$TMOPS_DIR/FEATURES.txt"
 
 echo ""
 echo "═══════════════════════════════════════════════"
@@ -123,11 +107,11 @@ echo ""
 echo "1. Edit task specification:"
 echo "   vim $RUN_DIR/TASK_SPEC.md"
 echo ""
-echo "2. Open 4 Claude Code terminals:"
-echo "   cd ${WORKTREE_PREFIX}-orchestrator && claude"
-echo "   cd ${WORKTREE_PREFIX}-tester && claude"
-echo "   cd ${WORKTREE_PREFIX}-impl && claude"
-echo "   cd ${WORKTREE_PREFIX}-verify && claude"
+echo "2. Open 4 Claude Code instances in the SAME directory:"
+echo "   Terminal 1: claude  # For Orchestrator"
+echo "   Terminal 2: claude  # For Tester"
+echo "   Terminal 3: claude  # For Implementer"
+echo "   Terminal 4: claude  # For Verifier"
 echo ""
 echo "3. Paste role instructions from $INSTRUCTIONS_DIR/:"
 echo "   • 01_orchestrator.md → orchestrator terminal"
@@ -138,5 +122,6 @@ echo ""
 echo "4. Start orchestration:"
 echo "   You → Orchestrator: '[BEGIN]: Start orchestration for $FEATURE'"
 echo ""
-echo "To work on a different feature, just run:"
+echo "To work on a different feature:"
+echo "   git checkout main  # Return to main first"
 echo "   ./tmops_tools/init_feature_multi.sh other-feature"

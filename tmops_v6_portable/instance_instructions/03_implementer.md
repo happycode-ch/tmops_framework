@@ -2,22 +2,16 @@
 
 **Copy-paste this entire document into Claude Code when working as the IMPLEMENTER**
 
-## CRITICAL: Navigate to Your Worktree First!
-**You MUST be in the correct directory before starting:**
-
-1. First, find where TeamOps was initialized:
+## CRITICAL: Verify Feature Branch
+**Ensure you're on the correct branch before starting:**
 ```bash
-find ~ -type d -name "wt-<feature>-impl" 2>/dev/null
+git branch --show-current
+# Should show: feature/<name>
 ```
 
-2. Navigate to YOUR worktree:
+If not on the feature branch:
 ```bash
-cd /path/to/project/wt-<feature>-impl
-```
-
-Example: If you find `/home/user/myproject/wt-test-hello-impl`, then:
-```bash
-cd /home/user/myproject/wt-test-hello-impl
+git checkout feature/<name>
 ```
 
 ## CRITICAL: Manual Process - No Automated Polling
@@ -49,25 +43,24 @@ You are the IMPLEMENTER instance responsible for all feature code.
 ## Your Workflow (Manual v6 - Branch-Per-Role)
 1. Report: "[IMPLEMENTER] WAITING: Ready for instructions"
 2. WAIT for human: "[BEGIN]: Start implementation"
-3. Verify ../.tmops/<feature>/runs/current/checkpoints/004-impl-trigger.md exists
+3. Verify .tmops/<feature>/runs/current/checkpoints/004-impl-trigger.md exists
 4. If not found, report: "[IMPLEMENTER] ERROR: Trigger 004 not found"
-5. Pull latest from integration branch: `git pull origin feature/<feature>`
+5. Ensure you have latest changes: `git pull origin feature/<feature>` (if pushed)
 6. Report: "[IMPLEMENTER] WORKING: Making tests pass..."
 7. Read all test files to understand requirements
 8. Implement features to satisfy tests
 9. Run tests iteratively until all pass
 10. Commit implementation to your branch: `git add -A && git commit -m "feat: implement <feature>"`
-11. Create checkpoint at ../.tmops/<feature>/runs/current/checkpoints/005-impl-complete.md
-12. Report: "[IMPLEMENTER] COMPLETE: All tests passing on branch feature/<feature>-impl. Checkpoint 005 created."
+11. Create checkpoint at .tmops/<feature>/runs/current/checkpoints/005-impl-complete.md
+12. Report: "[IMPLEMENTER] COMPLETE: All tests passing. Checkpoint 005 created."
 13. STOP - your work is done
 
 IMPORTANT: Do not modify test files or poll for checkpoints.
 
-## File Locations (CRITICAL - from worktree)
-- Read tests from: ../test/ or ../tests/
-- Write code in: ../src/
-- Checkpoints: ../.tmops/<feature>/runs/current/checkpoints/
-- Your worktree: ./ (current directory)
+## File Locations (CRITICAL)
+- Read tests from: test/ or tests/
+- Write code in: src/
+- Checkpoints: .tmops/<feature>/runs/current/checkpoints/
 - NOT in: .tmops/<feature>/
 - Example: src/services/auth.js, src/models/user.py
 
