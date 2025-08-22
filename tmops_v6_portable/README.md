@@ -2,7 +2,7 @@
 
 **Quick setup → Rapid feature delivery**
 
-TeamOps orchestrates 4 Claude Code instances to build features using Test-Driven Development.
+TeamOps orchestrates 4 Claude Code instances working sequentially to build features using Test-Driven Development.
 
 **IMPORTANT: TeamOps creates `.tmops/` in your project root (parent of tmops_v6_portable)**
 
@@ -23,14 +23,15 @@ claude  # Terminal 2: Tester
 claude  # Terminal 3: Implementer
 claude  # Terminal 4: Verifier
 
-# 4. Paste role instructions (from instance_instructions/ or docs/roles/)
-# 5. Start: You → Orchestrator: "[BEGIN]: Start orchestration"
+# 4. Paste role instructions from tmops_v6_portable/instance_instructions/
+# 5. Start: You → Orchestrator: "[BEGIN]: Start orchestration for <feature>"
 ```
 
 ## 💡 Key Features
 
+- **Sequential Workflow** - Instances work one at a time in TDD sequence
 - **Simple Branches** - Just feature branches, no worktrees
-- **No Navigation Issues** - All instances work in root project directory
+- **No Navigation Issues** - All instances work in root project directory  
 - **Fast Setup** - Initialize in seconds
 - **Full Orchestration** - Complete TDD workflow preserved
 - **Clean Separation** - Tools in tmops_v6_portable/, artifacts in root .tmops/
@@ -45,8 +46,8 @@ cd tmops_v6_portable
 ./tmops_tools/switch_feature.sh <name>      # Show feature info
 
 # Cleanup (safe by default)
-./tmops_tools/cleanup_safe.sh <name>        # Remove tmops + worktrees
-./tmops_tools/cleanup_safe.sh <name> full   # Also remove code files
+./tmops_tools/cleanup_safe.sh <name>        # Remove .tmops artifacts and branch
+./tmops_tools/cleanup_safe.sh <name> full   # Also remove test/src files
 
 # Metrics & Analysis
 ./tmops_tools/extract_metrics.py <name>     # Performance report
@@ -86,35 +87,49 @@ your-project/                    # Root project directory
 └── [Claude instances work here] # All 4 instances in root
 ```
 
-### Branch Architecture
-- Single feature branch: `feature/<feature>`
-- All instances work on same branch sequentially
-- No complex merging or conflicts
+### Workflow Architecture
+- **Sequential Execution**: Orchestrator → Tester → Implementer → Verifier
+- **Single Feature Branch**: `feature/<feature>` shared by all instances
+- **Checkpoint-Based Progress**: Each phase creates completion markers
+- **No Complex Merging**: Linear development on one branch
 
-## 🤝 Manual Coordination Flow
+## 🤝 Sequential Coordination Flow
 
-You act as the conductor between instances:
+You act as the conductor, managing the sequential workflow between instances:
 
 ```
 1. You → Orchestrator: "[BEGIN]: Start orchestration for <feature>"
-2. You → Tester: "[BEGIN]: Start test writing"
-   (wait for: "[TESTER] COMPLETE: Tests written")
-3. You → Orchestrator: "[CONFIRMED]: Tests complete"
+   Orchestrator creates trigger → "[ORCHESTRATOR] READY: Tester can begin"
+   
+2. You → Tester: "[BEGIN]: Start test writing"  
+   Tester writes failing tests → "[TESTER] COMPLETE: Tests written"
+   
+3. You → Orchestrator: "[CONFIRMED]: Tester has completed"
+   Orchestrator creates trigger → "[ORCHESTRATOR] READY: Implementer can begin"
+   
 4. You → Implementer: "[BEGIN]: Start implementation"
-   (wait for: "[IMPLEMENTER] COMPLETE: Tests passing")
-5. You → Orchestrator: "[CONFIRMED]: Implementation complete"
+   Implementer makes tests pass → "[IMPLEMENTER] COMPLETE: Tests passing"
+   
+5. You → Orchestrator: "[CONFIRMED]: Implementer has completed"  
+   Orchestrator creates trigger → "[ORCHESTRATOR] READY: Verifier can begin"
+   
 6. You → Verifier: "[BEGIN]: Start verification"
-   (wait for: "[VERIFIER] COMPLETE: Review done")
-7. You → Orchestrator: "[CONFIRMED]: Verification complete"
+   Verifier reviews quality → "[VERIFIER] COMPLETE: Review done"
+   
+7. You → Orchestrator: "[CONFIRMED]: Verifier has completed"
+   Orchestrator finalizes → "[ORCHESTRATOR] COMPLETE: Feature ready"
 ```
+
+**Important**: Only one instance works at a time. Wait for completion before starting the next.
 
 ## 📚 Documentation
 
-- `instance_instructions/` - Role prompts for each instance
-- `docs/tmops_docs_v6/` - Advanced documentation (if needed)
+- `instance_instructions/` - Role prompts for each instance (paste these into Claude)
+- `development_report/REPORT.md` - System architecture and implementation details
+- `docs/tmops_docs_v6/` - Advanced documentation
   - `tmops_protocol.md` - Technical protocol details
   - `tmops_claude_code.md` - Full instance instructions
-  - `MIGRATION_FROM_V5.md` - Upgrading from v5
+- `../CHANGELOG.md` - Version history and migration notes
 
 ## ⚡ Example: Hello API
 
@@ -134,9 +149,10 @@ cd ..  # Go to project root
 
 ## 🔧 Troubleshooting
 
-**"Old worktrees exist"** - Run cleanup on old feature first  
+**"Error reading file"** - Check working directory with `pwd`, must be in project root  
 **"Uncommitted changes"** - Commit or stash before cleanup  
-**"Can't create worktree"** - Check git status, may need to commit  
+**"Branch already exists"** - Run cleanup_safe.sh on the old feature first  
+**"Checkpoint not found"** - Verify you're on correct branch with `git branch --show-current`  
 
 ## 📄 License
 
