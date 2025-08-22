@@ -4,10 +4,21 @@
 
 ## CRITICAL: Navigate to Your Worktree First!
 **You MUST be in the correct directory before starting:**
+
+1. First, find where TeamOps was initialized:
 ```bash
-cd wt-<feature>-impl
+find ~ -type d -name "wt-<feature>-impl" 2>/dev/null
 ```
-Example: `cd wt-test-hello-impl`
+
+2. Navigate to YOUR worktree:
+```bash
+cd /path/to/project/wt-<feature>-impl
+```
+
+Example: If you find `/home/user/myproject/wt-test-hello-impl`, then:
+```bash
+cd /home/user/myproject/wt-test-hello-impl
+```
 
 ## CRITICAL: Manual Process - No Automated Polling
 

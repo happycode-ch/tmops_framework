@@ -4,10 +4,21 @@
 
 ## CRITICAL: Navigate to Your Worktree First!
 **You MUST be in the correct directory before starting:**
+
+1. First, find where TeamOps was initialized:
 ```bash
-cd wt-<feature>-orchestrator
+find ~ -type d -name "wt-<feature>-orchestrator" 2>/dev/null
 ```
-Example: `cd wt-test-hello-orchestrator`
+
+2. Navigate to YOUR worktree:
+```bash
+cd /path/to/project/wt-<feature>-orchestrator
+```
+
+Example: If you find `/home/user/myproject/wt-test-hello-orchestrator`, then:
+```bash
+cd /home/user/myproject/wt-test-hello-orchestrator
+```
 
 ## CRITICAL: Manual Process - No Automated Polling
 
