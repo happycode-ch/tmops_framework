@@ -98,33 +98,43 @@ if [[ $removed_count -eq 0 ]]; then
     echo "  No worktrees found for $FEATURE"
 fi
 
-# Step 2: Handle branches
+# Step 2: Handle branches (role-specific and integration)
 echo ""
 echo "🌿 Checking branches..."
-BRANCH="feature/$FEATURE"
 
-if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
-    # Check for unpushed commits
-    UNPUSHED=0
-    if git remote | grep -q origin; then
-        UNPUSHED=$(git rev-list --count "origin/$BRANCH..$BRANCH" 2>/dev/null || echo "0")
-    fi
-    
-    if [[ "$UNPUSHED" -gt 0 ]]; then
-        echo -e "${YELLOW}  ⚠️  Branch $BRANCH has $UNPUSHED unpushed commits${NC}"
-        read -p "  Delete anyway? (yes/no): " confirm
-        if [[ "$confirm" == "yes" ]]; then
-            git branch -D "$BRANCH"
-            echo -e "${GREEN}  ✓ Deleted branch${NC}"
-        else
-            echo "  ✓ Kept branch (push with: git push origin $BRANCH)"
-        fi
-    else
+# Delete role-specific branches
+for role in orchestrator tester impl verify; do
+    BRANCH="feature/${FEATURE}-${role}"
+    if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
         git branch -D "$BRANCH" 2>/dev/null
         echo -e "${GREEN}  ✓ Deleted branch $BRANCH${NC}"
     fi
+done
+
+# Handle main integration branch
+MAIN_BRANCH="feature/$FEATURE"
+if git show-ref --verify --quiet "refs/heads/$MAIN_BRANCH"; then
+    # Check for unpushed commits
+    UNPUSHED=0
+    if git remote | grep -q origin; then
+        UNPUSHED=$(git rev-list --count "origin/$MAIN_BRANCH..$MAIN_BRANCH" 2>/dev/null || echo "0")
+    fi
+    
+    if [[ "$UNPUSHED" -gt 0 ]]; then
+        echo -e "${YELLOW}  ⚠️  Integration branch $MAIN_BRANCH has $UNPUSHED unpushed commits${NC}"
+        read -p "  Delete anyway? (yes/no): " confirm
+        if [[ "$confirm" == "yes" ]]; then
+            git branch -D "$MAIN_BRANCH"
+            echo -e "${GREEN}  ✓ Deleted integration branch${NC}"
+        else
+            echo "  ✓ Kept branch (push with: git push origin $MAIN_BRANCH)"
+        fi
+    else
+        git branch -D "$MAIN_BRANCH" 2>/dev/null
+        echo -e "${GREEN}  ✓ Deleted integration branch $MAIN_BRANCH${NC}"
+    fi
 else
-    echo "  No branch found"
+    echo "  No integration branch found"
 fi
 
 # Step 3: Handle test/src files (only in full mode)

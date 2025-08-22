@@ -28,15 +28,17 @@ echo "╔═══════════════════════�
 echo "║  Feature: $FEATURE"
 echo "╚═══════════════════════════════════════════════╝"
 echo ""
-echo "📂 Worktrees:"
+echo "📂 Worktrees & Branches:"
 for role in orchestrator tester impl verify; do
     WORKTREE="${WORKTREE_PREFIX}-${role}"
+    BRANCH="feature/${FEATURE}-${role}"
     if [[ -d "$WORKTREE" ]]; then
-        echo "  ✓ cd $WORKTREE"
+        echo "  ✓ cd $WORKTREE (branch: $BRANCH)"
     else
         echo "  ✗ $WORKTREE (missing)"
     fi
 done
+echo "  📍 Integration branch: feature/$FEATURE"
 
 echo ""
 echo "📄 Task Spec:"

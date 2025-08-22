@@ -73,11 +73,16 @@ your-project/
 ├── .tmops/                      # TeamOps artifacts (auto-created)
 │   ├── <feature>/              # Per-feature data
 │   └── FEATURES.txt            # Active features list
-├── wt-<feature>-orchestrator/   # Git worktrees (auto-created)
-├── wt-<feature>-tester/
-├── wt-<feature>-impl/
-└── wt-<feature>-verify/
+├── wt-<feature>-orchestrator/   # Worktree on branch: feature/<feature>-orchestrator
+├── wt-<feature>-tester/         # Worktree on branch: feature/<feature>-tester
+├── wt-<feature>-impl/           # Worktree on branch: feature/<feature>-impl
+└── wt-<feature>-verify/         # Worktree on branch: feature/<feature>-verify
 ```
+
+### Branch Architecture
+- Each role works on its own branch to prevent Git conflicts
+- Integration branch `feature/<feature>` merges all work
+- Orchestrator handles merging between phases
 
 ## 🤝 Manual Coordination Flow
 

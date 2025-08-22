@@ -267,10 +267,10 @@ project-root/
 │   ├── unit/
 │   ├── integration/
 │   └── fixtures/
-├── wt-orchestrator/        # Git worktree for orchestrator
-├── wt-tester/             # Git worktree for tester
-├── wt-impl/               # Git worktree for implementer
-└── wt-verify/             # Git worktree for verifier
+├── wt-orchestrator/        # Git worktree (branch: feature/<name>-orchestrator)
+├── wt-tester/             # Git worktree (branch: feature/<name>-tester)
+├── wt-impl/               # Git worktree (branch: feature/<name>-impl)
+└── wt-verify/             # Git worktree (branch: feature/<name>-verify)
 ```
 
 ### Instance Initialization
@@ -453,10 +453,10 @@ Status: AWAITING_APPROVAL
 ```
 main
   └── feature/<feature-name>
-       ├── wt-orchestrator (worktree)
-       ├── wt-tester (worktree)
-       ├── wt-impl (worktree)
-       └── wt-verify (worktree)
+       ├── wt-orchestrator (branch: feature/<name>-orchestrator)
+       ├── wt-tester (branch: feature/<name>-tester)
+       ├── wt-impl (branch: feature/<name>-impl)
+       └── wt-verify (branch: feature/<name>-verify)
 ```
 
 ### Commit Convention

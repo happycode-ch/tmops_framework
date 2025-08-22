@@ -87,26 +87,28 @@ fi
 # Create current symlink for this feature
 ln -sfn "runs/$RUN_TYPE" "$FEATURE_DIR/current"
 
-# Create worktrees with feature prefix
-echo "Creating worktrees..."
+# Create worktrees with role-specific branches
+echo "Creating worktrees with role-specific branches..."
 for role in orchestrator tester impl verify; do
     WORKTREE="${WORKTREE_PREFIX}-${role}"
+    BRANCH="feature/${FEATURE}-${role}"
     
     if [[ -d "$WORKTREE" ]]; then
-        echo "  ✓ $WORKTREE (already exists)"
+        echo "  ✓ $WORKTREE (already exists on branch: $BRANCH)"
     else
-        # Check if feature branch exists
-        if git show-ref --verify --quiet "refs/heads/feature/$FEATURE"; then
-            # Use existing branch
-            git worktree add "$WORKTREE" "feature/$FEATURE"
-            echo "  ✓ $WORKTREE (using existing branch)"
-        else
-            # Create new branch
-            git worktree add "$WORKTREE" -b "feature/$FEATURE"
-            echo "  ✓ $WORKTREE (new branch created)"
-        fi
+        # Always create role-specific branch
+        git worktree add "$WORKTREE" -b "$BRANCH"
+        echo "  ✓ $WORKTREE (created with branch: $BRANCH)"
     fi
 done
+
+# Create main integration branch if it doesn't exist
+if ! git show-ref --verify --quiet "refs/heads/feature/$FEATURE"; then
+    git branch "feature/$FEATURE" HEAD
+    echo "  ✓ Created integration branch: feature/$FEATURE"
+else
+    echo "  ✓ Integration branch exists: feature/$FEATURE"
+fi
 
 # Track in simple text file (not JSON)
 echo "$FEATURE:active:$(date -Iseconds):$WORKTREE_PREFIX" >> "$TMOPS_DIR/FEATURES.txt"

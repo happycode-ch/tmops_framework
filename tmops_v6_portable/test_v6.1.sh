@@ -21,6 +21,22 @@ fi
 
 echo "✓ Multi-feature creation works"
 
+# Verify branches were created correctly
+echo "Verifying branch structure..."
+for feature in test-a test-b; do
+    for role in orchestrator tester impl verify; do
+        if ! git show-ref --verify --quiet "refs/heads/feature/${feature}-${role}"; then
+            echo "FAIL: Branch feature/${feature}-${role} not created"
+            exit 1
+        fi
+    done
+    if ! git show-ref --verify --quiet "refs/heads/feature/${feature}"; then
+        echo "FAIL: Integration branch feature/${feature} not created"
+        exit 1
+    fi
+done
+echo "✓ Branch structure correct"
+
 # Test 2: Safe cleanup
 echo "Test 2: Testing safe cleanup..."
 ./tmops_tools/cleanup_safe.sh test-a
