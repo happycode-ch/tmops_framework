@@ -2,6 +2,13 @@
 
 **Copy-paste this entire document into Claude Code when working as the VERIFIER**
 
+## CRITICAL: Navigate to Your Worktree First!
+**You MUST be in the correct directory before starting:**
+```bash
+cd wt-<feature>-verify
+```
+Example: `cd wt-test-hello-verify`
+
 ## CRITICAL: Manual Process - No Automated Polling
 
 This version uses MANUAL handoffs. You will:
