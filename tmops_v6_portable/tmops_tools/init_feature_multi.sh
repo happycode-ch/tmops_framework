@@ -7,12 +7,19 @@ set -e
 FEATURE="$1"
 RUN_TYPE="${2:-initial}"
 
-# Detect if portable package or full repo
-if [[ -f "PORTABLE_SUMMARY.md" ]]; then
-    echo "Running in portable package mode"
-    INSTRUCTIONS_DIR="instance_instructions"
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PORTABLE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Always use the parent of tmops_v6_portable as project root
+# This ensures consistent behavior regardless of where script is run from
+PROJECT_ROOT="$(cd "$PORTABLE_DIR/.." && pwd)"
+
+# Set instructions directory based on what exists
+if [[ -d "$PORTABLE_DIR/instance_instructions" ]]; then
+    INSTRUCTIONS_DIR="$PORTABLE_DIR/instance_instructions"
 else
-    INSTRUCTIONS_DIR="docs/tmops_docs_v6"
+    INSTRUCTIONS_DIR="$PORTABLE_DIR/docs/tmops_docs_v6"
 fi
 
 # Validate feature name (enforce safe names)
@@ -41,8 +48,8 @@ echo "Feature: $FEATURE"
 echo "Branch: feature/$FEATURE"
 echo ""
 
-# Create feature directory in parent (root) directory
-TMOPS_DIR="../.tmops"
+# Create feature directory in project root
+TMOPS_DIR="$PROJECT_ROOT/.tmops"
 FEATURE_DIR="$TMOPS_DIR/$FEATURE"
 RUN_DIR="$FEATURE_DIR/runs/$RUN_TYPE"
 
@@ -106,16 +113,16 @@ echo ""
 echo "Next steps:"
 echo ""
 echo "1. Edit task specification:"
-echo "   vim ../$RUN_DIR/TASK_SPEC.md"
+echo "   vim $RUN_DIR/TASK_SPEC.md"
 echo ""
-echo "2. Open 4 Claude Code instances in the ROOT directory (parent of tmops_v6_portable):"
-echo "   cd ../  # Go to root project directory first"
+echo "2. Open 4 Claude Code instances in the ROOT directory:"
+echo "   cd $PROJECT_ROOT  # Go to root project directory"
 echo "   Terminal 1: claude  # For Orchestrator"
 echo "   Terminal 2: claude  # For Tester"
 echo "   Terminal 3: claude  # For Implementer"
 echo "   Terminal 4: claude  # For Verifier"
 echo ""
-echo "3. Paste role instructions from tmops_v6_portable/$INSTRUCTIONS_DIR/:"
+echo "3. Paste role instructions from $INSTRUCTIONS_DIR/:"
 echo "   • 01_orchestrator.md → orchestrator terminal"
 echo "   • 02_tester.md → tester terminal"
 echo "   • 03_implementer.md → implementer terminal"
