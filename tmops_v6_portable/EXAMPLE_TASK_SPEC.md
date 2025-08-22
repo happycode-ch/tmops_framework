@@ -4,7 +4,7 @@ Created: 2025-08-22
 Status: Active
 
 ## User Story
-As a developer testing TeamOps v6.1
+As a developer testing TeamOps
 I want to implement a simple hello-world endpoint
 So that I can verify the full orchestration workflow works correctly
 
@@ -45,5 +45,5 @@ So that I can verify the full orchestration workflow works correctly
 - Response time < 50ms
 
 ## Notes
-This is a test feature to validate TeamOps v6.1 orchestration.
+This is a test feature to validate TeamOps orchestration.
 The simplicity is intentional - we're testing the process, not complex logic.

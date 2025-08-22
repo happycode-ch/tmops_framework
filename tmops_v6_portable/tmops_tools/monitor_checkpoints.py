@@ -24,8 +24,8 @@ class CheckpointMonitor:
         """
         self.feature = feature
         self.role = instance_role
-        self.checkpoint_dir = Path(f".tmops/{feature}/runs/current/checkpoints")
-        self.log_file = Path(f".tmops/{feature}/runs/current/logs/{instance_role}.log")
+        self.checkpoint_dir = Path(f"../.tmops/{feature}/runs/current/checkpoints")
+        self.log_file = Path(f"../.tmops/{feature}/runs/current/logs/{instance_role}.log")
         
         # Ensure directories exist
         self.checkpoint_dir.mkdir(parents=True, exist_ok=True)

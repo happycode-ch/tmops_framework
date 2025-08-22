@@ -34,15 +34,15 @@ if [[ -d "wt-orchestrator" ]]; then
 fi
 
 echo "═══════════════════════════════════════════════"
-echo "  TeamOps v6.2 - Simplified Feature Initialization"
+echo "  TeamOps Feature Initialization"
 echo "═══════════════════════════════════════════════"
 echo ""
 echo "Feature: $FEATURE"
 echo "Branch: feature/$FEATURE"
 echo ""
 
-# Create feature directory
-TMOPS_DIR=".tmops"
+# Create feature directory in parent (root) directory
+TMOPS_DIR="../.tmops"
 FEATURE_DIR="$TMOPS_DIR/$FEATURE"
 RUN_DIR="$FEATURE_DIR/runs/$RUN_TYPE"
 
@@ -95,6 +95,7 @@ else
 fi
 
 # Track in simple text file (not JSON)
+mkdir -p "$TMOPS_DIR"
 echo "$FEATURE:active:$(date -Iseconds):feature/$FEATURE" >> "$TMOPS_DIR/FEATURES.txt"
 
 echo ""
@@ -105,15 +106,16 @@ echo ""
 echo "Next steps:"
 echo ""
 echo "1. Edit task specification:"
-echo "   vim $RUN_DIR/TASK_SPEC.md"
+echo "   vim ../$RUN_DIR/TASK_SPEC.md"
 echo ""
-echo "2. Open 4 Claude Code instances in the SAME directory:"
+echo "2. Open 4 Claude Code instances in the ROOT directory (parent of tmops_v6_portable):"
+echo "   cd ../  # Go to root project directory first"
 echo "   Terminal 1: claude  # For Orchestrator"
 echo "   Terminal 2: claude  # For Tester"
 echo "   Terminal 3: claude  # For Implementer"
 echo "   Terminal 4: claude  # For Verifier"
 echo ""
-echo "3. Paste role instructions from $INSTRUCTIONS_DIR/:"
+echo "3. Paste role instructions from tmops_v6_portable/$INSTRUCTIONS_DIR/:"
 echo "   • 01_orchestrator.md → orchestrator terminal"
 echo "   • 02_tester.md → tester terminal"
 echo "   • 03_implementer.md → implementer terminal"

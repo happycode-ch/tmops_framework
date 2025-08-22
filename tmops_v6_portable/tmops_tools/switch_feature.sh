@@ -11,17 +11,17 @@ if [[ -z "$FEATURE" ]]; then
 fi
 
 # Check if feature exists
-if [[ ! -f ".tmops/FEATURES.txt" ]]; then
+if [[ ! -f "../.tmops/FEATURES.txt" ]]; then
     echo "No features initialized yet."
     echo "Run: ./tmops_tools/init_feature_multi.sh <feature-name>"
     exit 0
 fi
 
-if ! grep -q "^$FEATURE:" .tmops/FEATURES.txt 2>/dev/null; then
+if ! grep -q "^$FEATURE:" ../.tmops/FEATURES.txt 2>/dev/null; then
     echo "Feature '$FEATURE' not found."
     echo ""
     echo "Available features:"
-    cut -d: -f1 .tmops/FEATURES.txt | sort -u | sed 's/^/  • /'
+    cut -d: -f1 ../.tmops/FEATURES.txt | sort -u | sed 's/^/  • /'
     exit 1
 fi
 
@@ -41,9 +41,9 @@ fi
 
 echo ""
 echo "📄 Task Spec:"
-echo "  .tmops/$FEATURE/runs/current/TASK_SPEC.md"
+echo "  ../.tmops/$FEATURE/runs/current/TASK_SPEC.md"
 
-if [[ -f ".tmops/$FEATURE/runs/current/TASK_SPEC.md" ]]; then
+if [[ -f "../.tmops/$FEATURE/runs/current/TASK_SPEC.md" ]]; then
     echo "  ✓ Task spec exists"
 else
     echo "  ✗ Task spec not found"
@@ -51,16 +51,17 @@ fi
 
 echo ""
 echo "📂 TeamOps Directory:"
-if [[ -d ".tmops/$FEATURE" ]]; then
-    echo "  ✓ .tmops/$FEATURE exists"
-    CHECKPOINT_COUNT=$(find ".tmops/$FEATURE" -name "*.md" -type f 2>/dev/null | wc -l)
+if [[ -d "../.tmops/$FEATURE" ]]; then
+    echo "  ✓ ../.tmops/$FEATURE exists"
+    CHECKPOINT_COUNT=$(find "../.tmops/$FEATURE" -name "*.md" -type f 2>/dev/null | wc -l)
     echo "  📝 Checkpoints: $CHECKPOINT_COUNT files"
 else
-    echo "  ✗ .tmops/$FEATURE missing"
+    echo "  ✗ ../.tmops/$FEATURE missing"
 fi
 
 echo ""
 echo "To start working:"
-echo "  1. git checkout feature/$FEATURE"
-echo "  2. Open 4 Claude Code instances (all in same directory)"
-echo "  3. Paste role instructions to each instance"
+echo "  1. cd ..  # Go to root project directory"
+echo "  2. git checkout feature/$FEATURE"
+echo "  3. Open 4 Claude Code instances (all in root directory)"
+echo "  4. Paste role instructions from tmops_v6_portable/instance_instructions/"

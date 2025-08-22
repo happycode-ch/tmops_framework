@@ -1,5 +1,6 @@
-# TeamOps v6 - TESTER Instructions
+# TeamOps - TESTER Instructions
 
+**IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**
 **Copy-paste this entire document into Claude Code when working as the TESTER**
 
 ## CRITICAL: Verify Feature Branch
@@ -28,7 +29,7 @@ You are the TESTER instance responsible for all testing.
 ✅ Wait for human instruction to begin
 ✅ Verify checkpoint exists at .tmops/<feature>/runs/current/checkpoints/001-discovery-trigger.md
 ✅ Explore codebase to understand structure
-✅ Write comprehensive failing tests IN PROJECT TEST DIRECTORY
+✅ Write comprehensive failing tests in test/ or tests/ directory
 ✅ Ensure test coverage of all acceptance criteria
 ✅ Create 003-tests-complete.md when done
 ✅ Log all actions to logs/tester.log
@@ -38,9 +39,9 @@ You are the TESTER instance responsible for all testing.
 ❌ CANNOT modify existing non-test code
 ❌ CANNOT fix tests to make them pass
 ❌ CANNOT proceed without human instruction
-❌ CANNOT put tests in .tmops directory
+❌ CANNOT put tests in .tmops directory (tests go in project test/ dir)
 
-## Your Workflow (Manual v6)
+## Your Workflow (Manual)
 1. Report: "[TESTER] WAITING: Ready for instructions"
 2. WAIT for human: "[BEGIN]: Start test writing"
 3. Verify .tmops/<feature>/runs/current/checkpoints/001-discovery-trigger.md exists

@@ -25,9 +25,9 @@ class MetricsExtractor:
         self.feature = feature
         
         if run_dir:
-            self.checkpoint_dir = Path(f".tmops/{feature}/runs/{run_dir}/checkpoints")
+            self.checkpoint_dir = Path(f"../.tmops/{feature}/runs/{run_dir}/checkpoints")
         else:
-            self.checkpoint_dir = Path(f".tmops/{feature}/runs/current/checkpoints")
+            self.checkpoint_dir = Path(f"../.tmops/{feature}/runs/current/checkpoints")
         
         self.metrics_file = self.checkpoint_dir.parent / "metrics.json"
         
@@ -311,7 +311,7 @@ class MetricsExtractor:
 
 def main():
     """Command-line interface for metrics extraction"""
-    parser = argparse.ArgumentParser(description="Extract metrics from TeamOps checkpoints")
+    parser = argparse.ArgumentParser(description="Extract metrics from TeamOps checkpoints in parent .tmops directory")
     parser.add_argument("feature", help="Feature name")
     parser.add_argument("--run", help="Specific run directory (default: current)")
     parser.add_argument("--format", choices=["json", "report", "both"], default="both",

@@ -1,7 +1,7 @@
 #!/bin/bash
-# Quick test of v6.2 simplified capabilities
+# Quick test of TeamOps capabilities
 
-echo "Testing TeamOps v6.2 (no worktrees)..."
+echo "Testing TeamOps Framework..."
 
 # Test 1: Feature creation
 echo "Test 1: Creating two features..."
@@ -23,13 +23,13 @@ fi
 echo "✓ Feature branch creation works"
 
 # Verify .tmops directories
-if [[ ! -d ".tmops/test-a" ]]; then
-    echo "FAIL: .tmops/test-a not created"
+if [[ ! -d "../.tmops/test-a" ]]; then
+    echo "FAIL: ../.tmops/test-a not created"
     exit 1
 fi
 
-if [[ ! -d ".tmops/test-b" ]]; then
-    echo "FAIL: .tmops/test-b not created"
+if [[ ! -d "../.tmops/test-b" ]]; then
+    echo "FAIL: ../.tmops/test-b not created"
     exit 1
 fi
 
@@ -56,4 +56,4 @@ echo "✓ Safe cleanup works"
 ./tmops_tools/cleanup_safe.sh test-b
 
 echo ""
-echo "✅ All tests passed! v6.2 (simplified) is ready."
+echo "✅ All tests passed! TeamOps is ready."

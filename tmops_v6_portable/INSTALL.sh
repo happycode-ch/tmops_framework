@@ -1,6 +1,6 @@
 #!/bin/bash
-# TeamOps v6 Portable Installation Script
-# Copies TeamOps v6 to your project and makes it ready to use
+# TeamOps Portable Installation Script
+# Copies TeamOps to your project and makes it ready to use
 
 set -e
 
@@ -12,7 +12,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}    TeamOps v6 Portable Installation${NC}"
+echo -e "${BLUE}    TeamOps Portable Installation${NC}"
 echo -e "${BLUE}════════════════════════════════════════════════════════${NC}"
 echo ""
 
@@ -65,7 +65,7 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Copy files to current directory
-echo "Installing TeamOps v6 files..."
+echo "Installing TeamOps files..."
 
 # Copy tmops_tools directory
 echo "  Copying tmops_tools..."
@@ -75,10 +75,12 @@ cp -r "$SCRIPT_DIR/tmops_tools" .
 echo "  Copying instance_instructions..."
 cp -r "$SCRIPT_DIR/instance_instructions" .
 
-# Copy docs directory with v6 documentation
-echo "  Copying docs/tmops_docs_v6..."
-mkdir -p docs
-cp -r "$SCRIPT_DIR/docs/tmops_docs_v6" docs/
+# Copy docs directory if it exists
+if [[ -d "$SCRIPT_DIR/docs/tmops_docs_v6" ]]; then
+    echo "  Copying docs/tmops_docs_v6..."
+    mkdir -p docs
+    cp -r "$SCRIPT_DIR/docs/tmops_docs_v6" docs/
+fi
 
 # Copy documentation
 echo "  Copying documentation..."
@@ -106,8 +108,8 @@ echo "Verifying installation..."
 
 # Check if files were copied
 files_to_check=(
-    "tmops_tools/init_feature_v6.sh"
-    "tmops_tools/cleanup_feature.sh"
+    "tmops_tools/init_feature_multi.sh"
+    "tmops_tools/cleanup_safe.sh"
     "tmops_tools/extract_metrics.py"
     "tmops_tools/monitor_checkpoints.py"
     "instance_instructions/01_orchestrator.md"
@@ -129,7 +131,7 @@ for file in "${files_to_check[@]}"; do
 done
 
 # Check if scripts are executable
-if [[ -x "tmops_tools/init_feature_v6.sh" ]]; then
+if [[ -x "tmops_tools/init_feature_multi.sh" ]]; then
     echo -e "  ${GREEN}✓${NC} Scripts are executable"
 else
     echo -e "  ${YELLOW}⚠${NC} Scripts may not be executable"
@@ -142,19 +144,19 @@ if [[ "$all_good" == true ]]; then
     echo -e "${GREEN}════════════════════════════════════════════════════════${NC}"
     echo ""
     echo "Next steps:"
-    echo "1. Initialize your first feature:"
-    echo -e "   ${YELLOW}./tmops_tools/init_feature_v6.sh hello-world initial${NC}"
+    echo "1. Initialize your first feature (from tmops_v6_portable dir):"
+    echo -e "   ${YELLOW}cd tmops_v6_portable${NC}"
+    echo -e "   ${YELLOW}./tmops_tools/init_feature_multi.sh hello-world${NC}"
     echo ""
     echo "2. Follow the Quick Start guide:"
     echo -e "   ${YELLOW}cat README_QUICK_START.md${NC}"
     echo ""
-    echo "3. Test with a simple hello-world example:"
-    if [[ -f "TEST_HELLO.md" ]]; then
-        echo -e "   ${YELLOW}cat TEST_HELLO.md${NC}"
-    else
-        echo -e "   ${YELLOW}# Edit .tmops/hello-world/runs/current/TASK_SPEC.md${NC}"
-        echo -e "   ${YELLOW}# Launch 4 Claude Code instances as documented${NC}"
-    fi
+    echo "3. Launch 4 Claude Code instances in ROOT directory:"
+    echo -e "   ${YELLOW}cd ..  # Go back to project root${NC}"
+    echo -e "   ${YELLOW}claude  # In 4 separate terminals${NC}"
+    echo ""
+    echo "4. Edit task spec and start:"
+    echo -e "   ${YELLOW}vim ../.tmops/hello-world/runs/current/TASK_SPEC.md${NC}"
 else
     echo -e "${RED}Installation completed with warnings${NC}"
     echo "Some files may be missing. Check the errors above."
