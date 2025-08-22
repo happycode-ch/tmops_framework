@@ -247,13 +247,19 @@ When using this framework, please include:
 - [x] Clear status reporting from each instance
 - [x] Simplified debugging and control
 
+### Completed in v7.0 Exploration
+- [x] Automated orchestration attempt with subagents and hooks
+- [x] Comprehensive analysis of Claude Code capabilities
+- [x] Gap analysis between expected and actual features
+- [x] MCP architecture design for true automation
+
 ### Future Enhancements
+- [ ] MCP server implementation (In Development)
 - [ ] Visual dashboard for checkpoint flow
 - [ ] Integration with CI/CD pipelines
 - [ ] Support for more AI models
 - [ ] Plugin system for custom instances
 - [ ] Web-based monitoring interface
-- [ ] MCP server implementation
 
 ## 💡 Philosophy
 
@@ -276,7 +282,7 @@ Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
 
 ---
 
-**Version:** 6.0.0 | **Status:** Active Development | **Last Updated:** January 2025
+**Version:** 6.0.0 (Stable) | v7.0 (Experimental) | **Status:** Active Development | **Last Updated:** January 2025
 
 ### What's New in v6.0.0
 - **Manual Orchestration**: Human-coordinated handoffs for 100% reliability
@@ -285,3 +291,46 @@ Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
 - **Simplified Control**: Direct human control over workflow progression
 - **Enhanced Debugging**: Easier to troubleshoot with manual coordination
 - **Maintained Features**: All v5 logging, metrics, and multi-run support retained
+
+## 🔬 Version 7.0: Automation Exploration & Learnings
+
+TeamOps v7 represented an ambitious attempt to achieve **fully automated orchestration** using Claude Code's subagent and hook capabilities. While the implementation revealed important limitations, it provided valuable insights that point toward more robust solutions.
+
+### The v7 Vision
+- Automated TDD workflow with specialized subagents
+- Hook-based orchestration and phase transitions
+- Role-enforced tool restrictions
+- Zero manual intervention required
+
+### What We Learned
+
+Through extensive testing and analysis, we discovered critical gaps between expected and actual Claude Code capabilities:
+
+1. **Subagents as Templates, Not Instances**: Custom subagent types don't create isolated instances - they function as prompt templates within a single Claude context
+2. **Hooks for Monitoring, Not Control**: Hooks can observe and log but cannot orchestrate Claude's workflow or force phase transitions
+3. **Advisory vs. Enforced Restrictions**: Tool restrictions remain suggestions rather than hard constraints
+
+For detailed technical analysis, see our comprehensive reports:
+- [v7 Truth Analysis](docs/tmops_docs_v7/v7_truth_analysis.md) - Deep dive into subagent and hook realities
+- [v7 Analysis & Fix](docs/tmops_docs_v7/v7_analysis_and_fix.md) - SDK-based solutions for true automation
+- [v7 MCP Solution](docs/tmops_docs_v7/v7_mcp_solution.md) - Model Context Protocol as the orchestration layer
+
+### The Path Forward: MCP Integration
+
+The Model Context Protocol (MCP) emerges as the most promising solution for achieving v7's automation goals. MCP servers can provide:
+- Dynamic tool availability based on workflow phase
+- Programmatic state management and transitions
+- True role enforcement through server-controlled permissions
+- Intelligent orchestration without manual intervention
+
+Development of an MCP-based TeamOps server is planned as the next evolution of the framework.
+
+### Key Takeaway
+
+While v7's initial implementation didn't achieve full automation, it served as a crucial exploration that:
+- Clarified the boundaries of current Claude Code capabilities
+- Identified the need for external orchestration layers
+- Pointed toward MCP as the architectural solution
+- Demonstrated the value of iterative framework development
+
+The v7 artifacts remain in the codebase as a learning resource and foundation for future MCP integration.
