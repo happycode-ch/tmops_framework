@@ -21,14 +21,14 @@ if [[ -z "$FEATURE" ]]; then
     echo "  full - Also removes test/src files (with confirmation)"
     echo ""
     echo "Available features to clean:"
-    if [[ -f .tmops/FEATURES.txt ]]; then
-        cut -d: -f1 .tmops/FEATURES.txt | sort -u | sed 's/^/  • /'
+    if [[ -f ../.tmops/FEATURES.txt ]]; then
+        cut -d: -f1 ../.tmops/FEATURES.txt | sort -u | sed 's/^/  • /'
     fi
     exit 1
 fi
 
 echo -e "${YELLOW}═══════════════════════════════════════════════${NC}"
-echo -e "${YELLOW}  TeamOps v6.1 Safe Cleanup${NC}"
+echo -e "${YELLOW}  TeamOps Safe Cleanup${NC}"
 echo -e "${YELLOW}═══════════════════════════════════════════════${NC}"
 echo ""
 echo "Feature: $FEATURE"
@@ -51,13 +51,13 @@ fi
 echo -e "${GREEN}  ✓ Working directory clean${NC}"
 
 # Safety Check 2: Create backup
-BACKUP_DIR=".tmops/.backups/$(date +%Y%m%d-%H%M%S)-$FEATURE"
+BACKUP_DIR="../.tmops/.backups/$(date +%Y%m%d-%H%M%S)-$FEATURE"
 echo ""
 echo "💾 Creating backup..."
 mkdir -p "$BACKUP_DIR"
 
-if [[ -d ".tmops/$FEATURE" ]]; then
-    cp -r ".tmops/$FEATURE" "$BACKUP_DIR/"
+if [[ -d "../.tmops/$FEATURE" ]]; then
+    cp -r "../.tmops/$FEATURE" "$BACKUP_DIR/"
     echo -e "${GREEN}  ✓ Backed up .tmops/$FEATURE${NC}"
 fi
 
@@ -79,52 +79,43 @@ fi
 
 echo "  Backup location: $BACKUP_DIR"
 
-# Step 1: Remove worktrees
+# Step 1: Check current branch
 echo ""
-echo "🔧 Removing worktrees..."
-WORKTREE_PREFIX="wt-${FEATURE}"
-removed_count=0
-
-for role in orchestrator tester impl verify; do
-    WORKTREE="${WORKTREE_PREFIX}-${role}"
-    if [[ -d "$WORKTREE" ]]; then
-        echo "  Removing: $WORKTREE"
-        git worktree remove "$WORKTREE" --force 2>/dev/null || rm -rf "$WORKTREE"
-        ((removed_count++))
-    fi
-done
-
-if [[ $removed_count -eq 0 ]]; then
-    echo "  No worktrees found for $FEATURE"
+echo "🌿 Checking branch..."
+CURRENT_BRANCH=$(git branch --show-current)
+if [[ "$CURRENT_BRANCH" == "feature/$FEATURE" ]]; then
+    echo "  Switching back to main branch..."
+    git checkout main 2>/dev/null || git checkout master 2>/dev/null
 fi
 
-# Step 2: Handle branches
+# Step 2: Handle feature branch
 echo ""
-echo "🌿 Checking branches..."
-BRANCH="feature/$FEATURE"
+echo "🌿 Deleting feature branch..."
 
-if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+# Handle feature branch
+FEATURE_BRANCH="feature/$FEATURE"
+if git show-ref --verify --quiet "refs/heads/$FEATURE_BRANCH"; then
     # Check for unpushed commits
     UNPUSHED=0
     if git remote | grep -q origin; then
-        UNPUSHED=$(git rev-list --count "origin/$BRANCH..$BRANCH" 2>/dev/null || echo "0")
+        UNPUSHED=$(git rev-list --count "origin/$FEATURE_BRANCH..$FEATURE_BRANCH" 2>/dev/null || echo "0")
     fi
     
     if [[ "$UNPUSHED" -gt 0 ]]; then
-        echo -e "${YELLOW}  ⚠️  Branch $BRANCH has $UNPUSHED unpushed commits${NC}"
+        echo -e "${YELLOW}  ⚠️  Feature branch $FEATURE_BRANCH has $UNPUSHED unpushed commits${NC}"
         read -p "  Delete anyway? (yes/no): " confirm
         if [[ "$confirm" == "yes" ]]; then
-            git branch -D "$BRANCH"
-            echo -e "${GREEN}  ✓ Deleted branch${NC}"
+            git branch -D "$FEATURE_BRANCH"
+            echo -e "${GREEN}  ✓ Deleted feature branch${NC}"
         else
-            echo "  ✓ Kept branch (push with: git push origin $BRANCH)"
+            echo "  ✓ Kept branch (push with: git push origin $FEATURE_BRANCH)"
         fi
     else
-        git branch -D "$BRANCH" 2>/dev/null
-        echo -e "${GREEN}  ✓ Deleted branch $BRANCH${NC}"
+        git branch -D "$FEATURE_BRANCH" 2>/dev/null
+        echo -e "${GREEN}  ✓ Deleted feature branch $FEATURE_BRANCH${NC}"
     fi
 else
-    echo "  No branch found"
+    echo "  No feature branch found"
 fi
 
 # Step 3: Handle test/src files (only in full mode)
@@ -175,20 +166,20 @@ fi
 # Step 4: Archive TeamOps directory
 echo ""
 echo "📦 Archiving TeamOps artifacts..."
-if [[ -d ".tmops/$FEATURE" ]]; then
-    ARCHIVE_DIR=".tmops/.archive/$(date +%Y%m%d)-$FEATURE"
+if [[ -d "../.tmops/$FEATURE" ]]; then
+    ARCHIVE_DIR="../.tmops/.archive/$(date +%Y%m%d)-$FEATURE"
     mkdir -p "$(dirname "$ARCHIVE_DIR")"
-    mv ".tmops/$FEATURE" "$ARCHIVE_DIR"
+    mv "../.tmops/$FEATURE" "$ARCHIVE_DIR"
     echo -e "${GREEN}  ✓ Archived to: $ARCHIVE_DIR${NC}"
 else
-    echo "  No .tmops/$FEATURE directory found"
+    echo "  No ../.tmops/$FEATURE directory found"
 fi
 
 # Step 5: Update feature tracking
-if [[ -f ".tmops/FEATURES.txt" ]]; then
-    grep -v "^$FEATURE:" ".tmops/FEATURES.txt" > ".tmops/FEATURES.txt.tmp" 2>/dev/null || true
-    if [[ -f ".tmops/FEATURES.txt.tmp" ]]; then
-        mv ".tmops/FEATURES.txt.tmp" ".tmops/FEATURES.txt"
+if [[ -f "../.tmops/FEATURES.txt" ]]; then
+    grep -v "^$FEATURE:" "../.tmops/FEATURES.txt" > "../.tmops/FEATURES.txt.tmp" 2>/dev/null || true
+    if [[ -f "../.tmops/FEATURES.txt.tmp" ]]; then
+        mv "../.tmops/FEATURES.txt.tmp" "../.tmops/FEATURES.txt"
     fi
 fi
 
@@ -202,7 +193,7 @@ echo "Feature: $FEATURE"
 echo "Backup: $BACKUP_DIR"
 echo ""
 echo "To restore from backup:"
-echo "  cp -r $BACKUP_DIR/.tmops/$FEATURE .tmops/"
+echo "  cp -r $BACKUP_DIR/$FEATURE ../.tmops/"
 echo ""
 echo "To start fresh:"
 echo "  ./tmops_tools/init_feature_multi.sh $FEATURE"

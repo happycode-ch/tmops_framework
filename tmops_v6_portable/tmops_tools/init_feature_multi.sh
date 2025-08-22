@@ -33,19 +33,16 @@ if [[ -d "wt-orchestrator" ]]; then
     exit 1
 fi
 
-# Feature-specific worktree names
-WORKTREE_PREFIX="wt-${FEATURE}"
-
 echo "═══════════════════════════════════════════════"
-echo "  TeamOps v6.1 Multi-Feature Initialization"
+echo "  TeamOps Feature Initialization"
 echo "═══════════════════════════════════════════════"
 echo ""
 echo "Feature: $FEATURE"
-echo "Worktree prefix: ${WORKTREE_PREFIX}-*"
+echo "Branch: feature/$FEATURE"
 echo ""
 
-# Create feature directory
-TMOPS_DIR=".tmops"
+# Create feature directory in parent (root) directory
+TMOPS_DIR="../.tmops"
 FEATURE_DIR="$TMOPS_DIR/$FEATURE"
 RUN_DIR="$FEATURE_DIR/runs/$RUN_TYPE"
 
@@ -87,29 +84,19 @@ fi
 # Create current symlink for this feature
 ln -sfn "runs/$RUN_TYPE" "$FEATURE_DIR/current"
 
-# Create worktrees with feature prefix
-echo "Creating worktrees..."
-for role in orchestrator tester impl verify; do
-    WORKTREE="${WORKTREE_PREFIX}-${role}"
-    
-    if [[ -d "$WORKTREE" ]]; then
-        echo "  ✓ $WORKTREE (already exists)"
-    else
-        # Check if feature branch exists
-        if git show-ref --verify --quiet "refs/heads/feature/$FEATURE"; then
-            # Use existing branch
-            git worktree add "$WORKTREE" "feature/$FEATURE"
-            echo "  ✓ $WORKTREE (using existing branch)"
-        else
-            # Create new branch
-            git worktree add "$WORKTREE" -b "feature/$FEATURE"
-            echo "  ✓ $WORKTREE (new branch created)"
-        fi
-    fi
-done
+# Create or checkout feature branch
+echo "Setting up feature branch..."
+if git show-ref --verify --quiet "refs/heads/feature/$FEATURE"; then
+    echo "  ✓ Checking out existing branch: feature/$FEATURE"
+    git checkout "feature/$FEATURE"
+else
+    echo "  ✓ Creating new branch: feature/$FEATURE"
+    git checkout -b "feature/$FEATURE"
+fi
 
 # Track in simple text file (not JSON)
-echo "$FEATURE:active:$(date -Iseconds):$WORKTREE_PREFIX" >> "$TMOPS_DIR/FEATURES.txt"
+mkdir -p "$TMOPS_DIR"
+echo "$FEATURE:active:$(date -Iseconds):feature/$FEATURE" >> "$TMOPS_DIR/FEATURES.txt"
 
 echo ""
 echo "═══════════════════════════════════════════════"
@@ -119,15 +106,16 @@ echo ""
 echo "Next steps:"
 echo ""
 echo "1. Edit task specification:"
-echo "   vim $RUN_DIR/TASK_SPEC.md"
+echo "   vim ../$RUN_DIR/TASK_SPEC.md"
 echo ""
-echo "2. Open 4 Claude Code terminals:"
-echo "   cd ${WORKTREE_PREFIX}-orchestrator && claude"
-echo "   cd ${WORKTREE_PREFIX}-tester && claude"
-echo "   cd ${WORKTREE_PREFIX}-impl && claude"
-echo "   cd ${WORKTREE_PREFIX}-verify && claude"
+echo "2. Open 4 Claude Code instances in the ROOT directory (parent of tmops_v6_portable):"
+echo "   cd ../  # Go to root project directory first"
+echo "   Terminal 1: claude  # For Orchestrator"
+echo "   Terminal 2: claude  # For Tester"
+echo "   Terminal 3: claude  # For Implementer"
+echo "   Terminal 4: claude  # For Verifier"
 echo ""
-echo "3. Paste role instructions from $INSTRUCTIONS_DIR/:"
+echo "3. Paste role instructions from tmops_v6_portable/$INSTRUCTIONS_DIR/:"
 echo "   • 01_orchestrator.md → orchestrator terminal"
 echo "   • 02_tester.md → tester terminal"
 echo "   • 03_implementer.md → implementer terminal"
@@ -136,5 +124,6 @@ echo ""
 echo "4. Start orchestration:"
 echo "   You → Orchestrator: '[BEGIN]: Start orchestration for $FEATURE'"
 echo ""
-echo "To work on a different feature, just run:"
+echo "To work on a different feature:"
+echo "   git checkout main  # Return to main first"
 echo "   ./tmops_tools/init_feature_multi.sh other-feature"

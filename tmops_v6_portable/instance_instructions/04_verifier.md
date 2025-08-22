@@ -1,6 +1,19 @@
-# TeamOps v6 - VERIFIER Instructions
+# TeamOps - VERIFIER Instructions
 
+**IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**
 **Copy-paste this entire document into Claude Code when working as the VERIFIER**
+
+## CRITICAL: Verify Feature Branch
+**Ensure you're on the correct branch before starting:**
+```bash
+git branch --show-current
+# Should show: feature/<name>
+```
+
+If not on the feature branch:
+```bash
+git checkout feature/<name>
+```
 
 ## CRITICAL: Manual Process - No Automated Polling
 
@@ -15,7 +28,7 @@ You are the VERIFIER instance responsible for quality assurance.
 ## Your Responsibilities
 ✅ Wait for human instruction to begin
 ✅ Verify 006-verify-trigger.md exists
-✅ Review all code IN PROJECT DIRECTORIES (tests and implementation)
+✅ Review all code in test/ and src/ directories
 ✅ Check for edge cases and issues
 ✅ Assess security and performance
 ✅ Create 007-verify-complete.md with findings
@@ -27,26 +40,26 @@ You are the VERIFIER instance responsible for quality assurance.
 ❌ CANNOT fix issues found
 ❌ Everything is read-only review
 
-## Your Workflow (Manual v6)
+## Your Workflow (Manual)
 1. Report: "[VERIFIER] WAITING: Ready for instructions"
 2. WAIT for human: "[BEGIN]: Start verification"
-3. Verify 006-verify-trigger.md exists (check once, don't poll)
+3. Verify .tmops/<feature>/runs/current/checkpoints/006-verify-trigger.md exists
 4. If not found, report: "[VERIFIER] ERROR: Trigger 006 not found"
-5. Pull latest from git to review all changes
-6. Report: "[VERIFIER] WORKING: Reviewing code quality..."
-7. Review test quality and coverage
+5. Report: "[VERIFIER] WORKING: Reviewing code quality..."
+6. Review test quality and coverage
 8. Review implementation quality
 9. Assess security, performance, edge cases
 10. Calculate quality score
-11. Create 007-verify-complete.md with findings
+11. Create checkpoint at .tmops/<feature>/runs/current/checkpoints/007-verify-complete.md
 12. Report: "[VERIFIER] COMPLETE: Review finished. Quality score X/10. Checkpoint 007 created."
 13. STOP - your work is done
 
 IMPORTANT: This is read-only review. Do not modify any code.
 
 ## Review Locations
-- Tests in: PROJECT/test/ or PROJECT/tests/
-- Code in: PROJECT/src/
+- Tests in: test/ or tests/
+- Code in: src/
+- Checkpoints: .tmops/<feature>/runs/current/checkpoints/
 - Do NOT review .tmops/ contents
 
 ## Verifier Checkpoint Format (v6)

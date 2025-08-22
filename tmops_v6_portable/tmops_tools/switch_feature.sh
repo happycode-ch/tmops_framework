@@ -1,26 +1,27 @@
 #!/bin/bash
-# Quick helper to show worktrees for a feature
+# Switch context to a specific feature (show info)
+
+set -e
 
 FEATURE="$1"
 
 if [[ -z "$FEATURE" ]]; then
     echo "Usage: $0 <feature-name>"
-    echo ""
-    ./tmops_tools/list_features.sh
     exit 1
 fi
 
-WORKTREE_PREFIX="wt-${FEATURE}"
-
 # Check if feature exists
-if ! git worktree list | grep -q "$WORKTREE_PREFIX"; then
-    echo "❌ Feature '$FEATURE' not found"
+if [[ ! -f "../.tmops/FEATURES.txt" ]]; then
+    echo "No features initialized yet."
+    echo "Run: ./tmops_tools/init_feature_multi.sh <feature-name>"
+    exit 0
+fi
+
+if ! grep -q "^$FEATURE:" ../.tmops/FEATURES.txt 2>/dev/null; then
+    echo "Feature '$FEATURE' not found."
     echo ""
     echo "Available features:"
-    git worktree list | grep "wt-" | sed 's/.*wt-/  • /' | sed 's/-[^-]*$//' | sort -u
-    echo ""
-    echo "To create this feature:"
-    echo "  ./tmops_tools/init_feature_multi.sh $FEATURE"
+    cut -d: -f1 ../.tmops/FEATURES.txt | sort -u | sed 's/^/  • /'
     exit 1
 fi
 
@@ -28,28 +29,39 @@ echo "╔═══════════════════════�
 echo "║  Feature: $FEATURE"
 echo "╚═══════════════════════════════════════════════╝"
 echo ""
-echo "📂 Worktrees:"
-for role in orchestrator tester impl verify; do
-    WORKTREE="${WORKTREE_PREFIX}-${role}"
-    if [[ -d "$WORKTREE" ]]; then
-        echo "  ✓ cd $WORKTREE"
-    else
-        echo "  ✗ $WORKTREE (missing)"
-    fi
-done
+
+echo "🌿 Branch Status:"
+CURRENT_BRANCH=$(git branch --show-current)
+if [[ "$CURRENT_BRANCH" == "feature/$FEATURE" ]]; then
+    echo "  ✓ Currently on feature/$FEATURE"
+else
+    echo "  ⚠️  Not on feature branch (current: $CURRENT_BRANCH)"
+    echo "  To switch: git checkout feature/$FEATURE"
+fi
 
 echo ""
 echo "📄 Task Spec:"
-echo "  .tmops/$FEATURE/runs/current/TASK_SPEC.md"
+echo "  ../.tmops/$FEATURE/runs/current/TASK_SPEC.md"
+
+if [[ -f "../.tmops/$FEATURE/runs/current/TASK_SPEC.md" ]]; then
+    echo "  ✓ Task spec exists"
+else
+    echo "  ✗ Task spec not found"
+fi
 
 echo ""
-echo "📊 Checkpoints:"
-if [[ -d ".tmops/$FEATURE/runs/current/checkpoints" ]]; then
-    COUNT=$(ls ".tmops/$FEATURE/runs/current/checkpoints" 2>/dev/null | wc -l)
-    echo "  $COUNT checkpoint(s) created"
-    if [[ $COUNT -gt 0 ]]; then
-        echo "  Latest: $(ls -t ".tmops/$FEATURE/runs/current/checkpoints" | head -1)"
-    fi
+echo "📂 TeamOps Directory:"
+if [[ -d "../.tmops/$FEATURE" ]]; then
+    echo "  ✓ ../.tmops/$FEATURE exists"
+    CHECKPOINT_COUNT=$(find "../.tmops/$FEATURE" -name "*.md" -type f 2>/dev/null | wc -l)
+    echo "  📝 Checkpoints: $CHECKPOINT_COUNT files"
 else
-    echo "  No checkpoints yet"
+    echo "  ✗ ../.tmops/$FEATURE missing"
 fi
+
+echo ""
+echo "To start working:"
+echo "  1. cd ..  # Go to root project directory"
+echo "  2. git checkout feature/$FEATURE"
+echo "  3. Open 4 Claude Code instances (all in root directory)"
+echo "  4. Paste role instructions from tmops_v6_portable/instance_instructions/"

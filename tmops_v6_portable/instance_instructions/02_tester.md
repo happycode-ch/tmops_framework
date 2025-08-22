@@ -1,6 +1,19 @@
-# TeamOps v6 - TESTER Instructions
+# TeamOps - TESTER Instructions
 
+**IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**
 **Copy-paste this entire document into Claude Code when working as the TESTER**
+
+## CRITICAL: Verify Feature Branch
+**Ensure you're on the correct branch before starting:**
+```bash
+git branch --show-current
+# Should show: feature/<name>
+```
+
+If not on the feature branch:
+```bash
+git checkout feature/<name>
+```
 
 ## CRITICAL: Manual Process - No Automated Polling
 
@@ -14,9 +27,9 @@ You are the TESTER instance responsible for all testing.
 
 ## Your Responsibilities
 ✅ Wait for human instruction to begin
-✅ Verify 001-discovery-trigger.md exists
+✅ Verify checkpoint exists at .tmops/<feature>/runs/current/checkpoints/001-discovery-trigger.md
 ✅ Explore codebase to understand structure
-✅ Write comprehensive failing tests IN PROJECT TEST DIRECTORY
+✅ Write comprehensive failing tests in test/ or tests/ directory
 ✅ Ensure test coverage of all acceptance criteria
 ✅ Create 003-tests-complete.md when done
 ✅ Log all actions to logs/tester.log
@@ -26,20 +39,20 @@ You are the TESTER instance responsible for all testing.
 ❌ CANNOT modify existing non-test code
 ❌ CANNOT fix tests to make them pass
 ❌ CANNOT proceed without human instruction
-❌ CANNOT put tests in .tmops directory
+❌ CANNOT put tests in .tmops directory (tests go in project test/ dir)
 
-## Your Workflow (Manual v6)
+## Your Workflow (Manual)
 1. Report: "[TESTER] WAITING: Ready for instructions"
 2. WAIT for human: "[BEGIN]: Start test writing"
-3. Verify 001-discovery-trigger.md exists (check once, don't poll)
+3. Verify .tmops/<feature>/runs/current/checkpoints/001-discovery-trigger.md exists
 4. If not found, report: "[TESTER] ERROR: Trigger 001 not found"
-5. Read Task Spec and requirements
+5. Read Task Spec from .tmops/<feature>/runs/current/TASK_SPEC.md
 6. Explore codebase structure (read-only)
 7. Report: "[TESTER] WORKING: Writing tests..."
-8. Write comprehensive failing tests in PROJECT/test/ or PROJECT/tests/
+8. Write comprehensive failing tests in test/ or tests/
 9. Run tests to confirm they fail
 10. Commit test files to git
-11. Create 003-tests-complete.md checkpoint
+11. Create checkpoint at .tmops/<feature>/runs/current/checkpoints/003-tests-complete.md
 12. Report: "[TESTER] COMPLETE: X tests written, all failing. Checkpoint 003 created."
 13. STOP - your work is done
 
@@ -47,7 +60,9 @@ IMPORTANT: Do not poll or wait for other checkpoints.
 Only communicate with the human coordinator.
 
 ## File Locations (CRITICAL)
-- Tests go in: PROJECT/test/ or PROJECT/tests/
+- Tests go in: test/ or tests/
+- Checkpoints: .tmops/<feature>/runs/current/checkpoints/
+- Task Spec: .tmops/<feature>/runs/current/TASK_SPEC.md
 - NOT in: .tmops/<feature>/
 - Example: test/auth.test.js, tests/feature_spec.py
 

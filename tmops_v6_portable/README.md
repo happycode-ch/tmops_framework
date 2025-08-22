@@ -1,9 +1,10 @@
-# TeamOps Framework v6.1 - Multi-Feature Edition
+# TeamOps Framework - Simplified Edition
 
 **Quick setup → Rapid feature delivery**
 
 TeamOps orchestrates 4 Claude Code instances to build features using Test-Driven Development.
-Now supports multiple features in parallel!
+
+**IMPORTANT: TeamOps creates `.tmops/` in your project root (parent of tmops_v6_portable)**
 
 ## 🚀 Quick Start
 
@@ -11,29 +12,34 @@ Now supports multiple features in parallel!
 # 1. Install (first time only)
 ./INSTALL.sh
 
-# 2. Start your feature (creates 4 worktrees)
+# 2. Start your feature (creates feature branch)
+cd tmops_v6_portable
 ./tmops_tools/init_feature_multi.sh my-feature
 
-# 3. Open 4 Claude Code terminals
-cd wt-my-feature-orchestrator && claude
-cd wt-my-feature-tester && claude  
-cd wt-my-feature-impl && claude
-cd wt-my-feature-verify && claude
+# 3. Open 4 Claude Code instances in ROOT directory (parent of tmops_v6_portable)
+cd ..  # Go to project root
+claude  # Terminal 1: Orchestrator
+claude  # Terminal 2: Tester
+claude  # Terminal 3: Implementer
+claude  # Terminal 4: Verifier
 
 # 4. Paste role instructions (from instance_instructions/ or docs/roles/)
 # 5. Start: You → Orchestrator: "[BEGIN]: Start orchestration"
 ```
 
-## 💡 What's New in v6.1
+## 💡 Key Features
 
-- **Multi-Feature Support** - Work on multiple features simultaneously
-- **Safe Cleanup** - Two-tier system prevents accidental deletions
-- **Simple Commands** - One README, clear structure
+- **Simple Branches** - Just feature branches, no worktrees
+- **No Navigation Issues** - All instances work in root project directory
+- **Fast Setup** - Initialize in seconds
+- **Full Orchestration** - Complete TDD workflow preserved
+- **Clean Separation** - Tools in tmops_v6_portable/, artifacts in root .tmops/
 
 ## 📝 Core Commands
 
 ```bash
-# Feature Management
+# Feature Management (run from tmops_v6_portable directory)
+cd tmops_v6_portable
 ./tmops_tools/init_feature_multi.sh <name>  # Start new feature
 ./tmops_tools/list_features.sh              # Show all features
 ./tmops_tools/switch_feature.sh <name>      # Show feature info
@@ -51,11 +57,12 @@ cd wt-my-feature-verify && claude
 ```bash
 # Start feature A
 ./tmops_tools/init_feature_multi.sh auth-api
-# Work in: wt-auth-api-orchestrator, wt-auth-api-tester, etc.
+# Work on branch: feature/auth-api
 
-# Start feature B (while A is active)
+# Start feature B (switch back to main first)
+git checkout main
 ./tmops_tools/init_feature_multi.sh payment-flow
-# Work in: wt-payment-flow-orchestrator, wt-payment-flow-tester, etc.
+# Work on branch: feature/payment-flow
 
 # List what's active
 ./tmops_tools/list_features.sh
@@ -67,17 +74,22 @@ cd wt-my-feature-verify && claude
 ## 📂 Project Structure
 
 ```
-your-project/
-├── src/                         # Your implementation goes here
-├── test/                        # Your tests go here
-├── .tmops/                      # TeamOps artifacts (auto-created)
+your-project/                    # Root project directory
+├── .tmops/                      # TeamOps artifacts (created here)
 │   ├── <feature>/              # Per-feature data
 │   └── FEATURES.txt            # Active features list
-├── wt-<feature>-orchestrator/   # Git worktrees (auto-created)
-├── wt-<feature>-tester/
-├── wt-<feature>-impl/
-└── wt-<feature>-verify/
+├── src/                         # Your implementation goes here
+├── test/                        # Your tests go here
+├── tmops_v6_portable/           # TeamOps tools
+│   ├── tmops_tools/            # Scripts
+│   └── instance_instructions/  # Role instructions
+└── [Claude instances work here] # All 4 instances in root
 ```
+
+### Branch Architecture
+- Single feature branch: `feature/<feature>`
+- All instances work on same branch sequentially
+- No complex merging or conflicts
 
 ## 🤝 Manual Coordination Flow
 
@@ -107,7 +119,8 @@ You act as the conductor between instances:
 ## ⚡ Example: Hello API
 
 ```bash
-# 1. Initialize
+# 1. Initialize (from tmops_v6_portable directory)
+cd tmops_v6_portable
 ./tmops_tools/init_feature_multi.sh hello-api
 
 # 2. Edit task spec to include:
@@ -115,7 +128,8 @@ You act as the conductor between instances:
 # - Status code 200
 # - Content-Type: application/json
 
-# 3. Launch instances and coordinate
+# 3. Launch instances in root directory and coordinate
+cd ..  # Go to project root
 ```
 
 ## 🔧 Troubleshooting
