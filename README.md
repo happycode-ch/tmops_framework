@@ -18,7 +18,6 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
 - **Multi-Run Support**: Iterative development with context inheritance
 - **Reality-Based Architecture**: Tests and code in standard project locations
 - **Quality Gates**: Human review points at critical phases
-- **Git Worktree Integration**: Each instance operates in its own isolated environment
 
 ## 🏗️ Architecture Overview
 
