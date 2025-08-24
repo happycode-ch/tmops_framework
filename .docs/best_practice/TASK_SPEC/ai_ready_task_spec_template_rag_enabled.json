@@ -1,0 +1,215 @@
+{
+  "_meta": {
+    "version": "1.2.0",
+    "template_name": "task_spec_ai_ready_minimal_rag",
+    "license": "CC BY 4.0",
+    "provenance": "Grounded in widely used practices: ISO/IEC/IEEE 29148 (good requirements), RFC‑2119 (MUST/SHOULD/MAY), user stories + Gherkin AC, C4 diagrams + ADRs, Definition of Done, CI verification. Intended for human + agent workflows."
+  },
+
+  "profile": "auto", 
+  "complexity": "auto", 
+  "kind": "docs|api|bugfix|refactor|feature",
+
+  "llm_embedded_prompt": "You are producing a concise, actionable Task Spec. 1) Read all provided materials. 2) Detect task kind (docs, api, feature, bugfix, refactor) and infer complexity (trivial/low/medium/high). 3) Expand ONLY relevant sections; omit or minimize others. 4) Use RFC‑2119 wording for requirements and Gherkin for acceptance criteria. 5) Treat DoD as the success contract. 6) Research: If you have web/tools access, perform targeted searches to validate claims, specs, limits, and best practices; cite 3–5 authoritative sources (prefer official docs/standards) and include them in the \"citations\" section. If you lack web/tools access, state that limitation, list what should be verified, and provide suggested queries. 7) Never include private tokens, secrets, or PII; avoid over‑quoting (≤25 words/source). 8) Keep output lean (≤2 pages for trivial/low complexity). 9) End with self‑checks in \"review_checklist\" and runnable eval commands in \"llm_execution.evaluation\". ",
+
+  "research": {
+    "min_sources": 3,
+    "max_sources": 6,
+    "preferred_domains": ["ietf.org", "iso.org", "ieee.org", "w3.org", "developer.mozilla.org", "docs.python.org", "kubernetes.io", "docs.github.com", "docs.gitlab.com", "learn.microsoft.com", "aws.amazon.com", "cloud.google.com", "openapis.org"],
+    "avoid_domains": ["low‑cred forums", "unattributed wikis"],
+    "citation_format": "{title} — {publisher_or_site}, {pub_date_or_version}; URL; accessed {YYYY‑MM‑DD}",
+    "note": "Summarize sources; quote sparingly. Map key claims to citation ids in citations[].claims_supported."
+  },
+
+  "meta": {
+    "id": "TASK-XXXX",
+    "title": "Concise, action‑oriented title",
+    "type": "feature|bugfix|refactor|docs|chore|spike",
+    "priority": "P1|P2|P3",
+    "status": "proposed",
+    "dri": "@owner_handle",
+    "stakeholders": ["@reviewer1"],
+    "conventions": {
+      "commit_prefix": "feat|fix|refactor|docs|chore|test",
+      "branch_naming": "task/TASK-XXXX-short-slug"
+    },
+    "changelog_required": false,
+    "required": true
+  },
+
+  "context": {
+    "problem": "1–3 lines describing the need and impact.",
+    "background": "Relevant history/constraints (brief).",
+    "links": [
+      {"rel": "epic", "href": ""},
+      {"rel": "design", "href": ""},
+      {"rel": "style_guide", "href": ""}
+    ],
+    "attachments": []
+  },
+
+  "scope": {
+    "in": ["Smallest set of changes needed"],
+    "out": ["Explicitly excluded work"],
+    "mvp": "One sentence minimal outcome"
+  },
+
+  "requirements": {
+    "functional": ["... use MUST/SHOULD/MAY ..."],
+    "non_functional": ["Only include if critical (perf/security/ux/i18n/observability)"]
+  },
+
+  "acceptance_criteria": [
+    "Scenario: ...\nGiven ...\nWhen ...\nThen ..."
+  ],
+
+  "interfaces": {
+    "apis": [
+      {
+        "name": "",
+        "request": {"schema_ref": "", "examples": []},
+        "responses": [{"status": 200, "schema_ref": ""}]
+      }
+    ],
+    "events": [
+      {"topic": "", "payload_schema": ""}
+    ]
+  },
+
+  "architecture": {
+    "c4_component_changes": ["componentA -> adds X"],
+    "adrs": [
+      {"title": "Decision title", "status": "proposed", "path": "docs/adr/ADR-XXXX.md"}
+    ],
+    "data_migrations": []
+  },
+
+  "test_plan": {
+    "unit": ["Key unit cases"],
+    "integration": ["Key integration flows"],
+    "acceptance": "Mirror acceptance_criteria via BDD framework",
+    "coverage_target": ">= 80%"
+  },
+
+  "definition_of_done": {
+    "criteria": [
+      "All acceptance criteria pass in CI",
+      "Docs updated where relevant",
+      "No P1/P2 security findings",
+      "Monitoring/alerts added when new paths exist",
+      "PR reviewed and approved"
+    ],
+    "required": true
+  },
+
+  "risks_dependencies": {
+    "risks": ["Potential blockers with brief mitigations"],
+    "dependencies": ["APIs/secrets/migrations"],
+    "mitigations": ["Short, concrete actions"]
+  },
+
+  "rollout": {
+    "flag_name": "",
+    "strategy": "canary-10%-for-1h-then-100%",
+    "revert_plan": "How to disable/rollback quickly"
+  },
+
+  "observability": {
+    "metrics": [{"name": "", "labels": {}}],
+    "logs": [{"event": "", "fields": [""]}],
+    "alerts": [{"name": "", "expr": "", "for": ""}]
+  },
+
+  "security_privacy": {
+    "threats": [""],
+    "controls": [""],
+    "data_handling": {"pii": false, "retention": "", "encryption_at_rest": true}
+  },
+
+  "llm_execution": {
+    "autonomy_level": "constrained",
+    "allowed_tools": ["git", "bash", "pytest", "node", "npm|pnpm", "docker"],
+    "repo_read_paths": ["src/", "tests/", "docs/"],
+    "repo_write_paths": ["src/", "tests/", "docs/", "docs/adr/"],
+    "constraints": [
+      "Do NOT change public API unless explicitly allowed",
+      "Prefer small, reversible commits",
+      "Preserve existing exports and behavior unless in scope"
+    ],
+    "evaluation": {
+      "commands": ["pytest -q", "npm test --silent || true", "npx markdownlint **/*.md || true"],
+      "must_pass": true
+    },
+    "deliverables": ["Code changes", "Tests", "Docs updates", "ADR if decisions changed"]
+  },
+
+  "deliverables": {
+    "artifacts": [
+      {"type": "code", "paths": ["src/**"]},
+      {"type": "tests", "paths": ["tests/**"]},
+      {"type": "docs", "paths": ["docs/**", "README.md"]}
+    ],
+    "reviewers": ["@reviewer1"],
+    "review_checklist": [
+      "Meets acceptance criteria",
+      "Adequate tests updated/added",
+      "No obvious security/quality regressions",
+      "Observability in place"
+    ]
+  },
+
+  "citations": [
+    {
+      "id": "src-1",
+      "title": "",
+      "publisher": "",
+      "url": "",
+      "published_or_version": "",
+      "accessed_utc": "YYYY-MM-DD",
+      "claims_supported": ["REQ-1", "AC-2"]
+    }
+  ],
+
+  "assumptions": ["List assumptions made by the author/agent"],
+  "open_questions": ["Outstanding questions that need decision"],
+
+  "validation": {
+    "required_fields": ["meta", "acceptance_criteria", "definition_of_done"],
+    "field_types": {
+      "meta.id": "string",
+      "meta.type": "enum(feature|bugfix|refactor|docs|chore|spike)",
+      "acceptance_criteria": "array[string]"
+    },
+    "rules": [
+      "If kind=='docs', restrict writes to docs/* and content paths; run link checks.",
+      "If kind in ['api','feature','bugfix','refactor'], propose tests and API/schema diffs if interfaces change.",
+      "If autonomy_level=='constrained', modify only repo_write_paths.",
+      "If complexity in ['trivial','low'], omit architecture, rollout, and alerts unless strictly necessary."
+    ]
+  },
+
+  "expand_policy": {
+    "profiles": {
+      "lite": {
+        "include": ["meta", "context.problem", "scope", "requirements", "acceptance_criteria", "definition_of_done", "llm_execution", "deliverables", "citations"],
+        "omit": ["architecture", "interfaces.events", "observability.alerts", "rollout"],
+        "length_cap_pages": 2
+      },
+      "standard": {
+        "include": ["meta", "context", "scope", "requirements", "acceptance_criteria", "interfaces", "test_plan", "definition_of_done", "deliverables", "llm_execution", "risks_dependencies", "citations"],
+        "length_cap_pages": 4
+      },
+      "deep": {
+        "include": ["meta", "context", "scope", "requirements", "acceptance_criteria", "interfaces", "architecture", "security_privacy", "test_plan", "definition_of_done", "rollout", "observability", "risks_dependencies", "deliverables", "llm_execution", "citations"],
+        "length_cap_pages": 8
+      }
+    },
+    "kind_overrides": {
+      "docs": {"force_profile": "lite"},
+      "bugfix": {"default_profile": "standard"},
+      "api": {"default_profile": "standard"},
+      "refactor": {"default_profile": "standard"},
+      "feature": {"default_profile": "standard"}
+    }
+  }
+}

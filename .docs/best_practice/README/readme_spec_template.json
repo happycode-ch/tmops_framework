@@ -1,0 +1,235 @@
+{
+  "readme_spec": {
+    "name": "Professional README Spec",
+    "version": "1.0.0",
+    "influences": [
+      "standard-readme",
+      "github-readme-conventions"
+    ],
+    "ordering": [
+      "title",
+      "badges",
+      "description",
+      "table_of_contents",
+      "overview",
+      "installation",
+      "usage",
+      "examples",
+      "configuration_api",
+      "project_structure",
+      "roadmap_status",
+      "contributing",
+      "security",
+      "license",
+      "authors_maintainers",
+      "acknowledgements",
+      "faq",
+      "links"
+    ],
+    "sections": {
+      "title": {
+        "required": true,
+        "format": "# {project_name} — {tagline}",
+        "notes": "Single H1. Keep tagline to one line."
+      },
+      "badges": {
+        "required": false,
+        "items": [
+          "ci_status",
+          "coverage",
+          "package_version",
+          "license",
+          "downloads"
+        ],
+        "notes": "Use shields.io. Place immediately under title."
+      },
+      "description": {
+        "required": true,
+        "content": {
+          "what": "One-paragraph plain-English explanation.",
+          "why": "Problem it solves and who it’s for.",
+          "differentiators": "2–3 bullets on what makes it different."
+        }
+      },
+      "table_of_contents": {
+        "required": false,
+        "autogenerate_hint": true,
+        "notes": "Use GitHub autolinked headings. Include only H2/H3 anchors."
+      },
+      "overview": {
+        "required": true,
+        "content": {
+          "features": ["bullet_1", "bullet_2", "bullet_3"],
+          "screenshot": "relative_path/to/image.png",
+          "demo": "url_or_relative_link"
+        },
+        "notes": "Screenshots use relative paths; keep under /docs/ or /assets/."
+      },
+      "installation": {
+        "required": true,
+        "content": {
+          "prerequisites": ["node>=18", "python>=3.11"],
+          "steps": [
+            "git clone {repo_url}",
+            "cd {repo_dir}",
+            "{package_manager_install_cmd}"
+          ]
+        },
+        "code_lang": "bash"
+      },
+      "usage": {
+        "required": true,
+        "content": {
+          "quickstart": "Minimal runnable example",
+          "cli_or_api": "Primary command or function call",
+          "env_vars": ["EXAMPLE_API_KEY", "EXAMPLE_ENV"]
+        }
+      },
+      "examples": {
+        "required": false,
+        "content": [
+          {
+            "title": "Basic",
+            "code_lang": "bash",
+            "code": "example command or snippet"
+          },
+          {
+            "title": "Programmatic",
+            "code_lang": "python",
+            "code": "example code"
+          }
+        ],
+        "notes": "Prefer 1–2 concise examples; link to /examples for more."
+      },
+      "configuration_api": {
+        "required": false,
+        "content": {
+          "config_files": ["app.config.{json|yaml}"],
+          "env_reference": [
+            {"name": "PORT", "default": "3000", "desc": "HTTP port"},
+            {"name": "LOG_LEVEL", "default": "info", "desc": "debug|info|warn|error"}
+          ],
+          "primary_api": [
+            {"symbol": "init()", "desc": "Initialize library"},
+            {"symbol": "run(opts)", "desc": "Start service"}
+          ]
+        }
+      },
+      "project_structure": {
+        "required": false,
+        "content": [
+          {"path": "src/", "desc": "Source code"},
+          {"path": "tests/", "desc": "Unit/integration tests"},
+          {"path": "docs/", "desc": "Extended docs and images"}
+        ]
+      },
+      "roadmap_status": {
+        "required": false,
+        "content": {
+          "status": "alpha|beta|stable",
+          "next": ["item_1", "item_2"],
+          "known_issues": ["issue_1", "issue_2"]
+        }
+      },
+      "contributing": {
+        "required": true,
+        "content": {
+          "guidelines_link": "CONTRIBUTING.md",
+          "dev_setup": ["make setup", "make test"],
+          "code_style": "ruff/black/prettier/eslint",
+          "branching": "feat/*, fix/*; PRs require CI green"
+        }
+      },
+      "security": {
+        "required": false,
+        "content": {
+          "policy_link": "SECURITY.md",
+          "contact": "security@example.com",
+          "disclosure": "Responsible disclosure policy summary"
+        }
+      },
+      "license": {
+        "required": true,
+        "content": {
+          "spdx_id": "MIT",
+          "file": "LICENSE"
+        }
+      },
+      "authors_maintainers": {
+        "required": true,
+        "content": [
+          {"name": "Your Name", "handle": "@yourhandle", "email": "you@example.com"}
+        ]
+      },
+      "acknowledgements": {
+        "required": false,
+        "content": ["lib_or_project_1", "inspiration_2"]
+      },
+      "faq": {
+        "required": false,
+        "content": [
+          {"q": "Does it run on Windows?", "a": "Yes, via WSL or native."}
+        ]
+      },
+      "links": {
+        "required": false,
+        "content": {
+          "homepage": "https://example.com",
+          "docs": "https://example.com/docs",
+          "changelog": "CHANGELOG.md",
+          "issues": "https://github.com/org/repo/issues"
+        }
+      }
+    },
+    "conventions": {
+      "markdown": {
+        "heading_style": "ATX",
+        "code_fences": "```lang",
+        "link_style": "relative preferred",
+        "badges": "top-only",
+        "max_line_length": 100
+      },
+      "toc": {
+        "include_levels": [2, 3],
+        "exclude": ["title", "badges"]
+      },
+      "images": {
+        "relative_paths": true,
+        "folder": "docs/assets",
+        "alt_text_required": true
+      }
+    },
+    "validation": {
+      "required_sections": [
+        "title",
+        "description",
+        "overview",
+        "installation",
+        "usage",
+        "contributing",
+        "license",
+        "authors_maintainers"
+      ],
+      "lint_rules": [
+        "must_have_single_h1",
+        "all_code_blocks_have_language",
+        "all_images_have_alt",
+        "relative_links_resolve",
+        "license_file_exists"
+      ]
+    },
+    "generators": {
+      "from_this_spec": {
+        "readme_path": "README.md",
+        "supporting_files": ["LICENSE", "CONTRIBUTING.md", "SECURITY.md", "CHANGELOG.md"]
+      }
+    },
+    "placeholders": {
+      "project_name": "MyProject",
+      "tagline": "Concise one-liner",
+      "repo_url": "https://github.com/org/repo",
+      "repo_dir": "repo",
+      "package_manager_install_cmd": "npm ci"
+    }
+  }
+}
