@@ -41,25 +41,25 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
 
 ### Instance Roles
 
-1. **Orchestrator** (wt-orchestrator)
+1. **Orchestrator**
    - Coordinates workflow between instances
    - Monitors progress and timing
    - Creates trigger checkpoints
    - Generates final summary
 
-2. **Tester** (wt-tester)
+2. **Tester**
    - Discovers codebase structure
    - Writes comprehensive failing tests
    - Ensures acceptance criteria coverage
    - Creates test documentation
 
-3. **Implementer** (wt-impl)
+3. **Implementer**
    - Reads test requirements
    - Implements features to pass tests
    - Refactors and optimizes code
    - Never modifies test files
 
-4. **Verifier** (wt-verify)
+4. **Verifier**
    - Reviews code quality
    - Identifies edge cases
    - Assesses security and performance
@@ -69,7 +69,6 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
 
 ### Prerequisites
 
-- Git with worktree support
 - Claude.ai account (for strategic planning)
 - Claude Code CLI access (4 terminals)
 - Unix-like environment (Linux, macOS, or WSL)
@@ -89,7 +88,7 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
    ```
    This command:
    - Creates `.tmops/` directory structure
-   - Sets up 4 git worktrees (wt-orchestrator, wt-tester, wt-impl, wt-verify)
+   - Creates feature branch
    - Generates TASK_SPEC template
    - Initializes checkpoint and logging directories
 
@@ -98,14 +97,14 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
    vim .tmops/my-feature/runs/current/TASK_SPEC.md
    ```
 
-4. **Launch 4 Claude Code instances**
+4. **Launch 4 Claude Code instances from project root**
    ```bash
-   # Terminal 1: cd wt-orchestrator && claude
-   # Terminal 2: cd wt-tester && claude
-   # Terminal 3: cd wt-impl && claude
-   # Terminal 4: cd wt-verify && claude
+   # Terminal 1: claude  # Paste tmops_v6_portable/instance_instructions/01_orchestrator.md
+   # Terminal 2: claude  # Paste tmops_v6_portable/instance_instructions/02_tester.md
+   # Terminal 3: claude  # Paste tmops_v6_portable/instance_instructions/03_implementer.md
+   # Terminal 4: claude  # Paste tmops_v6_portable/instance_instructions/04_verifier.md
    ```
-   Paste the appropriate role section from `docs/tmops_docs_v6/tmops_claude_code.md` into each instance.
+   Copy and paste the respective role instructions to prime each instance.
 
 5. **Coordinate manually**
    - Send `[BEGIN]: Start orchestration for <feature>` to Orchestrator
@@ -116,18 +115,18 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
    ```bash
    ./tmops_tools/cleanup_feature.sh my-feature
    ```
-   This removes worktrees, branches, and `.tmops/` artifacts.
+   This removes branches and `.tmops/` artifacts.
 
 ## 🛠️ Available Tools
 
 The `tmops_tools/` directory contains essential scripts for the TeamOps workflow:
 
-- **`init_feature_v6.sh`** - Initialize a new feature with worktrees and directory structure
+- **`init_feature_v6.sh`** - Initialize a new feature with directory structure
   ```bash
   ./tmops_tools/init_feature_v6.sh <feature-name> [initial|patch]
   ```
 
-- **`cleanup_feature.sh`** - Clean up after feature completion (removes worktrees, branches, artifacts)
+- **`cleanup_feature.sh`** - Clean up after feature completion (removes branches, artifacts)
   ```bash
   ./tmops_tools/cleanup_feature.sh <feature-name>
   ```
@@ -169,7 +168,7 @@ The `tmops_tools/` directory contains essential scripts for the TeamOps workflow
 ### tmops_tools Directory
 ```
 tmops_tools/
-├── init_feature_v6.sh     # Feature initialization with worktrees
+├── init_feature_v6.sh     # Feature initialization
 ├── cleanup_feature.sh     # Complete cleanup after feature
 ├── extract_metrics.py     # Metrics extraction and reporting
 ├── monitor_checkpoints.py # Optional checkpoint monitoring
