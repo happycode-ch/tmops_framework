@@ -3,6 +3,9 @@
 # Archive directory
 .archive/
 
+# .tmops/ directory
+.tmops/
+
 # IDE and Editor files
 .vscode/
 .idea/
@@ -134,6 +137,7 @@ credentials.json
 docs/_build/
 docs/site/
 .docusaurus/
+.docs/
 
 # Package managers
 .npm/
