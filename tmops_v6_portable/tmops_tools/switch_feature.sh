@@ -50,6 +50,18 @@ else
 fi
 
 echo ""
+echo "📚 Documentation:"
+if [[ -d "../.tmops/$FEATURE/docs" ]]; then
+    INTERNAL_COUNT=$(find "../.tmops/$FEATURE/docs/internal" -type f 2>/dev/null | wc -l)
+    EXTERNAL_COUNT=$(find "../.tmops/$FEATURE/docs/external" -type f 2>/dev/null | wc -l)
+    echo "  ✓ Docs directory exists"
+    echo "    └─ Internal docs: $INTERNAL_COUNT files"
+    echo "    └─ External docs: $EXTERNAL_COUNT files"
+else
+    echo "  ✗ Docs directory not found"
+fi
+
+echo ""
 echo "📂 TeamOps Directory:"
 if [[ -d "../.tmops/$FEATURE" ]]; then
     echo "  ✓ ../.tmops/$FEATURE exists"
