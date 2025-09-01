@@ -7,7 +7,7 @@
 .tmops/
 
 # Temporary - templates under development
-tmops_v6_portable/templates/
+# tmops_v6_portable/templates/
 
 # IDE and Editor files
 .vscode/

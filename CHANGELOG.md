@@ -5,6 +5,41 @@ All notable changes to the TeamOps Framework will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.3.0] - 2025-09-01
+
+### Added
+- **Comprehensive Template System**: Created 8 AI-ready markdown templates for complete development workflow
+  - `00_research_template.md` - Prior art and feasibility analysis
+  - `01_plan_template.md` - Strategic planning and resource allocation
+  - `02_discovery_template.md` - Codebase analysis and gap identification
+  - `03_proposal_template.md` - Solution design with alternatives
+  - `04_implementation_template.md` - Change documentation and verification
+  - `05_task_spec_template.md` - Detailed task specifications (existing, enhanced)
+  - `06_summary_template.md` - Project retrospectives and ROI analysis
+  - `07_review_template.md` - Final acceptance and go/no-go decisions
+- **Documentation Structure**: New `docs/internal/` and `docs/external/` folders for each feature
+  - Internal folder for AI-generated documentation
+  - External folder for human-created documentation
+- **Enhanced Script Features**:
+  - `init_feature_multi.sh` now creates docs directories automatically
+  - `list_features.sh` displays documentation file counts
+  - `switch_feature.sh` shows internal/external docs status
+
+### Changed
+- **Documentation Organization**: Reorganized project documentation structure
+  - Moved historical documentation to `.docs/` directory
+  - Created `tmops_v6_portable/templates/` for all template files
+  - Removed example files from `tmops_v6_portable/` root
+- **Script Improvements**:
+  - Updated all tmops_tools scripts to support new docs structure
+  - `cleanup_safe.sh` properly handles new documentation folders
+
+### Fixed
+- **GitIgnore Updates**: Properly configured ignore patterns
+  - `.tmops/` directory remains private for development
+  - `.docs/` directory for historical documentation
+  - Templates directory now tracked in git
+
 ## [6.2.2] - 2025-08-22
 
 ### Changed

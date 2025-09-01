@@ -4,12 +4,14 @@
 
 TeamOps is a sophisticated orchestration protocol that coordinates multiple Claude AI instances to work collaboratively on software development tasks. By dividing responsibilities across specialized instances and using a checkpoint-based communication system, TeamOps enables parallel, conflict-free development with built-in quality gates.
 
-**Version 6.0.0** introduces manual orchestration for 100% reliability with human-coordinated handoffs between instances.
+**Version 6.3.0** introduces comprehensive AI-ready templates and enhanced documentation structure for complete development workflows.
 
 ## 🎯 Key Features
 
 - **4-Instance Architecture**: Specialized roles for Orchestrator, Tester, Implementer, and Verifier
-- **Manual Orchestration** (v6.0.0): Human-coordinated handoffs for 100% reliability
+- **AI-Ready Templates**: 8 comprehensive markdown templates for complete development workflow
+- **Documentation Structure**: Organized docs/internal and docs/external folders per feature
+- **Manual Orchestration**: Human-coordinated handoffs for 100% reliability
 - **Checkpoint-Based Communication**: Filesystem-based protocol for inter-instance coordination
 - **Test-Driven Development**: Built-in TDD workflow with automated test creation
 - **Automated Setup**: One-command feature initialization with `tmops_tools`
@@ -84,12 +86,13 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
 
 2. **Initialize your feature**
    ```bash
-   ./tmops_tools/init_feature_v6.sh my-feature initial
+   ./tmops_v6_portable/tmops_tools/init_feature_multi.sh my-feature
    ```
    This command:
-   - Creates `.tmops/` directory structure
-   - Creates feature branch
-   - Generates TASK_SPEC template
+   - Creates `.tmops/my-feature/` directory structure
+   - Creates `docs/internal/` and `docs/external/` folders
+   - Creates feature branch `feature/my-feature`
+   - Generates TASK_SPEC.md template
    - Initializes checkpoint and logging directories
 
 3. **Edit Task Specification**
@@ -204,9 +207,30 @@ Human review points ensure quality at critical phases:
 
 ## 📚 Documentation
 
-### Version 6.0.0 Documentation (Current)
-- [Manual Orchestration Guide](docs/tmops_docs_v6/tmops_claude_code.md) - Complete v6 manual process
-- [Migration from v5](docs/tmops_docs_v6/MIGRATION_FROM_V5.md) - Upgrade guide
+### Templates (v6.3.0)
+
+The framework includes 8 AI-ready markdown templates for complete development workflows:
+
+1. **Research** (`00_research_template.md`) - Prior art analysis and feasibility studies
+2. **Planning** (`01_plan_template.md`) - Strategic approach and resource allocation
+3. **Discovery** (`02_discovery_template.md`) - Codebase analysis and gap identification
+4. **Proposal** (`03_proposal_template.md`) - Solution design with alternatives
+5. **Implementation** (`04_implementation_template.md`) - Change documentation and verification
+6. **Task Specification** (`05_task_spec_template.md`) - Detailed requirements and acceptance criteria
+7. **Summary** (`06_summary_template.md`) - Project retrospectives and ROI analysis
+8. **Review** (`07_review_template.md`) - Final acceptance and go/no-go decisions
+
+Templates are located in `tmops_v6_portable/templates/` and support complexity profiles (lite/standard/deep).
+
+### Documentation Structure
+
+Each feature maintains its own documentation:
+- `.tmops/<feature>/docs/internal/` - AI-generated documentation
+- `.tmops/<feature>/docs/external/` - Human-created documentation
+
+### Core Documentation
+- [Manual Orchestration Guide](tmops_v6_portable/docs/tmops_docs_v6/tmops_claude_code.md) - Complete v6 manual process
+- [Instance Instructions](tmops_v6_portable/instance_instructions/) - Role-specific guides for each instance
 
 ### Legacy Documentation
 - Previous versions archived in `.archive/` directory
@@ -282,17 +306,27 @@ TeamOps embodies the principle that complex software development benefits from s
 
 Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
 
+## 🛠️ TeamOps Tools
+
+The `tmops_v6_portable/tmops_tools/` directory contains essential utilities:
+
+- **`init_feature_multi.sh`** - Initialize new features with complete directory structure
+- **`cleanup_safe.sh`** - Safely clean up features with backups and archiving
+- **`list_features.sh`** - List all features with documentation counts
+- **`switch_feature.sh`** - Display feature status and switch guidance
+- **`extract_metrics.py`** - Extract performance and quality metrics
+- **`monitor_checkpoints.py`** - Monitor checkpoint creation with logging
+
 ---
 
-**Version:** 6.0.0 (Stable) | v7.0 (Experimental) | **Status:** Active Development | **Last Updated:** January 2025
+**Version:** 6.3.0 (Stable) | **Status:** Active Development | **Last Updated:** September 2025
 
-### What's New in v6.0.0
-- **Manual Orchestration**: Human-coordinated handoffs for 100% reliability
-- **No Polling**: Eliminated all automated polling and timeout issues
-- **Clear Communication**: Explicit status messages from each instance
-- **Simplified Control**: Direct human control over workflow progression
-- **Enhanced Debugging**: Easier to troubleshoot with manual coordination
-- **Maintained Features**: All v5 logging, metrics, and multi-run support retained
+### What's New in v6.3.0
+- **AI-Ready Templates**: 8 comprehensive markdown templates for complete workflow
+- **Documentation Structure**: New docs/internal and docs/external folders per feature
+- **Enhanced Scripts**: Updated tmops_tools to support new documentation structure
+- **Template System**: From research to review, complete development lifecycle coverage
+- **Improved Organization**: Historical docs moved to .docs/, templates in dedicated directory
 
 ## 🔬 Version 7.0: Archived for Refactoring
 
