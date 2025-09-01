@@ -54,6 +54,7 @@ FEATURE_DIR="$TMOPS_DIR/$FEATURE"
 RUN_DIR="$FEATURE_DIR/runs/$RUN_TYPE"
 
 mkdir -p "$RUN_DIR"/{checkpoints,logs}
+mkdir -p "$FEATURE_DIR/docs"/{internal,external}
 
 # Generate TASK_SPEC.md if it doesn't exist
 if [[ ! -f "$RUN_DIR/TASK_SPEC.md" ]]; then

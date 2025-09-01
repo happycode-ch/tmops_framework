@@ -78,12 +78,17 @@ git checkout main
 your-project/                    # Root project directory
 ├── .tmops/                      # TeamOps artifacts (created here)
 │   ├── <feature>/              # Per-feature data
+│   │   ├── docs/               # Feature documentation
+│   │   │   ├── internal/      # AI-generated docs
+│   │   │   └── external/      # Human-created docs
 │   └── FEATURES.txt            # Active features list
 ├── src/                         # Your implementation goes here
 ├── test/                        # Your tests go here
 ├── tmops_v6_portable/           # TeamOps tools
-│   ├── tmops_tools/            # Scripts
-│   └── instance_instructions/  # Role instructions
+│   ├── tmops_tools/            # Utility scripts
+│   ├── instance_instructions/  # Role instructions
+│   ├── templates/              # AI-ready markdown templates
+│   └── docs/                   # Core documentation
 └── [Claude instances work here] # All 4 instances in root
 ```
 
@@ -146,6 +151,25 @@ cd tmops_v6_portable
 # 3. Launch instances in root directory and coordinate
 cd ..  # Go to project root
 ```
+
+## 📄 AI-Ready Templates
+
+The `templates/` directory contains 8 comprehensive markdown templates for the complete development lifecycle:
+
+- **00_research_template.md** - Prior art analysis and feasibility studies
+- **01_plan_template.md** - Strategic planning and resource allocation  
+- **02_discovery_template.md** - Codebase analysis and gap identification
+- **03_proposal_template.md** - Solution design with alternatives
+- **04_implementation_template.md** - Change documentation and verification
+- **05_task_spec_template.md** - Detailed requirements and acceptance criteria
+- **06_summary_template.md** - Project retrospectives and ROI analysis
+- **07_review_template.md** - Final acceptance and go/no-go decisions
+
+Each template includes:
+- Embedded AI instructions for autonomous completion
+- Complexity profiles (lite/standard/deep) 
+- Evidence requirements and validation criteria
+- Integration points with other templates
 
 ## 🔧 Troubleshooting
 

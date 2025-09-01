@@ -40,6 +40,14 @@ while IFS=: read -r feature status timestamp branch_info; do
         CHECKPOINT_COUNT=$(ls ".tmops/$feature/runs/current/checkpoints" 2>/dev/null | wc -l)
     fi
     echo "    └─ Checkpoints: $CHECKPOINT_COUNT"
+    
+    # Check for docs
+    DOCS_COUNT=0
+    if [[ -d ".tmops/$feature/docs" ]]; then
+        DOCS_COUNT=$(find ".tmops/$feature/docs" -type f -name "*.md" 2>/dev/null | wc -l)
+        echo "    └─ Documentation: $DOCS_COUNT files"
+    fi
+    
     echo "    └─ Created: $(echo $timestamp | cut -d'T' -f1)"
     
 done < .tmops/FEATURES.txt
