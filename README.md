@@ -229,6 +229,7 @@ Each feature maintains its own documentation:
 - `.tmops/<feature>/docs/external/` - Human-created documentation
 
 ### Core Documentation
+- [CLAUDE.md](tmops_v6_portable/CLAUDE.md) - Framework context and guidance for Claude Code
 - [Manual Orchestration Guide](tmops_v6_portable/docs/tmops_docs_v6/tmops_claude_code.md) - Complete v6 manual process
 - [Instance Instructions](tmops_v6_portable/instance_instructions/) - Role-specific guides for each instance
 

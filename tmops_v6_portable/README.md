@@ -129,6 +129,7 @@ You act as the conductor, managing the sequential workflow between instances:
 
 ## 📚 Documentation
 
+- `CLAUDE.md` - Framework context and guidance for Claude Code instances
 - `instance_instructions/` - Role prompts for each instance (paste these into Claude)
 - `development_report/REPORT.md` - System architecture and implementation details
 - `docs/tmops_docs_v6/` - Advanced documentation

@@ -5,6 +5,15 @@ All notable changes to the TeamOps Framework will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.3.1] - 2025-09-01
+
+### Added
+- **CLAUDE.md Framework Context File**: Comprehensive context file for Claude Code instances
+  - Framework-specific guidance and best practices
+  - Complete command reference and workflows
+  - Orchestration protocol documentation
+  - TDD enforcement and architectural patterns
+
 ## [6.3.0] - 2025-09-01
 
 ### Added
