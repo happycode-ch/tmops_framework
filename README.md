@@ -67,7 +67,7 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
    - Assesses security and performance
    - Provides improvement recommendations
 
-## 🚀 Quick Start (v6.0.0 - Manual Orchestration)
+## 🚀 Quick Start (v6 - Manual Orchestration)
 
 ### Prerequisites
 
@@ -144,7 +144,7 @@ The `tmops_tools/` directory contains essential scripts for the TeamOps workflow
   ./tmops_tools/monitor_checkpoints.py <feature-name>
   ```
 
-## 📁 Project Structure (v6.0.0)
+## 📁 Project Structure (v6)
 
 ### TeamOps Orchestration Files
 ```
