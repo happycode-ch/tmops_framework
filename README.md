@@ -178,28 +178,28 @@ tmops introduces comprehensive AI-ready templates and enhanced documentation str
    ```
    This removes branches and `.tmops/` artifacts.
 
-## 🛠️ Available Tools
+## 🛠️ Tools
 
-The `tmops_tools/` directory contains essential scripts for the tmops workflow:
+Essential scripts for the tmops workflow:
 
-- **`init_feature_v6.sh`** - Initialize a new feature with directory structure
+- **`init_feature_multi.sh`** - Initialize new features with complete directory structure
   ```bash
-  ./tmops_tools/init_feature_v6.sh <feature-name> [initial|patch]
+  ./tmops_v6_portable/tmops_tools/init_feature_multi.sh <feature-name>
   ```
 
-- **`cleanup_feature.sh`** - Clean up after feature completion (removes branches, artifacts)
+- **`cleanup_safe.sh`** - Safely clean up features with backups and archiving
   ```bash
-  ./tmops_tools/cleanup_feature.sh <feature-name>
+  ./tmops_v6_portable/tmops_tools/cleanup_safe.sh <feature-name>
   ```
 
-- **`extract_metrics.py`** - Extract performance metrics and generate reports
+- **`extract_metrics.py`** - Extract performance and quality metrics
   ```bash
-  ./tmops_tools/extract_metrics.py <feature-name> --format report
+  ./tmops_v6_portable/tmops_tools/extract_metrics.py <feature-name> --format report
   ```
 
-- **`monitor_checkpoints.py`** - Monitor checkpoint creation
+- **`monitor_checkpoints.py`** - Monitor checkpoint creation with logging
   ```bash
-  ./tmops_tools/monitor_checkpoints.py <feature-name>
+  ./tmops_v6_portable/tmops_tools/monitor_checkpoints.py <feature-name>
   ```
 
 ## 📁 Project Structure
@@ -226,15 +226,6 @@ The `tmops_tools/` directory contains essential scripts for the tmops workflow:
         └── current -> 001-initial # Symlink to active run
 ```
 
-### tmops_tools Directory
-```
-tmops_tools/
-├── init_feature_v6.sh     # Feature initialization
-├── cleanup_feature.sh     # Complete cleanup after feature
-├── extract_metrics.py     # Metrics extraction and reporting
-├── monitor_checkpoints.py # Optional checkpoint monitoring
-└── templates/             # Checkpoint templates
-```
 
 ### Where Code Actually Goes
 - **Tests**: `test/` or `tests/` in your project (NOT in .tmops)
@@ -371,16 +362,6 @@ tmops embodies the principle that complex software development benefits from spe
 
 Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
 
-## 🛠️ tmops Tools
-
-The `tmops_v6_portable/tmops_tools/` directory contains essential utilities:
-
-- **`init_feature_multi.sh`** - Initialize new features with complete directory structure
-- **`cleanup_safe.sh`** - Safely clean up features with backups and archiving
-- **`list_features.sh`** - List all features with documentation counts
-- **`switch_feature.sh`** - Display feature status and switch guidance
-- **`extract_metrics.py`** - Extract performance and quality metrics
-- **`monitor_checkpoints.py`** - Monitor checkpoint creation with logging
 
 ---
 
