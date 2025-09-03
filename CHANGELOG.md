@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [6.4.0] - 2025-09-03
 
 ### Added
+- **Project-Level CLAUDE.md**: Comprehensive development context file for Claude Code interactions
+  - Development-focused guidance for framework development vs framework usage
+  - Practical commands based on actual workflow patterns from settings.local.json
+  - Shell scripting conventions with mandatory shellcheck requirements
+  - Git workflow procedures and changelog management guidance
+  - Quality gates and pre-commit checklist for framework development
 - **Preflight Workflow System**: 7-instance workflow for complex features requiring specification refinement
   - **Sequential Scripts Architecture**: Separate `init_preflight.sh` for 3-instance preflight workflow
   - **Smart Handoff System**: Automatic detection of preflight-refined specifications in main workflow
