@@ -46,7 +46,7 @@ tmops embodies the principle that complex software development benefits from spe
 
 - **Clarity**: Each instance has a single, well-defined responsibility
 - **Quality**: Multiple review points ensure high standards
-- **Efficiency**: Parallel execution without conflicts
+- **Efficiency**: Sequential, specialized execution with clear handoff protocols
 - **Traceability**: Complete audit trail via checkpoints
 
 ### Why Separate Instances Over Subagents?
