@@ -13,7 +13,7 @@
 
 ## Multi-Instance AI Orchestration Workflow
 
-tmops (TeamOps) is a sophisticated orchestration protocol that coordinates multiple Claude AI instances to work collaboratively on software development tasks. By dividing responsibilities across specialized instances and using a checkpoint-based communication system, tmops enables parallel, conflict-free development with built-in quality gates.
+TeamOps or tmops (as I refer to it) is a sophisticated orchestration protocol that coordinates multiple Claude AI instances to work collaboratively on software development tasks. By dividing responsibilities across specialized instances and using a checkpoint-based communication system, tmops enables parallel, conflict-free development with built-in quality gates.
 
 tmops introduces comprehensive AI-ready templates and enhanced documentation structure for complete development workflows.
 
