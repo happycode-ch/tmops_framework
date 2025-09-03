@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/templates/06_summary_template.md
+🎯 PURPOSE: Template for project retrospectives with AI instructions for outcomes analysis, metrics, and lessons learned
+🤖 AI-HINT: Use for project completion documentation with structured methodology for retrospective analysis
+🔗 DEPENDENCIES: Project results, metrics data, retrospective workflow
+📝 CONTEXT: Part of template library for standardized project summary documentation with AI-ready analysis structure
+-->
+
 ---
 # Project Summary Template - AI-Ready Retrospective Analysis
 # Version: 1.0.0

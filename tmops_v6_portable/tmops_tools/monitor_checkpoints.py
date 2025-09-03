@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/tmops_tools/monitor_checkpoints.py
+🎯 PURPOSE: Checkpoint monitoring utility with exponential backoff and logging for TeamOps workflow coordination
+🤖 AI-HINT: Use to monitor TeamOps checkpoint files during workflow execution with configurable polling and logging
+🔗 DEPENDENCIES: checkpoint files, pathlib, JSON, argparse, datetime
+📝 CONTEXT: Part of TeamOps coordination system for monitoring workflow progress and managing instance communication
+-->
 # tmops_tools/monitor_checkpoints.py
 # Checkpoint monitoring with exponential backoff and logging
 

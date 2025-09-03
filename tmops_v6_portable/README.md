@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops_v6_portable/README.md
+🎯 PURPOSE: User-facing documentation for portable TeamOps framework
+🤖 AI-HINT: Getting started guide for new users - explains setup and basic workflow usage
+🔗 DEPENDENCIES: CLAUDE.md, INSTALL.sh, tmops_tools/
+📝 CONTEXT: Standalone framework README that ships with framework installations
+-->
+
 # TeamOps Framework - Simplified Edition
 
 **Quick setup → Rapid feature delivery**

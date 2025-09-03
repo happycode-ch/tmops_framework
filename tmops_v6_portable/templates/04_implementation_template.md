@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/templates/04_implementation_template.md
+🎯 PURPOSE: Template for implementation documentation with AI instructions for change tracking, testing, and performance impact
+🤖 AI-HINT: Use for implementation phase documentation with structured methodology for code changes and testing
+🔗 DEPENDENCIES: Solution proposals, implementation workflow, testing results
+📝 CONTEXT: Part of template library for standardized implementation documentation with AI-ready change tracking
+-->
+
 ---
 # Implementation Report Template - AI-Ready Change Documentation
 # Version: 1.0.0

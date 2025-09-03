@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/instance_instructions/03_preflight_analyzer.md
+🎯 PURPOSE: Preflight analyzer instance instructions for deep technical analysis and implementation planning (2/3) in specification refinement
+🤖 AI-HINT: Copy-paste when acting as preflight analyzer to perform technical architecture analysis and implementation planning
+🔗 DEPENDENCIES: preflight research report, preflight specifier instance, implementation analysis templates
+📝 CONTEXT: Second phase of 3-instance preflight workflow focusing on technical design and planning based on research findings
+-->
+
 # TeamOps - PREFLIGHT ANALYZER Instructions
 
 **IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**

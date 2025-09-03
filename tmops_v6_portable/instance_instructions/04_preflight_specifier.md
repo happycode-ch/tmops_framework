@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/instance_instructions/04_preflight_specifier.md
+🎯 PURPOSE: Preflight specifier instance instructions for creating refined task specifications (3/3) with rejection authority
+🤖 AI-HINT: Copy-paste when acting as preflight specifier to create comprehensive implementation-ready specifications
+🔗 DEPENDENCIES: research report, analysis document, main 4-instance workflow handoff
+📝 CONTEXT: Final phase of 3-instance preflight workflow creating refined specifications for main development workflow
+-->
+
 # TeamOps - PREFLIGHT SPECIFIER Instructions
 
 **IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**

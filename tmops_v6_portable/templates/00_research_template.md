@@ -1,3 +1,11 @@
+<!--
+ðŸ“ FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/templates/00_research_template.md
+ðŸŽ¯ PURPOSE: Template for systematic research reports with AI instructions for prior art analysis and technical feasibility
+ðŸ¤– AI-HINT: Use as starting point for research phase documentation with structured methodology and source tracking
+ðŸ”— DEPENDENCIES: Research workflow, preflight researcher instance, discovery phase
+ðŸ“ CONTEXT: Part of template library for standardized research documentation with AI-ready instructions
+-->
+
 ---
 # Research Report Template - AI-Ready Prior Art Analysis
 # Version: 1.0.0
@@ -287,9 +295,9 @@ graph LR
 3. [ ] Consult domain expert on [specific area]
 
 ### Feed Into Next Phase
-- **’ PLAN**: Use cost/timeline estimates
-- **’ DISCOVERY**: Focus on gap areas
-- **’ PROPOSAL**: Base solution on recommendations
+- **ï¿½ PLAN**: Use cost/timeline estimates
+- **ï¿½ DISCOVERY**: Focus on gap areas
+- **ï¿½ PROPOSAL**: Base solution on recommendations
 
 ---
 

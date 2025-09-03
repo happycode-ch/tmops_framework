@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/instance_instructions/01_orchestrator.md
+🎯 PURPOSE: Orchestrator instance instructions for coordinating TeamOps v6 manual workflow between 3 other instances
+🤖 AI-HINT: Copy-paste entire document into Claude Code when acting as orchestrator to manage feature development workflow
+🔗 DEPENDENCIES: TASK_SPEC.md, checkpoint files, tester/implementer/verifier instances
+📝 CONTEXT: Single-branch workflow with manual coordination, creates triggers and tracks progress
+-->
+
 # TeamOps - ORCHESTRATOR Instructions
 
 **IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**

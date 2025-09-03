@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/docs/tmops_docs_v6/tmops_claude_code.md
+🎯 PURPOSE: Instance role definitions and workflow guide for 4-instance TeamOps v6 manual orchestration system
+🤖 AI-HINT: Defines specific roles for orchestrator, tester, implementer, verifier instances with manual coordination
+🔗 DEPENDENCIES: tmops_claude_chat.md, instance_instructions/, tmops_tools/, git worktrees
+📝 CONTEXT: Core v6 manual system where human coordinates between specialized instances, no automated polling
+-->
+
 # TeamOps Framework for Claude Code CLI - Manual Orchestration Edition
 **Version:** 6.0.0-manual  
 **Path:** `docs/tmops_docs_v6/tmops_claude_code.md`  

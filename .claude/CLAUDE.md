@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/.claude/CLAUDE.md
+🎯 PURPOSE: Development context and workflow guide for tmops framework
+🤖 AI-HINT: Read this first when working on framework development - contains commands, patterns, and quality gates
+🔗 DEPENDENCIES: tmops_tools/, tmops_v6_portable/, shellcheck, npm
+📝 CONTEXT: Project uses recursive development (framework develops itself)
+-->
+
 # TeamOps Framework Development
 
 ## Project Overview

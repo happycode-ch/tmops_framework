@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/instance_instructions/03_implementer.md
+🎯 PURPOSE: Implementer instance instructions for writing feature code to make all tests pass in TeamOps v6
+🤖 AI-HINT: Copy-paste when acting as implementer to write implementation code based on existing failing tests
+🔗 DEPENDENCIES: 004-impl-trigger.md, test files, project src directory, verifier instance
+📝 CONTEXT: Third phase of 4-instance workflow, makes tester's failing tests pass through implementation
+-->
+
 # TeamOps - IMPLEMENTER Instructions
 
 **IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**

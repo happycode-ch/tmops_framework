@@ -1,4 +1,11 @@
 #!/bin/bash
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/tmops_tools/init_feature_multi.sh
+🎯 PURPOSE: Multi-feature initialization script for TeamOps v6.1 supporting concurrent feature development
+🤖 AI-HINT: Use to initialize new TeamOps features with directory structure, git branches, and multi-run support
+🔗 DEPENDENCIES: git, lib/common.sh, TeamOps directory structure, TASK_SPEC template
+📝 CONTEXT: Core initialization script supporting multiple simultaneous features with branch management and workspace setup
+-->
 # TeamOps v6.1 - Multi-feature initialization
 # Can run multiple features simultaneously
 

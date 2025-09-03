@@ -1,4 +1,11 @@
 #!/bin/bash
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/tmops_tools/cleanup_safe.sh
+🎯 PURPOSE: Safe feature cleanup script with two-tier safety system to remove TeamOps artifacts and branches
+🤖 AI-HINT: Use for cleaning up TeamOps features with safety checks - supports safe mode and full mode
+🔗 DEPENDENCIES: git, TeamOps directory structure, lib/common.sh
+📝 CONTEXT: Replaces dangerous cleanup scripts with extensive safety checks and confirmation prompts
+-->
 # SAFE cleanup - two-tier system with extensive safety checks
 # Replaces dangerous cleanup_feature.sh
 

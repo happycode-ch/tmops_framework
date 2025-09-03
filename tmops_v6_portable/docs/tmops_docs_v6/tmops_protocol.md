@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops_v6_portable/docs/tmops_docs_v6/tmops_protocol.md
+🎯 PURPOSE: Technical specification for TeamOps orchestration protocol and architecture
+🤖 AI-HINT: Definitive reference for framework architecture, instance roles, and coordination patterns
+🔗 DEPENDENCIES: tmops_claude_chat.md, tmops_claude_code.md, instance_instructions/
+📝 CONTEXT: Core protocol documentation for 4-instance and 7-instance workflows
+-->
+
 # TeamOps Orchestration Protocol - 4-Instance Architecture
 **Version:** 6.0.0-manual  
 **Purpose:** Definitive technical specification for TeamOps Framework  
