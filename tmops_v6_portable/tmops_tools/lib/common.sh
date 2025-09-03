@@ -42,9 +42,14 @@ validate_feature_name() {
 
 # Get project paths (consistent with existing scripts)
 get_project_paths() {
-    local script_dir
-    script_dir="$(cd "$(dirname "${BASH_SOURCE[1]}")" && pwd)"
-    PORTABLE_DIR="$(cd "$script_dir/.." && pwd)"
+    # Get the directory containing this common.sh file (tmops_tools/lib/)
+    local common_script_dir
+    common_script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    
+    # Navigate to portable directory (tmops_v6_portable)
+    PORTABLE_DIR="$(cd "$common_script_dir/../.." && pwd)"
+    
+    # Navigate to project root (parent of tmops_v6_portable) 
     PROJECT_ROOT="$(cd "$PORTABLE_DIR/.." && pwd)"
     TMOPS_DIR="$PROJECT_ROOT/.tmops"
     
