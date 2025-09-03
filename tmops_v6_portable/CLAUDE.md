@@ -1,15 +1,21 @@
 # TeamOps Framework v6 - Simplified Edition
 
 ## Framework Overview
-TeamOps is a Test-Driven Development orchestration framework that coordinates 4 Claude Code instances working sequentially to build features. This portable framework provides tools and templates for rapid, high-quality feature development using AI agents.
+TeamOps is a Test-Driven Development orchestration framework that coordinates Claude Code instances working sequentially to build features. This portable framework provides tools and templates for rapid, high-quality feature development using AI agents.
 
-**Purpose:** Enable efficient TDD workflows by orchestrating specialized AI instances through structured phases: Planning → Testing → Implementation → Verification.
+**Two Workflow Options:**
+- **Standard (4-instance):** Direct implementation for straightforward features
+- **Preflight (7-instance):** Research → Analysis → Specification → Implementation for complex features
+
+**Purpose:** Enable efficient TDD workflows by orchestrating specialized AI instances through structured phases, with optional preflight specification refinement for complex features.
 
 ## Critical Context for Claude
-- **You are working with a TDD orchestration framework** - All features follow strict test-first development
-- **Sequential workflow is mandatory** - Only one instance works at a time, in specific order
+- **Two workflow options available** - Choose standard (fast) or preflight (thorough) based on feature complexity
+- **Sequential workflow is mandatory** - Only one instance works at a time, in specific order  
+- **Preflight creates refined specifications** - 3-instance workflow that automatically hands off to main workflow
 - **Framework lives in tmops_v6_portable/** - But all work happens in parent project directory
 - **Artifacts go in parent .tmops/** - Never modify files in tmops_v6_portable itself
+- **Smart handoff system** - Main workflow auto-detects and uses preflight-refined specifications
 
 ## Tech Stack & Dependencies
 - **Shell Scripts:** Bash-based orchestration tools
@@ -21,12 +27,21 @@ TeamOps is a Test-Driven Development orchestration framework that coordinates 4 
 ```
 tmops_v6_portable/           # Framework directory (DO NOT MODIFY)
 ├── tmops_tools/            # Orchestration scripts
-│   ├── init_feature_multi.sh    # Start new features
+│   ├── init_feature_multi.sh    # Start standard workflow (auto-detects refined specs)
+│   ├── init_preflight.sh        # Start preflight workflow (3-instance refinement)
+│   ├── lib/                     # Shared function library
 │   ├── cleanup_safe.sh          # Clean up features
 │   ├── list_features.sh         # Show active features
 │   ├── switch_feature.sh        # Display feature info
 │   └── extract_metrics.py       # Performance analysis
-├── instance_instructions/   # Role definitions for each instance
+├── instance_instructions/   # Role definitions for all instances
+│   ├── 01_orchestrator.md       # Main workflow: Orchestrator
+│   ├── 02_tester.md             # Main workflow: Tester  
+│   ├── 03_implementer.md        # Main workflow: Implementer
+│   ├── 04_verifier.md           # Main workflow: Verifier
+│   ├── 02_preflight_researcher.md  # Preflight: Researcher
+│   ├── 03_preflight_analyzer.md    # Preflight: Analyzer
+│   └── 04_preflight_specifier.md   # Preflight: Specifier
 ├── templates/              # AI-ready markdown templates
 └── docs/                   # Framework documentation
 
@@ -43,16 +58,35 @@ test/                      # Tests go here
 
 ## Commands & Workflows
 
-### Starting a New Feature
+### Choosing Your Workflow
+
+#### Standard Workflow (Straightforward Features)
 ```bash
 # From tmops_v6_portable directory
 cd tmops_v6_portable
 ./tmops_tools/init_feature_multi.sh my-feature
 
 # This creates:
-# - Feature branch: feature/my-feature
-# - Task spec: ../.tmops/my-feature/docs/05_task_spec.md
+# - Feature branch: feature/my-feature  
+# - Basic task spec template
 # - Documentation folders: internal/ and external/
+# - Ready for 4-instance orchestration
+```
+
+#### Preflight Workflow (Complex Features)
+```bash
+# Step 1: Start preflight specification refinement
+cd tmops_v6_portable
+./tmops_tools/init_preflight.sh my-feature
+
+# Step 2: Run 3-instance preflight workflow
+# Researcher → Analyzer → Specifier (creates refined specification)
+
+# Step 3: Automatic handoff to main workflow
+./tmops_tools/init_feature_multi.sh my-feature
+# Auto-detects refined spec, skips template, ready for main orchestration
+
+# Result: 7-instance total workflow with comprehensive specification
 ```
 
 ### Managing Features
@@ -82,18 +116,55 @@ When working on implementation:
 
 ## Orchestration Protocol
 
-### Phase Sequence (STRICT ORDER)
+### Standard Workflow Phase Sequence (4-Instance)
 1. **Orchestrator** - Creates plan and coordinates phases
 2. **Tester** - Writes failing tests based on spec
 3. **Implementer** - Makes tests pass
 4. **Verifier** - Reviews quality and completeness
 
+### Preflight Workflow Phase Sequence (7-Instance) 
+**Preflight Phases (Specification Refinement):**
+1. **Preflight Researcher** - Investigates codebase patterns and technical context
+2. **Preflight Analyzer** - Performs deep technical analysis and implementation planning
+3. **Preflight Specifier** - Creates comprehensive, implementation-ready specification
+
+**Main Phases (Implementation - same as standard):**
+4. **Orchestrator** - Coordinates implementation using refined spec
+5. **Tester** - Writes failing tests based on refined spec
+6. **Implementer** - Makes tests pass
+7. **Verifier** - Reviews quality and completeness
+
 ### Checkpoint System
-Each phase creates a checkpoint file in `.tmops/[feature]/checkpoints/`:
+Each phase creates a checkpoint file in `.tmops/[feature]/runs/initial/checkpoints/`:
+
+**Standard Workflow Checkpoints:**
 - `orchestrator_ready.checkpoint` - Triggers Tester
-- `tester_complete.checkpoint` - Triggers Implementer
+- `tester_complete.checkpoint` - Triggers Implementer  
 - `implementer_complete.checkpoint` - Triggers Verifier
 - `verifier_complete.checkpoint` - Feature complete
+
+**Preflight Workflow Checkpoints:**
+- `preflight_research_complete.checkpoint` - Triggers Analyzer
+- `preflight_analysis_complete.checkpoint` - Triggers Specifier
+- `preflight_specification_complete.checkpoint` - Triggers handoff to main workflow
+- `preflight_specification_rejected.checkpoint` - Specification rejected, needs rework
+- *(Then standard workflow checkpoints as above)*
+
+### When to Choose Each Workflow
+
+**Use Standard Workflow When:**
+- ✅ Feature requirements are clear and well-understood
+- ✅ Implementation approach is straightforward  
+- ✅ Similar patterns already exist in the codebase
+- ✅ Low-medium complexity changes
+- ✅ Time-sensitive delivery needed
+
+**Use Preflight Workflow When:**
+- 🔬 Requirements need research and analysis
+- 🔬 Complex integrations or new patterns required
+- 🔬 High-risk or high-impact features
+- 🔬 Stakeholder alignment needed before implementation
+- 🔬 Learning new domain or technology
 
 ### Human Coordination Commands
 ```

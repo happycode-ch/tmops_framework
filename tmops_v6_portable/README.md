@@ -2,7 +2,11 @@
 
 **Quick setup → Rapid feature delivery**
 
-TeamOps orchestrates 4 Claude Code instances working sequentially to build features using Test-Driven Development.
+TeamOps orchestrates Claude Code instances working sequentially to build features using Test-Driven Development.
+
+**Two Workflows Available:**
+- **Standard (4-instance)**: Direct implementation for straightforward features
+- **Preflight (7-instance)**: Research → Analysis → Specification → Implementation for complex features
 
 **IMPORTANT: TeamOps creates `.tmops/` in your project root (parent of tmops_v6_portable)**
 
@@ -29,19 +33,38 @@ claude  # Terminal 4: Verifier
 
 ## 💡 Key Features
 
-- **Sequential Workflow** - Instances work one at a time in TDD sequence
+- **Dual Workflow Options** - Choose standard (fast) or preflight (thorough) approach
+- **Smart Handoff** - Preflight automatically feeds refined specs to main workflow
+- **Sequential Execution** - Instances work one at a time in clear sequence
 - **Simple Branches** - Just feature branches, no worktrees
 - **No Navigation Issues** - All instances work in root project directory  
 - **Fast Setup** - Initialize in seconds
 - **Full Orchestration** - Complete TDD workflow preserved
 - **Clean Separation** - Tools in tmops_v6_portable/, artifacts in root .tmops/
 
+## 🎯 Choosing Your Workflow
+
+### Use Standard Workflow (4-Instance) When:
+- ✅ Feature requirements are clear and well-understood
+- ✅ Implementation approach is straightforward  
+- ✅ Similar patterns already exist in the codebase
+- ✅ Low-medium complexity changes
+- ✅ Time-sensitive delivery needed
+
+### Use Preflight Workflow (7-Instance) When:
+- 🔬 Requirements need research and analysis
+- 🔬 Complex integrations or new patterns required
+- 🔬 High-risk or high-impact features
+- 🔬 Stakeholder alignment needed before implementation
+- 🔬 Learning new domain or technology
+
 ## 📝 Core Commands
 
+### Standard Workflow (4-Instance)
 ```bash
 # Feature Management (run from tmops_v6_portable directory)
 cd tmops_v6_portable
-./tmops_tools/init_feature_multi.sh <name>  # Start new feature
+./tmops_tools/init_feature_multi.sh <name>  # Start new feature (direct to implementation)
 ./tmops_tools/list_features.sh              # Show all features
 ./tmops_tools/switch_feature.sh <name>      # Show feature info
 
@@ -51,6 +74,20 @@ cd tmops_v6_portable
 
 # Metrics & Analysis
 ./tmops_tools/extract_metrics.py <name>     # Performance report
+```
+
+### Preflight Workflow (7-Instance for Complex Features)
+```bash
+# For complex features requiring detailed specification refinement:
+./tmops_tools/init_preflight.sh <name>      # Start 3-instance preflight workflow
+# → Research & Discovery → Implementation Analysis → Task Specification
+
+# After preflight completes, handoff to main workflow:
+./tmops_tools/init_feature_multi.sh <name>  # Auto-detects refined spec, skips template
+
+# Sequential flow:
+# Preflight: Researcher → Analyzer → Specifier → [Refined Specification]
+# Main: Orchestrator → Tester → Implementer → Verifier
 ```
 
 ## 🎯 Working on Multiple Features
@@ -86,17 +123,31 @@ your-project/                    # Root project directory
 ├── test/                        # Your tests go here
 ├── tmops_v6_portable/           # TeamOps tools
 │   ├── tmops_tools/            # Utility scripts
-│   ├── instance_instructions/  # Role instructions
+│   │   ├── init_feature_multi.sh   # Standard workflow
+│   │   ├── init_preflight.sh       # Preflight workflow  
+│   │   └── lib/                    # Shared functions
+│   ├── instance_instructions/  # Role instructions (01-04: main, 02-04_preflight: preflight)
 │   ├── templates/              # AI-ready markdown templates
 │   └── docs/                   # Core documentation
 └── [Claude instances work here] # All 4 instances in root
 ```
 
 ### Workflow Architecture
-- **Sequential Execution**: Orchestrator → Tester → Implementer → Verifier
+
+#### Standard Workflow (4-Instance)
+- **Execution**: Orchestrator → Tester → Implementer → Verifier
+- **Use Case**: Direct implementation with basic task specification
+
+#### Preflight Workflow (7-Instance)  
+- **Execution**: Researcher → Analyzer → Specifier → Orchestrator → Tester → Implementer → Verifier
+- **Use Case**: Complex features requiring specification refinement
+- **Smart Handoff**: Preflight creates refined spec, main workflow auto-detects and uses it
+
+#### Common Architecture
 - **Single Feature Branch**: `feature/<feature>` shared by all instances
-- **Checkpoint-Based Progress**: Each phase creates completion markers
+- **Checkpoint-Based Progress**: Each phase creates completion markers  
 - **No Complex Merging**: Linear development on one branch
+- **Unified Workspace**: All artifacts in `.tmops/<feature>/runs/initial/`
 
 ## 🤝 Sequential Coordination Flow
 
