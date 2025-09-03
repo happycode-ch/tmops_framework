@@ -288,8 +288,6 @@ Each feature maintains its own documentation:
 - [Manual Orchestration Guide](tmops_v6_portable/docs/tmops_docs_v6/tmops_claude_code.md) - Complete v6 manual process
 - [Instance Instructions](tmops_v6_portable/instance_instructions/) - Role-specific guides for each instance
 
-### Legacy Documentation
-- Previous versions archived in `.archive/` directory
 
 ## 🤝 Contributing
 
