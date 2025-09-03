@@ -49,6 +49,10 @@ tmops embodies the principle that complex software development benefits from spe
 - **Efficiency**: Parallel execution without conflicts
 - **Traceability**: Complete audit trail via checkpoints
 
+### Why Separate Instances Over Subagents?
+
+tmops deliberately uses separate Claude Code instances rather than subagents for two critical technical reasons. First, each subagent operates within Claude Code's 20,000 token response limit, which constrains the depth and complexity of outputs during intensive development phases like comprehensive test creation or detailed code reviews. Second, and more importantly, separate instances prevent *context contamination*—the gradual degradation that occurs when diverse conversational threads introduce noise into a shared context window. By maintaining isolated contexts, tmops ensures each specialized role (Orchestrator, Tester, Implementer, Verifier) operates with maximum clarity and focus, preventing the context degradation syndrome that can cause AI models to lose coherence over extended development sessions. This architectural choice prioritizes conversation quality and role-specific precision over convenience, resulting in more reliable and predictable AI-assisted development workflows.
+
 ## 🚀 Quick Start
 
 ### Prerequisites
