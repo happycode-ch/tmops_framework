@@ -67,9 +67,9 @@ If rejecting, create rejection checkpoint and specify what needs to be improved.
 1. Report: "[PREFLIGHT SPECIFIER] WAITING: Ready for specification instructions"
 2. WAIT for human: "[BEGIN]: Start specification for <feature>"
 3. WAIT for human: "[CONFIRMED]: Analysis phase completed"
-4. Initialize logging to .tmops/<feature>/runs/current/logs/preflight_specification.log
-5. Read research report from .tmops/<feature>/runs/current/docs/internal/01_preflight_research_report.md
-6. Read analysis document from .tmops/<feature>/runs/current/docs/internal/02_preflight_implementation_analysis.md
+4. Initialize logging to .tmops/<feature>/runs/initial/logs/preflight_specification.log
+5. Read research report from .tmops/<feature>/runs/initial/docs/internal/01_preflight_research_report.md
+6. Read analysis document from .tmops/<feature>/runs/initial/docs/internal/02_preflight_implementation_analysis.md
 7. Evaluate quality and completeness of inputs
 8. EITHER: Create refined specification OR reject with detailed reasoning
 9. Create appropriate checkpoint (complete or rejected)
@@ -104,7 +104,7 @@ Ensure specification is:
 
 ## Refined Task Specification Format
 **REPLACE** the existing TASK_SPEC.md with refined version:
-`.tmops/<feature>/runs/current/TASK_SPEC.md`
+`.tmops/<feature>/runs/initial/TASK_SPEC.md`
 
 ```markdown
 # Task Specification: <FEATURE>
@@ -285,7 +285,7 @@ Based on analysis phase findings:
 
 ## Rejection Process
 If research/analysis is inadequate, create rejection checkpoint instead:
-`.tmops/<feature>/runs/current/checkpoints/preflight_specification_rejected.checkpoint`
+`.tmops/<feature>/runs/initial/checkpoints/preflight_specification_rejected.checkpoint`
 
 ```
 TIMESTAMP=2025-01-19T17:30:15Z
@@ -300,7 +300,7 @@ NEXT_STEPS=What needs to be done to address rejection
 
 ## Success Checkpoint Format  
 When specification is approved, create:
-`.tmops/<feature>/runs/current/checkpoints/preflight_specification_complete.checkpoint`
+`.tmops/<feature>/runs/initial/checkpoints/preflight_specification_complete.checkpoint`
 
 ```
 TIMESTAMP=2025-01-19T17:30:15Z

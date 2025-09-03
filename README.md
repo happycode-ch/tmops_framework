@@ -66,7 +66,7 @@ tmops deliberately uses separate Claude Code instances rather than subagents for
 ### Prerequisites
 
 - Claude.ai account (for strategic planning)
-- Claude Code CLI access (4 terminals)
+- Claude Code CLI access (3-4 terminals)
 - Unix-like environment (Linux, macOS, or WSL)
 - Python 3.6+ (for metrics extraction)
 

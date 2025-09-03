@@ -13,6 +13,16 @@ All notable changes to the TeamOps Framework will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.4.1] - 2025-09-03
+
+### Fixed
+- **Path Ambiguity Bug**: Eliminated navigation delays in instance instructions
+  - Replaced symlink-dependent paths (`runs/current/`) with direct paths (`runs/initial/`)
+  - Updated all 7 instance instruction files (4 standard + 3 preflight workflow)
+  - Maintains backward compatibility while removing dependency on symlink indirection
+  - Resolves ~1 minute delays when instances navigate workspace directories
+  - PR: https://github.com/happycode-ch/tmops_framework/pull/12
+
 ## [6.4.0] - 2025-09-03
 
 ### Added

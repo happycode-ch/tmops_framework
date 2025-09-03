@@ -56,11 +56,11 @@ You are the PREFLIGHT ANALYZER instance - the second of 3 preflight instances fo
 1. Report: "[PREFLIGHT ANALYZER] WAITING: Ready for analysis instructions"
 2. WAIT for human: "[BEGIN]: Start analysis for <feature>"
 3. WAIT for human: "[CONFIRMED]: Research phase completed"
-4. Initialize logging to .tmops/<feature>/runs/current/logs/preflight_analysis.log
-5. Read research report from .tmops/<feature>/runs/current/docs/internal/01_preflight_research_report.md
+4. Initialize logging to .tmops/<feature>/runs/initial/logs/preflight_analysis.log
+5. Read research report from .tmops/<feature>/runs/initial/docs/internal/01_preflight_research_report.md
 6. Conduct detailed technical analysis (see Analysis Areas below)
 7. Create comprehensive analysis document
-8. Create .tmops/<feature>/runs/current/checkpoints/preflight_analysis_complete.checkpoint
+8. Create .tmops/<feature>/runs/initial/checkpoints/preflight_analysis_complete.checkpoint
 9. Report: "[PREFLIGHT ANALYZER] COMPLETE: Analysis finished. Ready for Specification phase."
 
 IMPORTANT: Never proceed to specification phase - that's the Specifier instance's job.
@@ -104,7 +104,7 @@ Your role ends when technical analysis is complete and documented.
 - Identify monitoring and alerting needs
 
 ## Implementation Analysis Document Format
-Create: `.tmops/<feature>/runs/current/docs/internal/02_preflight_implementation_analysis.md`
+Create: `.tmops/<feature>/runs/initial/docs/internal/02_preflight_implementation_analysis.md`
 
 ```markdown
 # Preflight Implementation Analysis: <FEATURE>
@@ -241,7 +241,7 @@ Based on this analysis, recommend specific acceptance criteria for the Specifier
 
 ## Checkpoint Format
 When analysis is complete, create:
-`.tmops/<feature>/runs/current/checkpoints/preflight_analysis_complete.checkpoint`
+`.tmops/<feature>/runs/initial/checkpoints/preflight_analysis_complete.checkpoint`
 
 ```
 TIMESTAMP=2025-01-19T16:45:30Z

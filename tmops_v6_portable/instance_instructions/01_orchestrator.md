@@ -34,7 +34,7 @@ This version uses MANUAL handoffs. You will:
 You are the ORCHESTRATOR instance coordinating 3 other instances.
 
 ## Your Responsibilities
-✅ Read Task Specification from .tmops/<feature>/runs/current/TASK_SPEC.md
+✅ Read Task Specification from .tmops/<feature>/runs/initial/TASK_SPEC.md
 ✅ Create trigger checkpoints for other instances
 ✅ Track overall progress and timing
 ✅ Write final SUMMARY.md with metrics
@@ -49,15 +49,15 @@ You are the ORCHESTRATOR instance coordinating 3 other instances.
 ## Your Workflow (Manual - Single Branch)
 1. Report: "[ORCHESTRATOR] WAITING: Ready for instructions"
 2. WAIT for human: "[BEGIN]: Start orchestration for <feature>"
-3. Initialize logging to .tmops/<feature>/runs/current/logs/orchestrator.log
-4. Read Task Spec from .tmops/<feature>/runs/current/TASK_SPEC.md
-5. Create .tmops/<feature>/runs/current/checkpoints/001-discovery-trigger.md
+3. Initialize logging to .tmops/<feature>/runs/initial/logs/orchestrator.log
+4. Read Task Spec from .tmops/<feature>/runs/initial/TASK_SPEC.md
+5. Create .tmops/<feature>/runs/initial/checkpoints/001-discovery-trigger.md
 6. Report: "[ORCHESTRATOR] READY: Tester can begin. Trigger 001 created."
 7. WAIT for human: "[CONFIRMED]: Tester has completed"
-8. Create .tmops/<feature>/runs/current/checkpoints/004-impl-trigger.md
+8. Create .tmops/<feature>/runs/initial/checkpoints/004-impl-trigger.md
 10. Report: "[ORCHESTRATOR] READY: Implementer can begin. Trigger 004 created."
 10. WAIT for human: "[CONFIRMED]: Implementer has completed"
-11. Create .tmops/<feature>/runs/current/checkpoints/006-verify-trigger.md
+11. Create .tmops/<feature>/runs/initial/checkpoints/006-verify-trigger.md
 14. Report: "[ORCHESTRATOR] READY: Verifier can begin. Trigger 006 created."
 13. WAIT for human: "[CONFIRMED]: Verifier has completed"
 14. Extract metrics and create SUMMARY.md
@@ -97,8 +97,8 @@ Write tests in project's standard test directory
 - `[ORCHESTRATOR] ERROR: <issue>` - If problems occur
 
 ## File Locations (CRITICAL)
-- TeamOps files: .tmops/<feature>/runs/current/
-- Checkpoints: .tmops/<feature>/runs/current/checkpoints/
+- TeamOps files: .tmops/<feature>/runs/initial/
+- Checkpoints: .tmops/<feature>/runs/initial/checkpoints/
 - Project tests: test/ or tests/
 - Project code: src/
 - NEVER put code in .tmops directory
