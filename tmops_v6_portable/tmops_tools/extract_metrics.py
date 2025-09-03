@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-<!--
-📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/tmops_tools/extract_metrics.py
-🎯 PURPOSE: Metrics extraction utility to analyze TeamOps checkpoint files and generate performance reports
-🤖 AI-HINT: Use to extract and analyze metrics from TeamOps workflow execution for performance monitoring
-🔗 DEPENDENCIES: checkpoint files, JSON output, argparse, pathlib
-📝 CONTEXT: Part of TeamOps metrics system for analyzing workflow performance and generating actionable insights
--->
+# 📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops_v6_portable/tmops_tools/extract_metrics.py
+# 🎯 PURPOSE: Metrics extraction utility to analyze TeamOps checkpoint files and generate performance reports
+# 🤖 AI-HINT: Use to extract and analyze metrics from TeamOps workflow execution for performance monitoring
+# 🔗 DEPENDENCIES: checkpoint files, JSON output, argparse, pathlib
+# 📝 CONTEXT: Part of TeamOps metrics system for analyzing workflow performance and generating actionable insights
 # tmops_tools/extract_metrics.py
 # Extract metrics from checkpoints and generate reports
 

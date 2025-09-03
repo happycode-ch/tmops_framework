@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
-<!--
-📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/tmops_tools/init_preflight.sh
-🎯 PURPOSE: Preflight initialization script for 3-instance specification refinement workflow (research, analysis, specification)
-🤖 AI-HINT: Use to initialize preflight workflow for comprehensive specification development before main TeamOps execution
-🔗 DEPENDENCIES: lib/common.sh, git, preflight instance instructions, preflight templates
-📝 CONTEXT: Separate 3-instance workflow for thorough specification refinement before 4-instance development workflow
--->
+# 📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops_v6_portable/tmops_tools/init_preflight.sh
+# 🎯 PURPOSE: Preflight initialization script for 3-instance specification refinement workflow (research, analysis, specification)
+# 🤖 AI-HINT: Use to initialize preflight workflow for comprehensive specification development before main TeamOps execution
+# 🔗 DEPENDENCIES: lib/common.sh, git, preflight instance instructions, preflight templates
+# 📝 CONTEXT: Separate 3-instance workflow for thorough specification refinement before 4-instance development workflow
 # TeamOps Preflight Initialization Script
 # Separate 3-instance workflow for specification refinement
 
