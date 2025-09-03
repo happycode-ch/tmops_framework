@@ -1,10 +1,21 @@
-# TeamOps Framework
+<div align="center">
+  <div style="background-color: #DC143C; color: white; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 24px; font-weight: bold; margin: 20px 0;">
+    <pre style="color: white; margin: 0; background: none;">
+████████╗███╗   ███╗ ██████╗ ██████╗ ███████╗
+╚══██╔══╝████╗ ████║██╔═══██╗██╔══██╗██╔════╝
+   ██║   ██╔████╔██║██║   ██║██████╔╝███████╗
+   ██║   ██║╚██╔╝██║██║   ██║██╔═══╝ ╚════██║
+   ██║   ██║ ╚═╝ ██║╚██████╔╝██║     ███████║
+   ╚═╝   ╚═╝     ╚═╝ ╚═════╝ ╚═╝     ╚══════╝
+    </pre>
+  </div>
+</div>
 
-## Multi-Instance AI Orchestration for Software Development
+## Multi-Instance AI Orchestration Workflow
 
-TeamOps is a sophisticated orchestration protocol that coordinates multiple Claude AI instances to work collaboratively on software development tasks. By dividing responsibilities across specialized instances and using a checkpoint-based communication system, TeamOps enables parallel, conflict-free development with built-in quality gates.
+tmops (TeamOps) is a sophisticated orchestration protocol that coordinates multiple Claude AI instances to work collaboratively on software development tasks. By dividing responsibilities across specialized instances and using a checkpoint-based communication system, tmops enables parallel, conflict-free development with built-in quality gates.
 
-**Version 6.3.0** introduces comprehensive AI-ready templates and enhanced documentation structure for complete development workflows.
+tmops introduces comprehensive AI-ready templates and enhanced documentation structure for complete development workflows.
 
 ## 🎯 Key Features
 
@@ -114,7 +125,7 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
    - Assesses security and performance
    - Provides improvement recommendations
 
-## 🚀 Quick Start (v6 - Manual Orchestration)
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -169,7 +180,7 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
 
 ## 🛠️ Available Tools
 
-The `tmops_tools/` directory contains essential scripts for the TeamOps workflow:
+The `tmops_tools/` directory contains essential scripts for the tmops workflow:
 
 - **`init_feature_v6.sh`** - Initialize a new feature with directory structure
   ```bash
@@ -186,14 +197,14 @@ The `tmops_tools/` directory contains essential scripts for the TeamOps workflow
   ./tmops_tools/extract_metrics.py <feature-name> --format report
   ```
 
-- **`monitor_checkpoints.py`** - Monitor checkpoint creation (optional for v6)
+- **`monitor_checkpoints.py`** - Monitor checkpoint creation
   ```bash
   ./tmops_tools/monitor_checkpoints.py <feature-name>
   ```
 
-## 📁 Project Structure (v6)
+## 📁 Project Structure
 
-### TeamOps Orchestration Files
+### tmops Orchestration Files
 ```
 .tmops/
 └── <feature>/
@@ -228,9 +239,9 @@ tmops_tools/
 ### Where Code Actually Goes
 - **Tests**: `test/` or `tests/` in your project (NOT in .tmops)
 - **Implementation**: `src/` in your project (NOT in .tmops)
-- **TeamOps artifacts**: `.tmops/<feature>/` only
+- **tmops artifacts**: `.tmops/<feature>/` only
 
-## 📋 Checkpoint Protocol (v6.0.0 Manual Coordination)
+## 📋 Checkpoint Protocol
 
 Instances communicate exclusively through checkpoint files using NNN-phase-status naming:
 
@@ -248,15 +259,21 @@ Instances communicate exclusively through checkpoint files using NNN-phase-statu
 
 Human review points ensure quality at critical phases:
 
-1. **After Test Writing** - Review test coverage and strategy
-2. **After Implementation** - Verify all tests pass
-3. **After Verification** - Final approval before merge
+### Preflight Workflow (7-Instance) Quality Gates
+1. **After Research** - Review codebase analysis and integration points
+2. **After Analysis** - Validate technical architecture and implementation approach
+3. **After Specification** - Approve comprehensive specification before main workflow handoff
+
+### Main Workflow Quality Gates
+4. **After Test Writing** - Review test coverage and strategy
+5. **After Implementation** - Verify all tests pass
+6. **After Verification** - Final approval before merge
 
 ## 📚 Documentation
 
-### Templates (v6.3.0)
+### Templates
 
-The framework includes 8 AI-ready markdown templates for complete development workflows:
+tmops includes 8 AI-ready markdown templates for complete development workflows:
 
 1. **Research** (`00_research_template.md`) - Prior art analysis and feasibility studies
 2. **Planning** (`01_plan_template.md`) - Strategic approach and resource allocation
@@ -289,7 +306,7 @@ We welcome contributions! Please:
 
 1. Fork the repository
 2. Create a feature branch
-3. Follow the TeamOps protocol for development
+3. Follow the tmops protocol for development
 4. Submit a pull request with clear documentation
 5. Maintain attribution per license requirements
 
@@ -297,8 +314,8 @@ We welcome contributions! Please:
 
 MIT License with Attribution Requirement - see [LICENSE](LICENSE) file.
 
-When using this framework, please include:
-> Based on TeamOps Framework by Anthony Calek (https://github.com/happycode-ch/tmops_framework)
+When using tmops, please include:
+> Based on tmops by Anthony Calek (https://github.com/happycode-ch/tmops_framework)
 
 ## 🎯 Use Cases
 
@@ -310,14 +327,14 @@ When using this framework, please include:
 
 ## 🚧 Roadmap
 
-### Completed in v6.0.0
+### Completed
 - [x] Manual orchestration for 100% reliability
 - [x] Human-coordinated handoffs between instances
 - [x] Elimination of polling and timeouts
 - [x] Clear status reporting from each instance
 - [x] Simplified debugging and control
 
-### Completed in v7.0 Exploration (Archived)
+### Archived Exploration
 - [x] Automated orchestration attempt with subagents and hooks
 - [x] Comprehensive analysis of Claude Code capabilities
 - [x] Gap analysis between expected and actual features
@@ -325,8 +342,8 @@ When using this framework, please include:
 - [x] Archived to .archive/ for reference and refactoring
 
 ### In Active Development
-- [ ] **Enhanced v6** - Integrating subagents and hooks into manual orchestration
-- [ ] **Version 8.0** - MCP Service implementation for full automation
+- [ ] **Enhanced Integration** - Integrating subagents and hooks into manual orchestration
+- [ ] **MCP Service** - Model Context Protocol implementation for full automation
 
 ### Future Enhancements
 - [ ] Visual dashboard for checkpoint flow
@@ -337,7 +354,7 @@ When using this framework, please include:
 
 ## 💡 Philosophy
 
-TeamOps embodies the principle that complex software development benefits from specialized, focused roles working in coordination. By separating concerns across instances and enforcing clear communication protocols, we achieve:
+tmops embodies the principle that complex software development benefits from specialized, focused roles working in coordination. By separating concerns across instances and enforcing clear communication protocols, we achieve:
 
 - **Clarity**: Each instance has a single, well-defined responsibility
 - **Quality**: Multiple review points ensure high standards
@@ -354,7 +371,7 @@ TeamOps embodies the principle that complex software development benefits from s
 
 Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
 
-## 🛠️ TeamOps Tools
+## 🛠️ tmops Tools
 
 The `tmops_v6_portable/tmops_tools/` directory contains essential utilities:
 
@@ -367,54 +384,12 @@ The `tmops_v6_portable/tmops_tools/` directory contains essential utilities:
 
 ---
 
-**Version:** 6.3.0 (Stable) | **Status:** Active Development | **Last Updated:** September 2025
+**Status:** Active Development | **Last Updated:** September 2025
 
-### What's New in v6.3.0
+### Latest Updates
 - **AI-Ready Templates**: 8 comprehensive markdown templates for complete workflow
 - **Documentation Structure**: New docs/internal and docs/external folders per feature
 - **Enhanced Scripts**: Updated tmops_tools to support new documentation structure
 - **Template System**: From research to review, complete development lifecycle coverage
 - **Improved Organization**: Historical docs moved to .docs/, templates in dedicated directory
 
-## 🔬 Version 7.0: Archived for Refactoring
-
-### Current Status: Archived (January 2025)
-
-TeamOps v7 explored **fully automated orchestration** using Claude Code's subagent and hook capabilities. After thorough testing and analysis, v7 has been **archived** to `.archive/` for refactoring. The implementation revealed important architectural insights that will guide future development.
-
-### What v7 Revealed
-
-Through extensive testing, we discovered critical gaps between expected and actual Claude Code capabilities:
-
-1. **Subagents as Templates, Not Instances**: Custom subagent types function as prompt templates rather than isolated instances
-2. **Hooks for Monitoring, Not Control**: Hooks provide feedback but cannot orchestrate workflow transitions
-3. **Advisory vs. Enforced Restrictions**: Tool restrictions remain suggestions rather than hard constraints
-
-### Development Roadmap
-
-#### Enhanced v6 (In Development)
-We are refactoring v7's valuable concepts into an **enhanced v6** that will:
-- Integrate subagent support within the manual orchestration framework
-- Implement hooks for monitoring and notifications (not control)
-- Maintain v6's reliability while adding v7's innovative features
-- Provide a stable bridge between manual control and future automation
-
-#### Version 8.0: MCP Service (Planning)
-The Model Context Protocol (MCP) represents the true path to automation:
-- **MCP Servers** will provide the missing orchestration layer
-- Dynamic tool availability based on workflow phase
-- Programmatic state management and transitions
-- True role enforcement through server-controlled permissions
-- Full automation without sacrificing reliability
-
-### Archive Contents
-
-All v7 materials have been preserved in `.archive/` for reference:
-- **tmops_docs_v7/** - Complete documentation and analysis reports
-- **tmops_tools_v7/** - Full implementation including hooks and agents
-- **hello_v7_feature/** - Working example with test results
-- **v7_archive_README.md** - Detailed archive documentation
-
-### Key Takeaway
-
-v7's exploration was invaluable in understanding the boundaries of current tooling and pointing toward better architectural solutions. Rather than forcing automation through unsupported features, we're taking a pragmatic approach: enhancing v6 with proven concepts while developing v8's MCP-based architecture for true automation.
