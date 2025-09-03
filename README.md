@@ -8,7 +8,7 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
 
 ## 🎯 Key Features
 
-- **4-Instance Architecture**: Specialized roles for Orchestrator, Tester, Implementer, and Verifier
+- **Dual Workflow Options**: Standard 4-instance or extended 7-instance preflight workflow
 - **AI-Ready Templates**: 8 comprehensive markdown templates for complete development workflow
 - **Documentation Structure**: Organized docs/internal and docs/external folders per feature
 - **Manual Orchestration**: Human-coordinated handoffs for 100% reliability
@@ -23,9 +23,10 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
 
 ## 🏗️ Architecture Overview
 
+### Standard Workflow (4-Instance)
 ```
 ┌─────────────────────────┐
-│    Claude Chat          │ → Strategic Planning & Task Specifications
+│    Claude Chat          │ → Basic Task Specification
 └────────────┬────────────┘
              │
     ┌────────▼────────┐
@@ -41,8 +42,54 @@ TeamOps is a sophisticated orchestration protocol that coordinates multiple Clau
 └────────────────────────────────────────┘
 ```
 
+### Preflight Workflow (7-Instance for Complex Features)
+```
+┌─────────────────────────┐
+│    Initial Concept      │ → High-level requirements
+└────────────┬────────────┘
+             │
+┌────────────▼───────────────────────────┐
+│     3 Preflight Instances              │
+│                                        │
+│  Researcher → Analyzer → Specifier     │
+│                            ↓           │
+└─────────────────────┬──────────────────┘
+                      │ 
+             ┌────────▼────────┐
+             │ Refined Spec.md │ → Comprehensive specification
+             └────────┬────────┘
+                      │
+┌────────────────────▼───────────────────┐
+│        4 Main Instances (auto-handoff) │
+│                                        │
+│  Orchestrator → Tester → Implementer   │
+│       ↑                      ↓         │
+│       └──────  Verifier  ◄───┘         │
+└────────────────────────────────────────┘
+```
+
 ### Instance Roles
 
+#### Preflight Instances (Optional - for Complex Features)
+1. **Preflight Researcher**
+   - Investigates existing codebase patterns
+   - Researches relevant libraries and frameworks
+   - Documents integration points and constraints
+   - Identifies technical risks and opportunities
+
+2. **Preflight Analyzer**
+   - Performs deep technical architecture analysis
+   - Designs implementation approach using discovered patterns
+   - Plans code organization and structure  
+   - Creates detailed technical specifications
+
+3. **Preflight Specifier**
+   - Reviews and validates research and analysis
+   - Creates comprehensive, implementation-ready task specification
+   - Has rejection authority if inputs are inadequate
+   - Ensures seamless handoff to main workflow
+
+#### Main Workflow Instances
 1. **Orchestrator**
    - Coordinates workflow between instances
    - Monitors progress and timing

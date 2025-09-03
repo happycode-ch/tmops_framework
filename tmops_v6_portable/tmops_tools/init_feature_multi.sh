@@ -56,8 +56,24 @@ RUN_DIR="$FEATURE_DIR/runs/$RUN_TYPE"
 mkdir -p "$RUN_DIR"/{checkpoints,logs}
 mkdir -p "$FEATURE_DIR/docs"/{internal,external}
 
-# Generate TASK_SPEC.md if it doesn't exist
-if [[ ! -f "$RUN_DIR/TASK_SPEC.md" ]]; then
+# Check for existing refined specification from preflight
+REFINED_SPEC_EXISTS=false
+if [[ -f "$RUN_DIR/TASK_SPEC.md" ]]; then
+    if grep -q "Created by preflight workflow\|Refined by preflight" "$RUN_DIR/TASK_SPEC.md" 2>/dev/null; then
+        REFINED_SPEC_EXISTS=true
+        echo "🎯 Using existing refined specification from preflight workflow"
+        echo "   Task specification already refined and ready for implementation"
+        echo ""
+    fi
+fi
+
+# Generate basic TASK_SPEC.md template only if no refined spec exists
+if [[ "$REFINED_SPEC_EXISTS" == "false" ]]; then
+    if [[ -f "$RUN_DIR/TASK_SPEC.md" ]]; then
+        echo "⚠️  Found basic task spec - will be replaced with template"
+        echo "   Consider using preflight workflow for complex features"
+        echo ""
+    fi
     cat > "$RUN_DIR/TASK_SPEC.md" << 'EOF'
 # Task Specification: FEATURE_NAME
 Version: 1.0.0
@@ -87,6 +103,11 @@ EOF
     sed -i "s/FEATURE_NAME/$FEATURE/g" "$RUN_DIR/TASK_SPEC.md"
     sed -i "s/DATE/$(date -I)/g" "$RUN_DIR/TASK_SPEC.md"
     echo "✓ Created TASK_SPEC.md template"
+    echo ""
+    echo "💡 For complex features, consider using preflight workflow:"
+    echo "   ./tmops_tools/init_preflight.sh $FEATURE"
+    echo "   (Research → Analysis → Specification → Main Workflow)"
+    echo ""
 fi
 
 # Create current symlink for this feature
