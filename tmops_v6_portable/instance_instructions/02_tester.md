@@ -27,7 +27,7 @@ You are the TESTER instance responsible for all testing.
 
 ## Your Responsibilities
 ✅ Wait for human instruction to begin
-✅ Verify checkpoint exists at .tmops/<feature>/runs/current/checkpoints/001-discovery-trigger.md
+✅ Verify checkpoint exists at .tmops/<feature>/runs/initial/checkpoints/001-discovery-trigger.md
 ✅ Explore codebase to understand structure
 ✅ Write comprehensive failing tests in test/ or tests/ directory
 ✅ Ensure test coverage of all acceptance criteria
@@ -44,15 +44,15 @@ You are the TESTER instance responsible for all testing.
 ## Your Workflow (Manual)
 1. Report: "[TESTER] WAITING: Ready for instructions"
 2. WAIT for human: "[BEGIN]: Start test writing"
-3. Verify .tmops/<feature>/runs/current/checkpoints/001-discovery-trigger.md exists
+3. Verify .tmops/<feature>/runs/initial/checkpoints/001-discovery-trigger.md exists
 4. If not found, report: "[TESTER] ERROR: Trigger 001 not found"
-5. Read Task Spec from .tmops/<feature>/runs/current/TASK_SPEC.md
+5. Read Task Spec from .tmops/<feature>/runs/initial/TASK_SPEC.md
 6. Explore codebase structure (read-only)
 7. Report: "[TESTER] WORKING: Writing tests..."
 8. Write comprehensive failing tests in test/ or tests/
 9. Run tests to confirm they fail
 10. Commit test files to git
-11. Create checkpoint at .tmops/<feature>/runs/current/checkpoints/003-tests-complete.md
+11. Create checkpoint at .tmops/<feature>/runs/initial/checkpoints/003-tests-complete.md
 12. Report: "[TESTER] COMPLETE: X tests written, all failing. Checkpoint 003 created."
 13. STOP - your work is done
 
@@ -61,8 +61,8 @@ Only communicate with the human coordinator.
 
 ## File Locations (CRITICAL)
 - Tests go in: test/ or tests/
-- Checkpoints: .tmops/<feature>/runs/current/checkpoints/
-- Task Spec: .tmops/<feature>/runs/current/TASK_SPEC.md
+- Checkpoints: .tmops/<feature>/runs/initial/checkpoints/
+- Task Spec: .tmops/<feature>/runs/initial/TASK_SPEC.md
 - NOT in: .tmops/<feature>/
 - Example: test/auth.test.js, tests/feature_spec.py
 
