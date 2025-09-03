@@ -32,98 +32,22 @@ tmops introduces comprehensive AI-ready templates and enhanced documentation str
 - **Reality-Based Architecture**: Tests and code in standard project locations
 - **Quality Gates**: Human review points at critical phases
 
-## 🏗️ Architecture Overview
+## 🎯 Use Cases
 
-### Standard Workflow (4-Instance)
-```
-┌─────────────────────────┐
-│    Claude Chat          │ → Basic Task Specification
-└────────────┬────────────┘
-             │
-    ┌────────▼────────┐
-    │  Task Spec.md   │
-    └────────┬────────┘
-             │
-┌────────────▼───────────────────────────┐
-│        4 Claude Code Instances         │
-│                                        │
-│  Orchestrator → Tester → Implementer   │
-│       ↑                      ↓         │
-│       └──────  Verifier  ◄───┘         │
-└────────────────────────────────────────┘
-```
+- **Complex Feature Development**: Coordinate multiple aspects of feature implementation
+- **Test-Driven Development**: Enforce TDD practices automatically
+- **Code Review Workflows**: Built-in verification and quality checks
+- **Learning Tool**: Understand AI orchestration and software development patterns
+- **Team Simulation**: Experience how specialized roles collaborate
 
-### Preflight Workflow (7-Instance for Complex Features)
-```
-┌─────────────────────────┐
-│    Initial Concept      │ → High-level requirements
-└────────────┬────────────┘
-             │
-┌────────────▼───────────────────────────┐
-│     3 Preflight Instances              │
-│                                        │
-│  Researcher → Analyzer → Specifier     │
-│                            ↓           │
-└─────────────────────┬──────────────────┘
-                      │ 
-             ┌────────▼────────┐
-             │ Refined Spec.md │ → Comprehensive specification
-             └────────┬────────┘
-                      │
-┌────────────────────▼───────────────────┐
-│        4 Main Instances (auto-handoff) │
-│                                        │
-│  Orchestrator → Tester → Implementer   │
-│       ↑                      ↓         │
-│       └──────  Verifier  ◄───┘         │
-└────────────────────────────────────────┘
-```
+## 💡 Philosophy
 
-### Instance Roles
+tmops embodies the principle that complex software development benefits from specialized, focused roles working in coordination. By separating concerns across instances and enforcing clear communication protocols, we achieve:
 
-#### Preflight Instances (Optional - for Complex Features)
-1. **Preflight Researcher**
-   - Investigates existing codebase patterns
-   - Researches relevant libraries and frameworks
-   - Documents integration points and constraints
-   - Identifies technical risks and opportunities
-
-2. **Preflight Analyzer**
-   - Performs deep technical architecture analysis
-   - Designs implementation approach using discovered patterns
-   - Plans code organization and structure  
-   - Creates detailed technical specifications
-
-3. **Preflight Specifier**
-   - Reviews and validates research and analysis
-   - Creates comprehensive, implementation-ready task specification
-   - Has rejection authority if inputs are inadequate
-   - Ensures seamless handoff to main workflow
-
-#### Main Workflow Instances
-1. **Orchestrator**
-   - Coordinates workflow between instances
-   - Monitors progress and timing
-   - Creates trigger checkpoints
-   - Generates final summary
-
-2. **Tester**
-   - Discovers codebase structure
-   - Writes comprehensive failing tests
-   - Ensures acceptance criteria coverage
-   - Creates test documentation
-
-3. **Implementer**
-   - Reads test requirements
-   - Implements features to pass tests
-   - Refactors and optimizes code
-   - Never modifies test files
-
-4. **Verifier**
-   - Reviews code quality
-   - Identifies edge cases
-   - Assesses security and performance
-   - Provides improvement recommendations
+- **Clarity**: Each instance has a single, well-defined responsibility
+- **Quality**: Multiple review points ensure high standards
+- **Efficiency**: Parallel execution without conflicts
+- **Traceability**: Complete audit trail via checkpoints
 
 ## 🚀 Quick Start
 
@@ -226,11 +150,107 @@ Essential scripts for the tmops workflow:
         └── current -> 001-initial # Symlink to active run
 ```
 
-
 ### Where Code Actually Goes
 - **Tests**: `test/` or `tests/` in your project (NOT in .tmops)
 - **Implementation**: `src/` in your project (NOT in .tmops)
 - **tmops artifacts**: `.tmops/<feature>/` only
+
+## 🏗️ How It Works
+
+tmops uses two workflow options depending on complexity:
+
+### Standard Workflow (4-Instance)
+```
+┌─────────────────────────┐
+│    Claude Chat          │ → Basic Task Specification
+└────────────┬────────────┘
+             │
+    ┌────────▼────────┐
+    │  Task Spec.md   │
+    └────────┬────────┘
+             │
+┌────────────▼───────────────────────────┐
+│        4 Claude Code Instances         │
+│                                        │
+│  Orchestrator → Tester → Implementer   │
+│       ↑                      ↓         │
+│       └──────  Verifier  ◄───┘         │
+└────────────────────────────────────────┘
+```
+
+### Preflight Workflow (7-Instance for Complex Features)
+```
+┌─────────────────────────┐
+│    Initial Concept      │ → High-level requirements
+└────────────┬────────────┘
+             │
+┌────────────▼───────────────────────────┐
+│     3 Preflight Instances              │
+│                                        │
+│  Researcher → Analyzer → Specifier     │
+│                            ↓           │
+└─────────────────────┬──────────────────┘
+                      │ 
+             ┌────────▼────────┐
+             │ Refined Spec.md │ → Comprehensive specification
+             └────────┬────────┘
+                      │
+┌────────────────────▼───────────────────┐
+│        4 Main Instances (auto-handoff) │
+│                                        │
+│  Orchestrator → Tester → Implementer   │
+│       ↑                      ↓         │
+│       └──────  Verifier  ◄───┘         │
+└────────────────────────────────────────┘
+```
+
+## 🏗️ Detailed Architecture
+
+### Instance Roles
+
+#### Preflight Instances (Optional - for Complex Features)
+1. **Preflight Researcher**
+   - Investigates existing codebase patterns
+   - Researches relevant libraries and frameworks
+   - Documents integration points and constraints
+   - Identifies technical risks and opportunities
+
+2. **Preflight Analyzer**
+   - Performs deep technical architecture analysis
+   - Designs implementation approach using discovered patterns
+   - Plans code organization and structure  
+   - Creates detailed technical specifications
+
+3. **Preflight Specifier**
+   - Reviews and validates research and analysis
+   - Creates comprehensive, implementation-ready task specification
+   - Has rejection authority if inputs are inadequate
+   - Ensures seamless handoff to main workflow
+
+#### Main Workflow Instances
+1. **Orchestrator**
+   - Coordinates workflow between instances
+   - Monitors progress and timing
+   - Creates trigger checkpoints
+   - Generates final summary
+
+2. **Tester**
+   - Discovers codebase structure
+   - Writes comprehensive failing tests
+   - Ensures acceptance criteria coverage
+   - Creates test documentation
+
+3. **Implementer**
+   - Reads test requirements
+   - Implements features to pass tests
+   - Refactors and optimizes code
+   - Never modifies test files
+
+4. **Verifier**
+   - Reviews code quality
+   - Identifies edge cases
+   - Assesses security and performance
+   - Provides improvement recommendations
 
 ## 📋 Checkpoint Protocol
 
@@ -288,7 +308,6 @@ Each feature maintains its own documentation:
 - [Manual Orchestration Guide](tmops_v6_portable/docs/tmops_docs_v6/tmops_claude_code.md) - Complete v6 manual process
 - [Instance Instructions](tmops_v6_portable/instance_instructions/) - Role-specific guides for each instance
 
-
 ## 🤝 Contributing
 
 We welcome contributions! Please:
@@ -305,14 +324,6 @@ MIT License with Attribution Requirement - see [LICENSE](LICENSE) file.
 
 When using tmops, please include:
 > Based on tmops by Anthony Calek (https://github.com/happycode-ch/tmops_framework)
-
-## 🎯 Use Cases
-
-- **Complex Feature Development**: Coordinate multiple aspects of feature implementation
-- **Test-Driven Development**: Enforce TDD practices automatically
-- **Code Review Workflows**: Built-in verification and quality checks
-- **Learning Tool**: Understand AI orchestration and software development patterns
-- **Team Simulation**: Experience how specialized roles collaborate
 
 ## 🚧 Roadmap
 
@@ -341,15 +352,6 @@ When using tmops, please include:
 - [ ] Plugin system for custom instances
 - [ ] Web-based monitoring interface
 
-## 💡 Philosophy
-
-tmops embodies the principle that complex software development benefits from specialized, focused roles working in coordination. By separating concerns across instances and enforcing clear communication protocols, we achieve:
-
-- **Clarity**: Each instance has a single, well-defined responsibility
-- **Quality**: Multiple review points ensure high standards
-- **Efficiency**: Parallel execution without conflicts
-- **Traceability**: Complete audit trail via checkpoints
-
 ## 🔗 Links
 
 - [GitHub Repository](https://github.com/happycode-ch/tmops_framework)
@@ -359,7 +361,6 @@ tmops embodies the principle that complex software development benefits from spe
 ## 📧 Contact
 
 Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
-
 
 ---
 
@@ -371,4 +372,3 @@ Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
 - **Enhanced Scripts**: Updated tmops_tools to support new documentation structure
 - **Template System**: From research to review, complete development lifecycle coverage
 - **Improved Organization**: Historical docs moved to .docs/, templates in dedicated directory
-
