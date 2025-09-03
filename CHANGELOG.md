@@ -5,6 +5,51 @@ All notable changes to the TeamOps Framework will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.4.0] - 2025-09-03
+
+### Added
+- **Preflight Workflow System**: 7-instance workflow for complex features requiring specification refinement
+  - **Sequential Scripts Architecture**: Separate `init_preflight.sh` for 3-instance preflight workflow
+  - **Smart Handoff System**: Automatic detection of preflight-refined specifications in main workflow
+  - **Preflight Instance Instructions**: Self-contained package for 3 specialized preflight instances:
+    - `02_preflight_researcher.md` - Research & discovery of existing patterns and technical context
+    - `03_preflight_analyzer.md` - Deep technical analysis and implementation planning
+    - `04_preflight_specifier.md` - Quality control with rejection authority for refined specifications
+  - **Shared Function Library**: `tmops_tools/lib/common.sh` with 24 centralized functions
+    - Atomic checkpoint creation with proper error handling
+    - Lock file management to prevent concurrent executions
+    - Consistent path resolution across all scripts
+    - Feature validation and branch management utilities
+- **Enhanced Main Workflow**: `init_feature_multi.sh` now features smart detection
+  - Automatically detects and uses preflight-refined specifications
+  - Zero additional user commands required for workflow transition
+  - Maintains backward compatibility with standard 4-instance workflow
+- **Quality Validation**: All scripts pass shellcheck with comprehensive error handling
+  - `set -euo pipefail` for strict error handling across all new scripts
+  - Atomic file operations for checkpoint creation
+  - Comprehensive logging with color-coded output
+
+### Changed
+- **Dual Workflow Documentation**: Updated all documentation to reflect workflow options
+  - **README.md**: Enhanced with preflight workflow guidance and decision criteria
+  - **CLAUDE.md**: Added comprehensive preflight context following framework best practices
+  - **Root README.md**: Updated architecture diagrams showing both standard and preflight workflows
+- **Workflow Selection Guidance**: Clear criteria for when to use standard vs preflight workflows
+  - Standard (4-instance): Direct implementation for straightforward features
+  - Preflight (7-instance): Research → Analysis → Specification → Implementation for complex features
+
+### Technical Architecture
+- **Sequential Scripts vs Integrated Flag**: Chose separate scripts for better separation of concerns
+- **Marker-Based Detection**: Elegant solution using `grep` patterns for refined specification identification
+- **Unified Workspace**: Uses existing `.tmops/[feature]/runs/initial/` structure for compatibility
+- **Zero-Friction Handoff**: Automatic detection eliminates manual coordination between workflows
+
+### Quality Assurance
+- **Shellcheck Validation**: All preflight scripts pass with zero errors (1 expected info message)
+- **Integration Testing**: Complete workflow scenarios validated with test workspaces
+- **Error Handling**: Comprehensive error handling with atomic operations and lock file management
+- **Documentation Consistency**: Maintained consistency across all framework documentation files
+
 ## [6.3.1] - 2025-09-01
 
 ### Added
