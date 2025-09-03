@@ -1,4 +1,34 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/.claude/CLAUDE.md
+🎯 PURPOSE: Development context and workflow guide for tmops framework
+🤖 AI-HINT: Read this first when working on framework development - contains commands, patterns, and quality gates
+🔗 DEPENDENCIES: tmops_tools/, tmops_v6_portable/, shellcheck, npm
+📝 CONTEXT: Project uses recursive development (framework develops itself)
+-->
+
 # TeamOps Framework Development
+
+## 🤖 Quick AI Reference
+**Role**: Development context and workflow guide  
+**Usage**: Read before framework development tasks  
+**Outputs**: Commands, patterns, quality standards  
+**Connections**: tmops_tools/, validation scripts, tests
+
+## File Creation Standards
+
+**CRITICAL**: When creating ANY new file in this project, ALWAYS add this standardized header:
+
+```
+<!--
+📁 FILE: [full absolute path to the file]
+🎯 PURPOSE: [brief description of file's primary function]
+🤖 AI-HINT: [how AI agents should use this file and what to expect]
+🔗 DEPENDENCIES: [related files, tools, or prerequisites]
+📝 CONTEXT: [key information for understanding usage patterns]
+-->
+```
+
+This ensures every Claude Code-generated file has consistent AI-readable metadata for better context and collaboration.
 
 ## Project Overview
 This repository develops the TeamOps AI orchestration framework. The project has a dual nature:
