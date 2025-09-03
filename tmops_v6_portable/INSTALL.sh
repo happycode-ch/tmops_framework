@@ -1,4 +1,9 @@
 #!/bin/bash
+# 📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops_v6_portable/INSTALL.sh
+# 🎯 PURPOSE: Installation script that copies TeamOps framework to target projects
+# 🤖 AI-HINT: Run this to install TeamOps framework in a new project - handles file copying and setup
+# 🔗 DEPENDENCIES: tmops_tools/, instance_instructions/, templates/
+# 📝 CONTEXT: Self-contained installer that creates .tmops/ structure in target directory
 # TeamOps Portable Installation Script
 # Copies TeamOps to your project and makes it ready to use
 

@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/README.md
+🎯 PURPOSE: Main project documentation and getting started guide
+🤖 AI-HINT: Primary entry point for understanding the TeamOps framework and its capabilities
+🔗 DEPENDENCIES: tmops_v6_portable/, CHANGELOG.md
+📝 CONTEXT: Root documentation for open-source AI orchestration framework
+-->
+
 <div align="center">
   <div style="background-color: #DC143C; color: white; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 24px; font-weight: bold; margin: 20px 0;">
     <pre style="color: white; margin: 0; background: none;">

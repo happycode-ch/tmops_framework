@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/templates/07_review_template.md
+🎯 PURPOSE: Template for final acceptance reviews with AI instructions for technical debt assessment and go/no-go decisions
+🤖 AI-HINT: Use for final review phase with structured methodology for acceptance criteria validation
+🔗 DEPENDENCIES: Implementation results, testing outcomes, acceptance workflow
+📝 CONTEXT: Part of template library for standardized final review documentation with AI-ready checklist structure
+-->
+
 ---
 # Final Review Template - AI-Ready Acceptance Checklist
 # Version: 1.0.0

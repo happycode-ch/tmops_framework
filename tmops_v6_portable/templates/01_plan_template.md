@@ -1,3 +1,11 @@
+<!--
+ðŸ“ FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/templates/01_plan_template.md
+ðŸŽ¯ PURPOSE: Template for strategic project planning with AI instructions for milestones, resources, and success metrics
+ðŸ¤– AI-HINT: Use as starting point for strategic planning documentation with structured methodology and stakeholder tracking
+ðŸ”— DEPENDENCIES: Research reports, discovery documents, planning workflow
+ðŸ“ CONTEXT: Part of template library for standardized strategic planning with AI-ready project management structure
+-->
+
 ---
 # Strategic Plan Template - AI-Ready Project Planning
 # Version: 1.0.0
@@ -112,9 +120,9 @@ gantt
 ```
 
 ### Critical Path
-1. Task A ’ Task B ’ Task C
+1. Task A ï¿½ Task B ï¿½ Task C
 2. Parallel: Task D, Task E
-3. Task C + Task D ’ Task F
+3. Task C + Task D ï¿½ Task F
 
 ### Key Dates
 | Date | Event | Deliverable |

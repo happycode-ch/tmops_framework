@@ -1,4 +1,9 @@
 #!/bin/bash
+# 📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/tmops_tools/switch_feature.sh
+# 🎯 PURPOSE: Feature context switching utility to display information and status for specific TeamOps features
+# 🤖 AI-HINT: Use to switch active feature context and display detailed information about feature status and artifacts
+# 🔗 DEPENDENCIES: .tmops/FEATURES.txt, git branches, feature directories
+# 📝 CONTEXT: Context management utility for working with multiple concurrent TeamOps features
 # Switch context to a specific feature (show info)
 
 set -e

@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/instance_instructions/02_tester.md
+🎯 PURPOSE: Tester instance instructions for writing comprehensive failing tests in TeamOps v6 manual workflow
+🤖 AI-HINT: Copy-paste when acting as tester to write all tests based on task specifications and acceptance criteria
+🔗 DEPENDENCIES: 001-discovery-trigger.md, TASK_SPEC.md, project test directory, implementer instance
+📝 CONTEXT: Second phase of 4-instance workflow, creates failing tests that implementer will make pass
+-->
+
 # TeamOps - TESTER Instructions
 
 **IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**

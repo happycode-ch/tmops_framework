@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/instance_instructions/04_verifier.md
+🎯 PURPOSE: Verifier instance instructions for quality assurance and code review in TeamOps v6 manual workflow
+🤖 AI-HINT: Copy-paste when acting as verifier to perform read-only quality review of tests and implementation
+🔗 DEPENDENCIES: 006-verify-trigger.md, test files, implementation files, orchestrator summary
+📝 CONTEXT: Final phase of 4-instance workflow performing quality assurance and final validation
+-->
+
 # TeamOps - VERIFIER Instructions
 
 **IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**

@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/CHANGELOG.md
+🎯 PURPOSE: Version history and release notes for the TeamOps Framework
+🤖 AI-HINT: Reference for tracking framework changes, features, and breaking changes across versions
+🔗 DEPENDENCIES: README.md, version tags
+📝 CONTEXT: Follows Keep a Changelog format and semantic versioning
+-->
+
 # Changelog
 
 All notable changes to the TeamOps Framework will be documented in this file.

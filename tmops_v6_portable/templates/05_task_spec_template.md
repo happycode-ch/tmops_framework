@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/templates/05_task_spec_template.md
+🎯 PURPOSE: Comprehensive task specification template with AI instructions and RAG support for precise requirements definition
+🤖 AI-HINT: Use as base for creating detailed task specifications with acceptance criteria, constraints, and success metrics
+🔗 DEPENDENCIES: Requirements gathering, user stories, acceptance criteria, TeamOps workflow
+📝 CONTEXT: Core template for task specification creation following ISO/IEC standards with AI-ready structure
+-->
+
 ---
 # Task Specification Template - AI-Ready with RAG Support
 # Version: 1.2.0

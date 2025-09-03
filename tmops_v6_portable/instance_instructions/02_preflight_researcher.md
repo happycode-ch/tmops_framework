@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/instance_instructions/02_preflight_researcher.md
+🎯 PURPOSE: Preflight researcher instance instructions for comprehensive research and discovery phase (1/3) in specification refinement
+🤖 AI-HINT: Copy-paste when acting as preflight researcher to conduct comprehensive codebase and technical research
+🔗 DEPENDENCIES: TASK_SPEC.md, preflight analyzer/specifier instances, research report templates
+📝 CONTEXT: First phase of 3-instance preflight workflow focusing on research and discovery before main 4-instance development
+-->
+
 # TeamOps - PREFLIGHT RESEARCHER Instructions
 
 **IMPORTANT: Start Claude Code in the ROOT project directory (parent of tmops_v6_portable)**

@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/templates/03_proposal_template.md
+🎯 PURPOSE: Template for solution design proposals with AI instructions for alternatives, trade-offs, and decision documentation
+🤖 AI-HINT: Use for solution design phase with structured methodology for architectural decision making
+🔗 DEPENDENCIES: Discovery reports, research findings, proposal workflow
+📝 CONTEXT: Part of template library for standardized solution proposal documentation with AI-ready design structure
+-->
+
 ---
 # Solution Proposal Template - AI-Ready Design Documentation
 # Version: 1.0.0

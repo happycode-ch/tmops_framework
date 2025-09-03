@@ -1,4 +1,9 @@
 #!/bin/bash
+# 📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/tmops_tools/list_features.sh
+# 🎯 PURPOSE: Feature listing utility to display all TeamOps features and their current status with branch information
+# 🤖 AI-HINT: Use to get overview of all active TeamOps features, branches, and current development status
+# 🔗 DEPENDENCIES: git, .tmops/FEATURES.txt, TeamOps directory structure
+# 📝 CONTEXT: Management utility for monitoring multiple concurrent TeamOps feature development
 # List all TeamOps features and their status
 
 echo "╔═══════════════════════════════════════════════╗"

@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# 📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/tmops_tools/lib/common.sh
+# 🎯 PURPOSE: Shared function library providing common utilities for all TeamOps scripts including logging, path resolution, and validation
+# 🤖 AI-HINT: Source this library in TeamOps scripts to access standardized logging, error handling, and path resolution functions
+# 🔗 DEPENDENCIES: bash, git, standard Unix utilities
+# 📝 CONTEXT: Core library providing consistent functionality across all TeamOps tools and scripts
 # TeamOps Shared Function Library
 # Common functions used across all TeamOps scripts
 

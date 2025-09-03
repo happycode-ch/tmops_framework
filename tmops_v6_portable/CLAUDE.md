@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops_v6_portable/CLAUDE.md
+🎯 PURPOSE: Portable framework documentation for AI-driven development workflows
+🤖 AI-HINT: Core instructions for TeamOps v6 framework usage - defines workflow patterns and instance coordination
+🔗 DEPENDENCIES: tmops_tools/, instance_instructions/, templates/
+📝 CONTEXT: Self-contained framework that ships with projects, supports 4-instance and 7-instance workflows
+-->
+
 # TeamOps Framework v6 - Simplified Edition
 
 ## Framework Overview

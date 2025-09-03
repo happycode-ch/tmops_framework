@@ -1,3 +1,11 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops-header-standardization/tmops_v6_portable/docs/tmops_docs_v6/tmops_claude_chat.md
+🎯 PURPOSE: Strategic planning and task specification guide for Claude Chat instances in TeamOps v6 manual coordination
+🤖 AI-HINT: Use for strategic planning role definition, task spec templates, and coordination workflow guidance
+🔗 DEPENDENCIES: tmops_claude_code.md, tmops_tools/, instance_instructions/
+📝 CONTEXT: Part of v6 manual coordination system where human coordinates between 4-instance TeamOps execution
+-->
+
 # TeamOps Framework for Claude.ai Chat - Strategic Planning Edition
 **Version:** 6.0.0-manual  
 **Path:** `docs/tmops_docs_v6/tmops_claude_chat.md`  

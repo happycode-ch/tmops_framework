@@ -1,4 +1,9 @@
 #!/bin/bash
+# 📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/tmops_v6_portable/test_teamops.sh
+# 🎯 PURPOSE: Quick test script to validate TeamOps framework capabilities including feature creation and branch management
+# 🤖 AI-HINT: Run to verify TeamOps framework functionality after installation or modifications
+# 🔗 DEPENDENCIES: tmops_tools/init_feature_multi.sh, git, cleanup_safe.sh
+# 📝 CONTEXT: Validation script for TeamOps framework testing feature creation and cleanup workflows
 # Quick test of TeamOps capabilities
 
 echo "Testing TeamOps Framework..."
