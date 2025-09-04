@@ -3,8 +3,7 @@
 # Archive directory
 .archive/
 
-# .tmops/ directory
-.tmops/
+# .tmops/ directory - removed to allow MCP specifications to be tracked
 
 # Temporary - templates under development
 # tmops_v6_portable/templates/
