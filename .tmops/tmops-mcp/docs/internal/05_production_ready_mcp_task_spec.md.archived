@@ -1,0 +1,506 @@
+<!--
+📁 FILE: /home/anthonycalek/projects/tmops_framework/CODE/.tmops/tmops-mcp/docs/internal/05_production_ready_mcp_task_spec.md
+🎯 PURPOSE: Production-ready task specification for TeamOps MCP server implementation with phased approach
+🤖 AI-HINT: Complete task spec for building MCP server with production abstractions from day 1, based on updated implementation proposal
+🔗 DEPENDENCIES: 03_mcp_implementation_proposal.md, TeamOps framework, MCP SDK, production architecture patterns
+📝 CONTEXT: Alternative task spec focusing on production-ready architecture with provider abstractions and scalable design patterns
+-->
+
+---
+# Task Specification Template - AI-Ready with RAG Support
+# Version: 1.2.0
+# License: CC BY 4.0
+# Based on: ISO/IEC/IEEE 29148, RFC-2119, User Stories, Gherkin AC, C4 Diagrams, ADRs
+
+meta:
+  version: "1.2.0"
+  template_name: "task_spec_ai_ready_minimal_rag"
+  id: "TASK-MCP-001"
+  title: "Production-Ready TeamOps MCP Server Implementation"
+  type: "feature"
+  priority: "P1"
+  status: "proposed"
+  dri: "@development-team"
+  stakeholders: ["@lead-engineer"]
+  complexity: "medium"
+  profile: "standard"
+  kind: "feature"
+  
+conventions:
+  commit_prefix: "feat"
+  branch_naming: "feature/tmops-mcp"
+  changelog_required: true
+---
+
+# Task Specification: Production-Ready TeamOps MCP Server Implementation
+
+## LLM Instruction Prompt
+
+> **For AI Agents:** You are implementing a TypeScript MCP server that automates TeamOps orchestration while building production-ready architecture from day 1.
+> 
+> 1. **Architecture Focus**: Build abstractions early, implement MVP versions that scale without rewrites
+> 2. **Provider Pattern**: Abstract AI providers behind unified interface (Claude Code first, others later)
+> 3. **Plugin System**: Design extensible phase system for custom workflows
+> 4. **Production Hooks**: Include authentication, telemetry, configuration systems (bypass/minimal in MVP)
+> 5. **Git Integration**: Work within feature/tmops-mcp branch, create mcp-server/ directory
+> 6. **Leverage Existing**: Reuse proven tmops_v6_portable scripts, don't rebuild from scratch
+> 7. **Research Requirements**: Validate MCP SDK patterns, TypeScript best practices, Node.js production patterns
+> 8. **Phase-Based Delivery**: Each phase must be deployable for its scope
+
+## Context
+
+### Problem Statement
+TeamOps framework requires manual coordination between Claude Code instances, creating handoff latency and limiting scalability. Need automated orchestration while preserving context isolation and TDD workflow quality.
+
+### Background
+- Current manual workflow proven effective but doesn't scale
+- MCP protocol provides standardized AI tool integration
+- Existing tmops_v6_portable/ contains battle-tested orchestration patterns
+- Production deployment needed after MVP validation
+
+### Related Links
+- Implementation Proposal: `.tmops/tmops-mcp/docs/internal/03_mcp_implementation_proposal.md`
+- MCP Protocol: https://modelcontextprotocol.io/
+- Existing Framework: `tmops_v6_portable/`
+
+## Scope
+
+### In Scope
+- [ ] TypeScript MCP server with production architecture foundations
+- [ ] AI provider abstraction layer (Claude Code implementation)
+- [ ] Basic orchestration phase system (4 standard phases)
+- [ ] File-based checkpoint monitoring and automation
+- [ ] Configuration system with YAML-driven settings
+- [ ] Event system foundation for telemetry
+- [ ] Git branch integration within feature/tmops-mcp
+
+### Out of Scope
+- [ ] Multiple AI provider implementations (architecture only)
+- [ ] Web dashboard UI
+- [ ] Advanced authentication (hooks only)
+- [ ] Multi-tenant implementation (patterns only)
+- [ ] Performance optimization beyond basic functionality
+
+### MVP Definition
+Working MCP server that automates single TeamOps feature workflow end-to-end with production-scalable architecture.
+
+## Requirements
+
+### Functional Requirements
+- **[REQ-1]** System MUST implement MCP protocol using @modelcontextprotocol/sdk
+- **[REQ-2]** System MUST provide tmops_init_feature tool wrapping existing shell script
+- **[REQ-3]** System MUST automate checkpoint monitoring for phase transitions
+- **[REQ-4]** System MUST support Claude Code session management via provider abstraction
+- **[REQ-5]** System SHOULD implement plugin-based phase system for extensibility
+- **[REQ-6]** System SHOULD include configuration system for production deployment
+- **[REQ-7]** System SHOULD provide event system foundation for monitoring
+
+### Non-Functional Requirements
+- **Performance**: Tool response time MUST be < 100ms for basic operations
+- **Reliability**: System MUST handle Claude session failures gracefully with manual fallback
+- **Maintainability**: Architecture MUST support adding new AI providers without core changes
+- **Scalability**: Design patterns MUST support multi-tenant deployment (single-tenant implementation)
+
+## Acceptance Criteria
+
+```gherkin
+Scenario: Initialize TeamOps feature via MCP
+  Given MCP server is running with Claude Code provider
+  When user invokes tmops_init_feature tool with feature name "test-feature"
+  Then system creates .tmops/test-feature directory structure
+  And system creates git branch feature/test-feature
+  And system returns success message with next steps
+```
+
+```gherkin
+Scenario: Automated phase transition
+  Given feature workflow is active with checkpoint monitoring
+  When orchestrator creates "001-discovery-trigger.md" checkpoint
+  Then system detects checkpoint file creation
+  And system triggers tester phase automatically
+  And system logs phase transition event
+```
+
+```gherkin
+Scenario: Provider abstraction works
+  Given MCP server configured with Claude Code provider
+  When system needs to create AI session
+  Then provider factory creates Claude Code session
+  And session management is abstracted from core orchestration
+  And switching providers requires only configuration change
+```
+
+## Interfaces
+
+### MCP Tools
+#### Tool: tmops_init_feature
+**Input Schema:**
+```json
+{
+  "type": "object",
+  "properties": {
+    "feature": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]{3,20}$",
+      "description": "Feature name following TeamOps conventions"
+    },
+    "runType": {
+      "type": "string",
+      "enum": ["initial", "retry"],
+      "default": "initial"
+    }
+  },
+  "required": ["feature"]
+}
+```
+
+**Response:**
+```json
+{
+  "content": [
+    {
+      "type": "text", 
+      "text": "Feature initialized. Branch: feature/test-feature. Task spec: .tmops/test-feature/runs/initial/TASK_SPEC.md"
+    }
+  ]
+}
+```
+
+#### Tool: tmops_start_orchestration
+**Input Schema:**
+```json
+{
+  "type": "object",
+  "properties": {
+    "feature": {"type": "string"}
+  },
+  "required": ["feature"]
+}
+```
+
+#### Tool: tmops_get_status
+**Input Schema:**
+```json
+{
+  "type": "object", 
+  "properties": {
+    "feature": {"type": "string"}
+  },
+  "required": ["feature"]
+}
+```
+
+### Configuration Interface
+```yaml
+# tmops-mcp.config.yaml
+server:
+  name: "TeamOps MCP Server"
+  version: "1.0.0"
+
+providers:
+  claude_code:
+    enabled: true
+    command: "claude"
+    headless_args: ["-p", "--resume", "--output-format", "json"]
+
+orchestration:
+  max_concurrent_features: 1  # MVP: 1, Production: configurable
+  checkpoint_poll_interval: 1000
+  session_timeout: 300000
+
+telemetry:
+  enabled: true
+  backend: "console"  # MVP: console, Production: datadog/prometheus
+
+auth:
+  enabled: false  # MVP: bypass, Production: JWT/API keys
+```
+
+## Architecture
+
+### Component Changes
+```
+mcp-server/
+├── src/
+│   ├── server.ts                 # Main MCP server entry point
+│   ├── providers/
+│   │   ├── AIProvider.ts        # Provider interface
+│   │   ├── ClaudeCodeProvider.ts # MVP implementation
+│   │   └── ProviderFactory.ts   # Provider selection logic
+│   ├── phases/
+│   │   ├── OrchestrationPhase.ts # Phase interface
+│   │   ├── OrchestratorPhase.ts # Standard phases
+│   │   ├── TesterPhase.ts
+│   │   ├── ImplementerPhase.ts
+│   │   └── VerifierPhase.ts
+│   ├── config/
+│   │   ├── ConfigService.ts     # YAML configuration management
+│   │   └── Environment.ts       # Environment detection
+│   ├── telemetry/
+│   │   ├── EventService.ts      # Event publishing
+│   │   ├── TelemetryService.ts  # Metrics/logging
+│   │   └── ConsoleBackend.ts    # MVP telemetry backend
+│   └── orchestration/
+│       ├── OrchestrationEngine.ts # State machine
+│       ├── CheckpointMonitor.ts   # File watching
+│       └── SessionManager.ts      # AI session lifecycle
+├── package.json
+├── tsconfig.json
+└── tmops-mcp.config.yaml
+```
+
+### Architecture Decisions
+- **ADR-001**: Use Provider Pattern for AI abstraction
+  - Status: Proposed
+  - Rationale: Enable multiple AI providers without core changes
+- **ADR-002**: Plugin-based phase system for extensibility
+  - Status: Proposed  
+  - Rationale: Support custom workflows and role definitions
+- **ADR-003**: Configuration-driven architecture
+  - Status: Proposed
+  - Rationale: Enable production deployment without code changes
+
+## Test Plan
+
+### Unit Tests
+- [ ] MCP tool registration and response handling
+- [ ] Provider factory creates correct provider instances
+- [ ] Configuration service loads and validates YAML
+- [ ] Checkpoint monitor detects file changes correctly
+- [ ] Phase state machine transitions follow correct sequence
+
+### Integration Tests
+- [ ] Full feature initialization via tmops_init_feature tool
+- [ ] Checkpoint file creation triggers phase transition
+- [ ] Claude Code provider creates and manages sessions
+- [ ] Event system publishes orchestration events
+- [ ] Configuration override functionality
+
+### Acceptance Tests
+- [ ] All Gherkin scenarios pass with real MCP client
+- [ ] Integration with existing tmops_v6_portable scripts
+- [ ] End-to-end feature workflow automation
+
+### Coverage Target
+- Minimum: 80%
+- Target: 90%
+
+## Definition of Done
+
+- [ ] All acceptance criteria pass in CI
+- [ ] MCP server starts and responds to ping requests
+- [ ] tmops_init_feature tool creates correct directory structure
+- [ ] Checkpoint monitoring triggers phase transitions automatically
+- [ ] Provider abstraction supports switching implementations
+- [ ] Configuration system loads from YAML file
+- [ ] Event system publishes telemetry events (console output)
+- [ ] Documentation updated in README.md
+- [ ] Integration with feature/tmops-mcp branch structure
+- [ ] No TypeScript compilation errors or warnings
+
+## Risks & Dependencies
+
+### Risks
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| Claude Code headless API changes | High | Implement provider abstraction, manual fallback |
+| MCP protocol instability | Medium | Use stable SDK version, monitor updates |
+| Session management complexity | Medium | Start simple, add sophistication gradually |
+| File system monitoring edge cases | Low | Use proven chokidar library, handle common cases |
+
+### Dependencies
+- External: @modelcontextprotocol/sdk, chokidar, js-yaml
+- Internal: Existing tmops_v6_portable scripts
+- Environment: Node.js 18+, TypeScript 5+, Claude Code CLI
+
+## Implementation Strategy
+
+### Phase 1: Foundation with Production Hooks
+**Goal**: MCP server with provider abstraction and basic tool
+**Deliverables:**
+- Working MCP server that responds to ping
+- Provider interface with Claude Code implementation
+- tmops_init_feature tool wrapping existing script
+- Basic configuration system
+- Project structure in mcp-server/ directory
+
+**Architecture Patterns:**
+```typescript
+// Production-ready interfaces from day 1
+interface AIProvider {
+  createSession(role: string, instructions: string): Promise<AISession>;
+  resumeSession(sessionId: string): Promise<AISession>;
+}
+
+interface ConfigService {
+  get<T>(key: string): T;
+  reload(): Promise<void>;
+}
+
+// MVP implementations
+class ClaudeCodeProvider implements AIProvider { /* simple implementation */ }
+class YAMLConfigService implements ConfigService { /* file-based config */ }
+```
+
+### Phase 2: Core Orchestration with Monitoring
+**Goal**: Automated checkpoint monitoring and phase transitions
+**Deliverables:**
+- Checkpoint file monitoring with chokidar
+- Phase state machine with transition logic
+- Event system foundation (console logging)
+- Session management basics
+
+### Phase 3: End-to-End Automation
+**Goal**: Complete workflow automation with error handling
+**Deliverables:**
+- Full 4-phase workflow automation
+- Error recovery and manual fallback
+- Comprehensive logging and status reporting
+- Production deployment documentation
+
+## Git Integration
+
+### Branch Structure
+```bash
+# Current: feature/tmops-mcp branch
+# Create: mcp-server/ directory within branch
+# Preserve: existing .tmops/tmops-mcp/ structure
+
+# Directory layout:
+feature/tmops-mcp/
+├── mcp-server/              # New MCP server implementation
+├── .tmops/tmops-mcp/        # Existing research and docs
+└── tmops_v6_portable/       # Existing framework (unchanged)
+```
+
+### Development Workflow
+```bash
+# Initialize TypeScript project
+cd mcp-server/
+npm init -y
+npm install @modelcontextprotocol/sdk typescript @types/node chokidar js-yaml
+npm install -D @types/js-yaml jest @types/jest ts-node
+
+# Development commands
+npm run build    # TypeScript compilation
+npm run test     # Run test suite
+npm run dev      # Development server with auto-reload
+npm start        # Production server start
+```
+
+## Observability
+
+### Metrics (Console Backend in MVP)
+- `tmops_feature_initialized_total{status="success|failure"}`
+- `tmops_phase_transition_duration_seconds{phase="orchestrator|tester|implementer|verifier"}`
+- `tmops_checkpoint_detection_lag_seconds`
+
+### Logs
+```json
+{
+  "timestamp": "2024-09-04T15:30:00Z",
+  "level": "info",
+  "event": "phase_transition",
+  "feature": "test-feature",
+  "from_phase": "orchestrator",
+  "to_phase": "tester",
+  "duration_ms": 150
+}
+```
+
+### Events (Foundation for Production)
+- `orchestration.feature.initialized`
+- `orchestration.phase.transition`
+- `orchestration.checkpoint.detected`
+- `orchestration.error.occurred`
+
+## Research & References
+
+### Citations
+1. **[MCP-SPEC]** Model Context Protocol Specification - Anthropic, 2024; https://modelcontextprotocol.io/introduction; Accessed 2024-09-04
+2. **[MCP-SDK]** TypeScript MCP SDK Documentation - MCP Project, 2024; https://modelcontextprotocol.io/quickstart/server; Accessed 2024-09-04
+3. **[NODE-PROD]** Node.js Production Best Practices - Node.js Foundation, 2024; https://nodejs.org/en/docs/guides/nodejs-docker-webapp/; Accessed 2024-09-04
+4. **[TS-PATTERNS]** TypeScript Design Patterns - Microsoft, 2024; https://www.typescriptlang.org/docs/handbook/2/classes.html; Accessed 2024-09-04
+
+**Claims Supported**: Provider abstraction pattern, configuration management, event-driven architecture, production deployment patterns
+
+## LLM Execution
+
+### Autonomy Level
+`guided` <!-- constrained|guided|autonomous -->
+
+### Allowed Tools
+- npm, node, typescript compiler
+- git, bash, file operations
+- jest for testing
+- MCP SDK and related packages
+
+### Repository Access
+**Read Paths:**
+- `tmops_v6_portable/`, `.tmops/tmops-mcp/`, `mcp-server/`
+
+**Write Paths:**
+- `mcp-server/` (create and modify)
+- `mcp-server/docs/` (documentation)
+- No modifications to `tmops_v6_portable/`
+
+### Constraints
+- Work within feature/tmops-mcp branch
+- Create mcp-server/ directory for implementation
+- Reuse existing tmops scripts, don't rebuild
+- Build production abstractions from day 1
+- Each phase must be deployable for its scope
+
+### Evaluation Commands
+```bash
+# Validate implementation
+cd mcp-server/
+npm run build
+npm test
+npm run lint || true
+
+# Integration test with existing framework
+cd ../tmops_v6_portable/
+./tmops_tools/init_feature_multi.sh test-mcp-integration
+```
+
+### Expected Deliverables
+- [ ] TypeScript MCP server in mcp-server/src/
+- [ ] Configuration files and package.json
+- [ ] Unit and integration tests
+- [ ] Documentation in mcp-server/README.md
+- [ ] Production deployment guide
+
+## Assumptions & Open Questions
+
+### Assumptions
+- Claude Code `--resume` functionality remains stable
+- MCP SDK provides sufficient abstractions for our use case
+- File-based checkpoint monitoring is reliable for MVP
+- TypeScript/Node.js stack is appropriate for production deployment
+
+### Open Questions
+- [ ] Should we implement HTTP transport in addition to STDIO?
+- [ ] What authentication mechanism for production deployment?
+- [ ] How to handle multi-project workflows in production?
+- [ ] Should configuration support environment variable overrides?
+
+## Review Checklist
+
+### Self-Review
+- [ ] All requirements map to acceptance criteria
+- [ ] Production architecture patterns included from day 1
+- [ ] Provider abstraction supports future AI providers
+- [ ] Configuration system enables production deployment
+- [ ] Git integration preserves existing branch structure
+- [ ] Dependencies clearly specified and minimal
+
+### Validation Rules
+- Architecture supports production scaling without rewrites
+- Each phase delivers working, deployable functionality
+- Provider pattern abstracts AI dependencies correctly
+- Configuration system supports environment-specific deployment
+
+---
+
+*Template Version: 1.2.0 | Production-Ready TeamOps MCP Server Implementation*
