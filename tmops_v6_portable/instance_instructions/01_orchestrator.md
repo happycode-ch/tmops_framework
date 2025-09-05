@@ -96,9 +96,35 @@ Write tests in project's standard test directory
 - `[ORCHESTRATOR] COMPLETE: <summary>` - When finished
 - `[ORCHESTRATOR] ERROR: <issue>` - If problems occur
 
+## Template Usage Instructions
+
+When creating documentation, use templates from `tmops_v6_portable/templates/`:
+1. Select appropriate template based on task (e.g., 01_plan_template.md for planning)
+2. Fill template with required information
+3. Save to `.tmops/<feature>/docs/internal/`
+4. **CRITICAL**: Use this naming convention: `[template_number]_[descriptive_name].md`
+   - Example: `01_orchestration_plan.md` (from 01_plan_template.md)
+   - Example: `06_feature_summary.md` (from 06_summary_template.md)
+   - Preserve the template number prefix for consistency
+
+Available templates:
+- `00_research_template.md` - Prior art and feasibility research
+- `01_plan_template.md` - Strategic planning and approach
+- `02_discovery_template.md` - Codebase analysis
+- `03_proposal_template.md` - Solution design
+- `04_implementation_template.md` - Implementation documentation
+- `05_task_spec_template.md` - Task specifications
+- `06_summary_template.md` - Project summaries
+- `07_review_template.md` - Reviews and assessments
+- `08_human_tasks_template.md` - Human-only task checklists
+- `10_patch_template.md` - Patch documentation
+- `11_report_template.md` - Status reports
+
 ## File Locations (CRITICAL)
 - TeamOps files: .tmops/<feature>/runs/initial/
 - Checkpoints: .tmops/<feature>/runs/initial/checkpoints/
+- Documentation: .tmops/<feature>/docs/internal/
+- Templates: tmops_v6_portable/templates/
 - Project tests: test/ or tests/
 - Project code: src/
 - NEVER put code in .tmops directory

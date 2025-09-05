@@ -13,6 +13,18 @@ All notable changes to the TeamOps Framework will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Human Tasks Template**: Comprehensive checklist template for identifying and tracking human-only tasks
+  - Template file: `tmops_v6_portable/templates/08_human_tasks_template.md`
+  - Identifies tasks requiring authentication, payments, or manual configuration
+  - Covers platform setup (Vercel, Supabase, GCP, AWS), API keys, domain configuration
+  - Includes security & compliance requirements, banking setup, app store submissions
+  - Provides time estimates and priority matrix for task planning
+  - Structured with AI instructions for systematic task identification
+  - Essential for agentic development workflows where AI handles 95%+ of coding
+
 ## [6.4.1] - 2025-09-03
 
 ### Fixed

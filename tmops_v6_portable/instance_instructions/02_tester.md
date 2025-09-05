@@ -67,9 +67,21 @@ You are the TESTER instance responsible for all testing.
 IMPORTANT: Do not poll or wait for other checkpoints.
 Only communicate with the human coordinator.
 
+## Template Usage Instructions
+
+When creating documentation, use templates from `tmops_v6_portable/templates/`:
+1. Select appropriate template based on task
+2. Fill template with required information
+3. Save to `.tmops/<feature>/docs/internal/`
+4. **CRITICAL**: Use naming convention: `[template_number]_[descriptive_name].md`
+   - Example: `02_test_discovery.md` (from 02_discovery_template.md)
+   - Preserve the template number prefix for consistency
+
 ## File Locations (CRITICAL)
 - Tests go in: test/ or tests/
 - Checkpoints: .tmops/<feature>/runs/initial/checkpoints/
+- Documentation: .tmops/<feature>/docs/internal/
+- Templates: tmops_v6_portable/templates/
 - Task Spec: .tmops/<feature>/runs/initial/TASK_SPEC.md
 - NOT in: .tmops/<feature>/
 - Example: test/auth.test.js, tests/feature_spec.py

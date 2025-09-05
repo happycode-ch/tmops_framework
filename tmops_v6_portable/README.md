@@ -214,7 +214,7 @@ cd ..  # Go to project root
 
 ## 📄 AI-Ready Templates
 
-The `templates/` directory contains 8 comprehensive markdown templates for the complete development lifecycle:
+The `templates/` directory contains 11 comprehensive markdown templates for the complete development lifecycle:
 
 - **00_research_template.md** - Prior art analysis and feasibility studies
 - **01_plan_template.md** - Strategic planning and resource allocation  
@@ -224,6 +224,9 @@ The `templates/` directory contains 8 comprehensive markdown templates for the c
 - **05_task_spec_template.md** - Detailed requirements and acceptance criteria
 - **06_summary_template.md** - Project retrospectives and ROI analysis
 - **07_review_template.md** - Final acceptance and go/no-go decisions
+- **08_human_tasks_template.md** - Checklist for human-only tasks (auth, payments, manual config)
+- **10_patch_template.md** - Documentation for patches and hotfixes
+- **11_report_template.md** - Situation reports and status updates
 
 Each template includes:
 - Embedded AI instructions for autonomous completion

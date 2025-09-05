@@ -65,10 +65,22 @@ You are the IMPLEMENTER instance responsible for all feature code.
 
 IMPORTANT: Do not modify test files or poll for checkpoints.
 
+## Template Usage Instructions
+
+When creating documentation, use templates from `tmops_v6_portable/templates/`:
+1. Select appropriate template based on task
+2. Fill template with required information
+3. Save to `.tmops/<feature>/docs/internal/`
+4. **CRITICAL**: Use naming convention: `[template_number]_[descriptive_name].md`
+   - Example: `04_implementation_details.md` (from 04_implementation_template.md)
+   - Preserve the template number prefix for consistency
+
 ## File Locations (CRITICAL)
 - Read tests from: test/ or tests/
 - Write code in: src/
 - Checkpoints: .tmops/<feature>/runs/initial/checkpoints/
+- Documentation: .tmops/<feature>/docs/internal/
+- Templates: tmops_v6_portable/templates/
 - NOT in: .tmops/<feature>/
 - Example: src/services/auth.js, src/models/user.py
 

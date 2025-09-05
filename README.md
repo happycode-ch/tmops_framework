@@ -28,7 +28,7 @@ tmops introduces comprehensive AI-ready templates and enhanced documentation str
 ## 🎯 Key Features
 
 - **Dual Workflow Options**: Standard 4-instance or extended 7-instance preflight workflow
-- **AI-Ready Templates**: 8 comprehensive markdown templates for complete development workflow
+- **AI-Ready Templates**: 11 comprehensive markdown templates for complete development workflow
 - **Documentation Structure**: Organized docs/internal and docs/external folders per feature
 - **Manual Orchestration**: Human-coordinated handoffs for 100% reliability
 - **Checkpoint-Based Communication**: Filesystem-based protocol for inter-instance coordination
@@ -296,7 +296,7 @@ Human review points ensure quality at critical phases:
 
 ### Templates
 
-tmops includes 8 AI-ready markdown templates for complete development workflows:
+tmops includes 11 AI-ready markdown templates for complete development workflows:
 
 1. **Research** (`00_research_template.md`) - Prior art analysis and feasibility studies
 2. **Planning** (`01_plan_template.md`) - Strategic approach and resource allocation
@@ -306,6 +306,9 @@ tmops includes 8 AI-ready markdown templates for complete development workflows:
 6. **Task Specification** (`05_task_spec_template.md`) - Detailed requirements and acceptance criteria
 7. **Summary** (`06_summary_template.md`) - Project retrospectives and ROI analysis
 8. **Review** (`07_review_template.md`) - Final acceptance and go/no-go decisions
+9. **Human Tasks** (`08_human_tasks_template.md`) - Checklist for human-only tasks (auth, payments, manual config)
+10. **Patch** (`10_patch_template.md`) - Documentation for patches and hotfixes
+11. **Report** (`11_report_template.md`) - Situation reports and status updates
 
 Templates are located in `tmops_v6_portable/templates/` and support complexity profiles (lite/standard/deep).
 

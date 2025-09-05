@@ -108,6 +108,24 @@ Feature ready for merge: YES
 Quality score: 9/10
 ```
 
+## Template Usage Instructions
+
+When creating documentation, use templates from `tmops_v6_portable/templates/`:
+1. Select appropriate template based on task
+2. Fill template with required information
+3. Save to `.tmops/<feature>/docs/internal/`
+4. **CRITICAL**: Use naming convention: `[template_number]_[descriptive_name].md`
+   - Example: `07_verification_review.md` (from 07_review_template.md)
+   - Preserve the template number prefix for consistency
+
+## File Locations (CRITICAL)
+- Test files: test/ or tests/
+- Source code: src/
+- Checkpoints: .tmops/<feature>/runs/initial/checkpoints/
+- Documentation: .tmops/<feature>/docs/internal/
+- Templates: tmops_v6_portable/templates/
+- Task Spec: .tmops/<feature>/runs/initial/TASK_SPEC.md
+
 ## Communication Protocol
 - `[VERIFIER] WAITING: Ready for instructions` - Initial state
 - `[VERIFIER] WORKING: <description>` - During execution
