@@ -25,6 +25,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Structured with AI instructions for systematic task identification
   - Essential for agentic development workflows where AI handles 95%+ of coding
 
+### Fixed
+- **Template Naming Convention Bug**: Resolved issues with AI agents not following consistent naming conventions
+  - Added explicit template usage instructions to all 4 main workflow instance files
+  - Fixed template numbering conflicts (renamed 08_patch → 10, 09_report → 11)
+  - Provided clear output naming convention: `[template_number]_[descriptive_name].md`
+  - Updated all documentation to reflect correct template count (11 templates)
+  - Each instance now has comprehensive template list and usage guidelines
+  - Ensures consistent documentation generation across all AI agents
+
 ## [6.4.1] - 2025-09-03
 
 ### Fixed
