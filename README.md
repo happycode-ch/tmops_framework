@@ -21,7 +21,7 @@ tmops introduces comprehensive AI-ready templates and enhanced documentation str
 
 - **Dual Workflow Options**: Standard 4-instance or extended 7-instance preflight workflow
 - **AI-Ready Templates**: 8 comprehensive markdown templates for complete development workflow
-- **Documentation Structure**: Organized docs/internal and docs/external folders per feature
+- **Documentation Structure**: Organized docs with internal/external/archive/images folders per feature
 - **Manual Orchestration**: Human-coordinated handoffs for 100% reliability
 - **Checkpoint-Based Communication**: Filesystem-based protocol for inter-instance coordination
 - **Test-Driven Development**: Built-in TDD workflow with automated test creation
@@ -306,6 +306,8 @@ Templates are located in `tmops_v6_portable/templates/` and support complexity p
 Each feature maintains its own documentation:
 - `.tmops/<feature>/docs/internal/` - AI-generated documentation
 - `.tmops/<feature>/docs/external/` - Human-created documentation
+- `.tmops/<feature>/docs/archive/` - Superseded and historical documentation
+- `.tmops/<feature>/docs/images/` - Screenshots, diagrams, and visual assets
 
 ### Core Documentation
 - [CLAUDE.md](tmops_v6_portable/CLAUDE.md) - Framework context and guidance for Claude Code
@@ -372,7 +374,7 @@ Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
 
 ### Latest Updates
 - **AI-Ready Templates**: 8 comprehensive markdown templates for complete workflow
-- **Documentation Structure**: New docs/internal and docs/external folders per feature
+- **Documentation Structure**: New docs folders with internal/external/archive/images subdirectories per feature
 - **Enhanced Scripts**: Updated tmops_tools to support new documentation structure
 - **Template System**: From research to review, complete development lifecycle coverage
 - **Improved Organization**: Historical docs moved to .docs/, templates in dedicated directory

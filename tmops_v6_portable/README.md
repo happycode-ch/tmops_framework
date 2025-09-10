@@ -117,7 +117,9 @@ your-project/                    # Root project directory
 │   ├── <feature>/              # Per-feature data
 │   │   ├── docs/               # Feature documentation
 │   │   │   ├── internal/      # AI-generated docs
-│   │   │   └── external/      # Human-created docs
+│   │   │   ├── external/      # Human-created docs
+│   │   │   ├── archive/       # Superseded/historical docs
+│   │   │   └── images/        # Screenshots, diagrams, visual assets
 │   └── FEATURES.txt            # Active features list
 ├── src/                         # Your implementation goes here
 ├── test/                        # Your tests go here
@@ -206,7 +208,7 @@ cd ..  # Go to project root
 
 ## 📄 AI-Ready Templates
 
-The `templates/` directory contains 8 comprehensive markdown templates for the complete development lifecycle:
+The `templates/` directory contains 11 comprehensive markdown templates for the complete development lifecycle. Each template includes explicit file naming conventions with bash commands for generating properly formatted filenames (format: `[num]_[date]_[time]_[feature]_[type].md`):
 
 - **00_research_template.md** - Prior art analysis and feasibility studies
 - **01_plan_template.md** - Strategic planning and resource allocation  
@@ -216,6 +218,9 @@ The `templates/` directory contains 8 comprehensive markdown templates for the c
 - **05_task_spec_template.md** - Detailed requirements and acceptance criteria
 - **06_summary_template.md** - Project retrospectives and ROI analysis
 - **07_review_template.md** - Final acceptance and go/no-go decisions
+- **08_human_tasks_template.md** - Manual actions requiring human intervention
+- **09_patch_template.md** - Document patches and updates tracking
+- **10_report_template.md** - Ongoing situation reports and status updates
 
 Each template includes:
 - Embedded AI instructions for autonomous completion

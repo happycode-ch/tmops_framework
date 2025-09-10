@@ -3,6 +3,15 @@
 # Version: 1.0.0
 # License: CC BY 4.0
 # Purpose: Final acceptance, technical debt assessment, go/no-go decision
+#
+# FILE NAMING CONVENTION:
+# When saving this completed template, use:
+# TEMPLATE_NUM="07"  # This template number
+# DATE=$(date +%Y-%m-%d)  # YYYY-MM-DD format
+# TIME=$(date +%H%M%S)    # HHMMSS format
+# FEATURE="feature_name"  # Replace with actual feature (lowercase, underscores)
+# FILENAME="${TEMPLATE_NUM}_${DATE}_${TIME}_${FEATURE}_review.md"
+# Example: 07_2025-09-09_213607_visual_component_capture_review.md
 
 meta:
   version: "1.0.0"

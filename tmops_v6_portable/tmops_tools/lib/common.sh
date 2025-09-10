@@ -137,7 +137,7 @@ create_feature_structure() {
     
     # Create directory structure
     mkdir -p "$run_dir"/{checkpoints,logs}
-    mkdir -p "$feature_dir/docs"/{internal,external}
+    mkdir -p "$feature_dir/docs"/{internal,external,archive,images}
     
     # Create current symlink
     ln -sfn "runs/$run_type" "$feature_dir/current"

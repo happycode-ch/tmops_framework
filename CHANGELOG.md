@@ -5,6 +5,22 @@ All notable changes to the TeamOps Framework will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.4.2] - 2025-09-10
+
+### Added
+- **Enhanced Documentation Structure**: Expanded docs folder organization
+  - Added `archive/` subdirectory for superseded and historical documentation
+  - Added `images/` subdirectory for screenshots, diagrams, and visual assets
+  - Updated both `lib/common.sh` and `init_feature_multi.sh` to create new folders
+
+### Fixed
+- **Template File Naming Convention**: Added explicit naming instructions to all templates
+  - All 11 templates (00-10) now include bash commands for generating correct filenames
+  - Format: `[template_num]_[date]_[time]_[feature_name]_[template_type].md`
+  - Example: `05_2025-09-09_213607_visual_component_capture_task_spec.md`
+  - Includes date generation: `$(date +%Y-%m-%d)` and time: `$(date +%H%M%S)`
+  - Helps AI agents correctly name files when saving completed templates
+
 ## [6.4.1] - 2025-09-03
 
 ### Fixed

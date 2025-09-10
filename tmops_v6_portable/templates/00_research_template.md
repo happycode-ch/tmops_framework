@@ -3,6 +3,15 @@
 # Version: 1.0.0
 # License: CC BY 4.0
 # Purpose: Literature review, prior art, technical feasibility study
+#
+# FILE NAMING CONVENTION:
+# When saving this completed template, use:
+# TEMPLATE_NUM="00"  # This template number
+# DATE=$(date +%Y-%m-%d)  # YYYY-MM-DD format
+# TIME=$(date +%H%M%S)    # HHMMSS format
+# FEATURE="feature_name"  # Replace with actual feature (lowercase, underscores)
+# FILENAME="${TEMPLATE_NUM}_${DATE}_${TIME}_${FEATURE}_research.md"
+# Example: 00_2025-09-09_213607_visual_component_capture_research.md
 
 meta:
   version: "1.0.0"
@@ -287,9 +296,9 @@ graph LR
 3. [ ] Consult domain expert on [specific area]
 
 ### Feed Into Next Phase
-- **’ PLAN**: Use cost/timeline estimates
-- **’ DISCOVERY**: Focus on gap areas
-- **’ PROPOSAL**: Base solution on recommendations
+- **ï¿½ PLAN**: Use cost/timeline estimates
+- **ï¿½ DISCOVERY**: Focus on gap areas
+- **ï¿½ PROPOSAL**: Base solution on recommendations
 
 ---
 

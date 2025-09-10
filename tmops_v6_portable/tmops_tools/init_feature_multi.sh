@@ -54,7 +54,7 @@ FEATURE_DIR="$TMOPS_DIR/$FEATURE"
 RUN_DIR="$FEATURE_DIR/runs/$RUN_TYPE"
 
 mkdir -p "$RUN_DIR"/{checkpoints,logs}
-mkdir -p "$FEATURE_DIR/docs"/{internal,external}
+mkdir -p "$FEATURE_DIR/docs"/{internal,external,archive,images}
 
 # Check for existing refined specification from preflight
 REFINED_SPEC_EXISTS=false

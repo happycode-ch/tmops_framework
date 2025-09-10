@@ -26,6 +26,22 @@ conventions:
 
 # Task Specification: [TITLE]
 
+## File Naming Convention
+
+> **CRITICAL:** When saving this completed template, use the following naming convention:
+> ```bash
+> # Generate filename components
+> TEMPLATE_NUM="05"  # This template's number
+> DATE=$(date +%Y-%m-%d)  # Current date in YYYY-MM-DD format
+> TIME=$(date +%H%M%S)    # Current time in HHMMSS format
+> FEATURE="feature_name"  # Replace with actual feature name (lowercase, underscores)
+> TYPE="task_spec"        # Template type identifier
+> 
+> # Construct the filename
+> FILENAME="${TEMPLATE_NUM}_${DATE}_${TIME}_${FEATURE}_${TYPE}.md"
+> # Example: 05_2025-09-09_213607_visual_component_capture_task_spec.md
+> ```
+
 ## LLM Instruction Prompt
 
 > **For AI Agents:** You are producing a concise, actionable Task Spec. 

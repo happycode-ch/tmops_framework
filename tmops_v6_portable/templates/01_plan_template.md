@@ -3,6 +3,15 @@
 # Version: 1.0.0
 # License: CC BY 4.0
 # Purpose: Strategic approach, milestones, resource allocation, success metrics
+#
+# FILE NAMING CONVENTION:
+# When saving this completed template, use:
+# TEMPLATE_NUM="01"  # This template number
+# DATE=$(date +%Y-%m-%d)  # YYYY-MM-DD format
+# TIME=$(date +%H%M%S)    # HHMMSS format
+# FEATURE="feature_name"  # Replace with actual feature (lowercase, underscores)
+# FILENAME="${TEMPLATE_NUM}_${DATE}_${TIME}_${FEATURE}_plan.md"
+# Example: 01_2025-09-09_213607_visual_component_capture_plan.md
 
 meta:
   version: "1.0.0"
@@ -112,9 +121,9 @@ gantt
 ```
 
 ### Critical Path
-1. Task A ’ Task B ’ Task C
+1. Task A ï¿½ Task B ï¿½ Task C
 2. Parallel: Task D, Task E
-3. Task C + Task D ’ Task F
+3. Task C + Task D ï¿½ Task F
 
 ### Key Dates
 | Date | Event | Deliverable |
