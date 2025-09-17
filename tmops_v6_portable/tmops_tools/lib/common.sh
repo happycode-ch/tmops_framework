@@ -42,12 +42,27 @@ validate_feature_name() {
 
 # Get project paths (consistent with existing scripts)
 get_project_paths() {
-    local script_dir
-    script_dir="$(cd "$(dirname "${BASH_SOURCE[1]}")" && pwd)"
-    PORTABLE_DIR="$(cd "$script_dir/.." && pwd)"
+    # If paths are already set, don't recalculate them
+    if [[ -n "${PROJECT_ROOT:-}" ]]; then
+        return 0
+    fi
+
+    # Find the tmops_tools directory by looking for common.sh
+    local common_sh_path="${BASH_SOURCE[0]}"
+    local tools_dir="$(cd "$(dirname "$common_sh_path")/.." && pwd)"
+
+    # Portable directory is parent of tmops_tools
+    PORTABLE_DIR="$(cd "$tools_dir/.." && pwd)"
+
+    # Project root is parent of tmops_v6_portable
     PROJECT_ROOT="$(cd "$PORTABLE_DIR/.." && pwd)"
     TMOPS_DIR="$PROJECT_ROOT/.tmops"
-    
+
+    # Export these so they persist across function calls
+    export PROJECT_ROOT
+    export PORTABLE_DIR
+    export TMOPS_DIR
+
     # Set instructions directory based on what exists (exported for use by other scripts)
     if [[ -d "$PORTABLE_DIR/instance_instructions" ]]; then
         export INSTRUCTIONS_DIR="$PORTABLE_DIR/instance_instructions"
