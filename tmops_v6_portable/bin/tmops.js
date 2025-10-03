@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
+const readline = require('readline');
 
 function projectRoot() {
   // package root is tmops_v6_portable; project root is its parent
@@ -20,10 +21,8 @@ function portableDir() {
 
 function runBash(scriptPath, args = []) {
   return new Promise((resolve, reject) => {
-    const proc = spawn('bash', [scriptPath, ...args], {
-      stdio: 'inherit',
-      cwd: portableDir()
-    });
+    const env = { ...process.env, TMOPS_PROJECT_ROOT: process.cwd() };
+    const proc = spawn('bash', [scriptPath, ...args], { stdio: 'inherit', cwd: portableDir(), env });
     proc.on('exit', (code) => {
       if (code === 0) resolve(); else reject(new Error(`Exit ${code}`));
     });
@@ -54,16 +53,96 @@ async function cmdBddScaffold(argv) {
   await runBash(scaffold, args);
 }
 
+function rl() {
+  return readline.createInterface({ input: process.stdin, output: process.stdout });
+}
+
+async function askYN(q, def = true) {
+  const r = rl();
+  const hint = def ? 'Y/n' : 'y/N';
+  return new Promise((resolve) => {
+    r.question(`${q} [${hint}]: `, (ans) => {
+      r.close();
+      const a = ans.trim().toLowerCase();
+      if (!a) return resolve(def);
+      if (['y', 'yes'].includes(a)) return resolve(true);
+      if (['n', 'no'].includes(a)) return resolve(false);
+      resolve(def);
+    });
+  });
+}
+
+async function askInput(q, def = '') {
+  const r = rl();
+  return new Promise((resolve) => {
+    r.question(`${q}${def ? ` [${def}]` : ''}: `, (ans) => {
+      r.close();
+      const v = ans.trim();
+      resolve(v || def);
+    });
+  });
+}
+
+async function cmdInit(argv) {
+  const args = process.argv.slice(3);
+  let feature = args[0];
+  let runType = 'initial';
+  const flags = [];
+
+  // detect if interactive
+  const interactive = args.includes('--interactive') || args.length < 1;
+  if (interactive) {
+    feature = await askInput('Feature name (kebab-case)', feature || 'demo');
+    const useCurrent = await askYN('Use current git branch?', true);
+    const skipBranch = !useCurrent ? await askYN('Skip branch operations?', false) : false;
+    let branchName = '';
+    if (!useCurrent && !skipBranch) {
+      branchName = await askInput('Branch name', `feature/${feature}`);
+    }
+    if (useCurrent) flags.push('--use-current-branch');
+    if (skipBranch) flags.push('--skip-branch');
+    if (branchName) flags.push('--branch', branchName);
+  } else {
+    // non-interactive passthrough
+    if (!feature) {
+      console.error('Usage: tmops init <feature> [run-type] [--use-current-branch|--skip-branch|--branch <name>]');
+      process.exit(1);
+    }
+    if (args[1] && !args[1].startsWith('--')) runType = args[1];
+    flags.push(...args.slice(2));
+  }
+
+  const script = path.join(portableDir(), 'tmops_tools', 'init_feature_multi.sh');
+  const callArgs = [feature, runType, ...flags];
+  await runBash(script, callArgs);
+}
+
+async function cmdRunManager(argv) {
+  const args = process.argv.slice(3);
+  if (args.length < 2) {
+    console.log('Usage: tmops run-manager <feature> <list|new|clear|switch> [options]');
+    process.exit(1);
+  }
+  const script = path.join(portableDir(), 'tmops_tools', 'run_manager.sh');
+  await runBash(script, args);
+}
+
 async function main() {
   const cmd = process.argv[2];
   if (!cmd || cmd === '-h' || cmd === '--help') {
     console.log('Usage: tmops <command>');
+    console.log('  init             Initialize a feature (supports --interactive)');
+    console.log('  run-manager      Manage runs: list/new/clear/switch');
     console.log('  demo-gherkin     Create a tiny curated doc and extract features');
     console.log('  bdd-scaffold     Extract features from a curated doc (wrapper)');
     process.exit(0);
   }
   try {
-    if (cmd === 'demo-gherkin') {
+    if (cmd === 'init') {
+      await cmdInit(process.argv.slice(3));
+    } else if (cmd === 'run-manager') {
+      await cmdRunManager(process.argv.slice(3));
+    } else if (cmd === 'demo-gherkin') {
       await cmdDemoGherkin(process.argv.slice(3));
     } else if (cmd === 'bdd-scaffold') {
       await cmdBddScaffold(process.argv.slice(3));
@@ -78,4 +157,3 @@ async function main() {
 }
 
 main();
-

@@ -1,5 +1,9 @@
 # TeamOps (tmops) – Multi‑Instance AI Orchestration
 
+TeamOps by Anthony Calek (@happycode)
+
+[![npm version](https://img.shields.io/npm/v/%40happycode%2Ftmops)](https://www.npmjs.com/package/@happycode/tmops)
+
 Lightweight, test‑driven orchestration for multiple AI code agent instances using checkpoints and Markdown instructions.
 
 <div align="center">
@@ -87,6 +91,21 @@ Examples
 - OpenAI CLI (non‑interactive by default; use a wrapper if needed)
   ```bash
   export AGENT_CMD="openai"
+  ```
+
+## Install via npm (optional)
+
+- Try the 5‑minute demo (no setup):
+  ```bash
+  npx @happycode/tmops demo-gherkin
+  ```
+- Or add as a dev dependency:
+  ```bash
+  npm i -D @happycode/tmops
+  # Initialize a feature (interactive)
+  tmops init --interactive
+  # Extract features from a curated doc
+  tmops bdd-scaffold --from docs/product/gherkin/acceptance_demo.md --stack js --gen-steps
   ```
 
 ### Setup & Usage
