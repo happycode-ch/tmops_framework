@@ -1,4 +1,9 @@
 #!/bin/bash
+# 📁 FILE: tmops_v6_portable/tmops_tools/list_features.sh
+# 🎯 PURPOSE: List TeamOps features and their status with branch info
+# 🤖 AI-HINT: Shows recorded branch from FEATURES.txt and artifact counts
+# 🔗 DEPENDENCIES: git, .tmops/FEATURES.txt
+# 📝 CONTEXT: Overview for multi-feature/multi-run setups
 # List all TeamOps features and their status
 
 echo "╔═══════════════════════════════════════════════╗"
@@ -26,12 +31,12 @@ while IFS=: read -r feature status timestamp branch_info; do
     echo "  • $feature"
     
     # Check branch status
-    if [[ "$CURRENT_BRANCH" == "feature/$feature" ]]; then
-        echo "    └─ Branch: feature/$feature [CURRENT]"
-    elif git show-ref --verify --quiet "refs/heads/feature/$feature"; then
-        echo "    └─ Branch: feature/$feature [exists]"
+    if [[ "$CURRENT_BRANCH" == "$branch_info" ]]; then
+        echo "    └─ Branch: $branch_info [CURRENT]"
+    elif git show-ref --verify --quiet "refs/heads/$branch_info"; then
+        echo "    └─ Branch: $branch_info [exists]"
     else
-        echo "    └─ Branch: feature/$feature [missing]"
+        echo "    └─ Branch: $branch_info [missing]"
     fi
     
     # Check for checkpoints

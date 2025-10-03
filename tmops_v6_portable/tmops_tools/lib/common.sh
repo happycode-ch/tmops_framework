@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# 📁 FILE: tmops_v6_portable/tmops_tools/lib/common.sh
+# 🎯 PURPOSE: Shared function library providing common utilities for all TeamOps scripts
+# 🤖 AI-HINT: Source in TeamOps scripts for logging, error handling, paths, validation
+# 🔗 DEPENDENCIES: bash, git, standard Unix utilities
+# 📝 CONTEXT: Core library for all TeamOps tools and scripts
 # TeamOps Shared Function Library
 # Common functions used across all TeamOps scripts
 
@@ -42,26 +47,27 @@ validate_feature_name() {
 
 # Get project paths (consistent with existing scripts)
 get_project_paths() {
-    # If paths are already set, don't recalculate them
-    if [[ -n "${PROJECT_ROOT:-}" ]]; then
-        return 0
+    # Resolve from this file's location to remain robust from any CWD
+    local common_script_dir
+    common_script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+
+    # Portable directory (tmops_v6_portable) and project root
+    local portable_dir
+    portable_dir="$(cd "$common_script_dir/../.." && pwd -P)"
+    local project_root
+    project_root="$(cd "$portable_dir/.." && pwd -P)"
+
+    # Optional override for CI or custom layouts
+    if [[ -n "${TMOPS_PROJECT_ROOT:-}" && -d "$TMOPS_PROJECT_ROOT" ]]; then
+        project_root="$(cd "$TMOPS_PROJECT_ROOT" && pwd -P)"
+        if [[ -d "$project_root/tmops_v6_portable" ]]; then
+            portable_dir="$(cd "$project_root/tmops_v6_portable" && pwd -P)"
+        fi
     fi
 
-    # Find the tmops_tools directory by looking for common.sh
-    local common_sh_path="${BASH_SOURCE[0]}"
-    local tools_dir="$(cd "$(dirname "$common_sh_path")/.." && pwd)"
-
-    # Portable directory is parent of tmops_tools
-    PORTABLE_DIR="$(cd "$tools_dir/.." && pwd)"
-
-    # Project root is parent of tmops_v6_portable
-    PROJECT_ROOT="$(cd "$PORTABLE_DIR/.." && pwd)"
-    TMOPS_DIR="$PROJECT_ROOT/.tmops"
-
-    # Export these so they persist across function calls
-    export PROJECT_ROOT
-    export PORTABLE_DIR
-    export TMOPS_DIR
+    export PORTABLE_DIR="$portable_dir"
+    export PROJECT_ROOT="$project_root"
+    export TMOPS_DIR="$project_root/.tmops"
 
     # Set instructions directory based on what exists (exported for use by other scripts)
     if [[ -d "$PORTABLE_DIR/instance_instructions" ]]; then
@@ -127,7 +133,7 @@ get_checkpoint_status() {
 # Ensure feature branch exists and is checked out
 ensure_feature_branch() {
     local feature="$1"
-    local branch_name="feature/$feature"
+    local branch_name="${2:-feature/$feature}"
     
     log_info "Setting up feature branch: $branch_name"
     
@@ -144,21 +150,21 @@ ensure_feature_branch() {
 create_feature_structure() {
     local feature="$1"
     local run_type="${2:-initial}"
-    
+
     get_project_paths
-    
+
     local feature_dir="$TMOPS_DIR/$feature"
     local run_dir="$feature_dir/runs/$run_type"
-    
+
     # Create directory structure
     mkdir -p "$run_dir"/{checkpoints,logs}
     mkdir -p "$feature_dir/docs"/{internal,external,archive,images}
-    
+
     # Create current symlink
     ln -sfn "runs/$run_type" "$feature_dir/current"
-    
+
     log_success "Created feature structure: $feature_dir"
-    
+
     # Return paths for caller
     echo "FEATURE_DIR=$feature_dir"
     echo "RUN_DIR=$run_dir"
@@ -189,10 +195,24 @@ track_feature() {
     local feature="$1"
     local status="${2:-active}"
     local branch="${3:-feature/$feature}"
-    
+
     get_project_paths
     mkdir -p "$TMOPS_DIR"
-    echo "$feature:$status:$(date -Iseconds):$branch" >> "$TMOPS_DIR/FEATURES.txt"
+    local features_file="$TMOPS_DIR/FEATURES.txt"
+    local line="$feature:$status:$(date -Iseconds):$branch"
+
+    if [[ -f "$features_file" ]] && grep -q "^$feature:" "$features_file" 2>/dev/null; then
+        awk -v feat="$feature" -v new="$line" -F':' 'BEGIN{OFS=FS} {
+            if ($1==feat) { print new; replaced=1 } else { print $0 }
+        } END { if (!replaced) print new }' "$features_file" > "$features_file.tmp" && mv "$features_file.tmp" "$features_file"
+    else
+        echo "$line" >> "$features_file"
+    fi
+}
+
+# Helper: get current git branch name
+current_git_branch() {
+    git branch --show-current
 }
 
 # Check if refined spec exists (for smart handoff)
