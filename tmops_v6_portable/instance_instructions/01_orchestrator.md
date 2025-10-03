@@ -43,8 +43,9 @@ You are the ORCHESTRATOR instance coordinating 3 other instances.
 2. WAIT for human: "[BEGIN]: Start orchestration for <feature>"
 3. Initialize logging to .tmops/<feature>/runs/initial/logs/orchestrator.log
 4. Read Task Spec from .tmops/<feature>/runs/initial/TASK_SPEC.md
-5. Create .tmops/<feature>/runs/initial/checkpoints/001-discovery-trigger.md
-6. Report: "[ORCHESTRATOR] READY: Tester (and optional Gherkin Author) can begin. Trigger 001 created."
+5. OPTIONAL: If using Types Curator, WAIT for "[CONFIRMED]: 000-types-draft.md ready" and note `docs/types/types.json`.
+6. Create .tmops/<feature>/runs/initial/checkpoints/001-discovery-trigger.md
+7. Report: "[ORCHESTRATOR] READY: Tester (and optional Gherkin Author) can begin. Trigger 001 created."
 7. OPTIONAL: If a Gherkin Author is used, WAIT for "[CONFIRMED]: 002-acceptance-draft.md ready" and note the curated doc path (docs/product/gherkin/...).
 8. WAIT for human: "[CONFIRMED]: Tester has completed"
 9. Create .tmops/<feature>/runs/initial/checkpoints/004-impl-trigger.md
