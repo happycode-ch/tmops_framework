@@ -244,8 +244,15 @@ async function main() {
       await cmdDoctor();
     } else if (cmd === 'types-init') {
       await cmdTypesInit();
-    } else if (cmd === 'types-materialize') {
-      await cmdTypesMaterialize();
+  } else if (cmd === 'types-materialize') {
+      // parse optional --stack <js|python>
+      const args = process.argv.slice(3);
+      let stackArg = null;
+      const idx = args.indexOf('--stack');
+      if (idx >= 0 && idx + 1 < args.length) {
+        stackArg = args[idx + 1];
+      }
+      await cmdTypesMaterialize({ stack: stackArg });
     } else if (cmd === 'types-gate') {
       await cmdTypesGate();
     } else if (cmd === 'demo-types-first') {
@@ -367,9 +374,17 @@ async function cmdTypesInit() {
   console.log('\nNext: tmops types-materialize  # create stubs');
 }
 
-async function cmdTypesMaterialize() {
+async function cmdTypesMaterialize(opts = {}) {
   const root = process.cwd();
-  const stack = (await askInput('Stack to scaffold (js/python)', 'js')).toLowerCase();
+  let stack = opts.stack;
+  if (!stack) {
+    if (!process.stdin.isTTY) {
+      stack = 'js';
+      console.log('Non-interactive mode detected, using stack: js');
+    } else {
+      stack = (await askInput('Stack to scaffold (js/python)', 'js')).toLowerCase();
+    }
+  }
   if (stack === 'js') {
     const target = path.join(root, 'src', 'types');
     fs.mkdirSync(target, { recursive: true });
@@ -415,6 +430,6 @@ async function cmdTypesGate() {
 
 async function cmdDemoTypesFirst() {
   await cmdTypesInit();
-  await cmdTypesMaterialize();
+  await cmdTypesMaterialize({ stack: 'js' });
   console.log('\nDemo ready. Run your tests, then bind your Gherkin steps to these types.');
 }

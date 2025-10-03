@@ -99,7 +99,7 @@ while IFS= read -r line; do
 done < "$tmpfile.blocks"
 
 if [[ ${#created[@]} -eq 0 ]]; then
-  echo "WARNING: No ```gherkin blocks found in $INPUT" >&2
+  echo "WARNING: No \`\`\`gherkin blocks found in $INPUT" >&2
   exit 0
 fi
 
@@ -155,4 +155,3 @@ if [[ "$STACK" == "js" ]]; then
 elif [[ "$STACK" == "python" ]]; then
   echo "Run: pytest -q"
 fi
-
