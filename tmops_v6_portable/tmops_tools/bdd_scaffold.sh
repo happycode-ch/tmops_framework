@@ -94,8 +94,8 @@ while IFS= read -r line; do
     current=""
     continue
   fi
-  # accumulate block contents
-  current+="$line\n"
+  # accumulate block contents with real newlines
+  current+="$line"$'\n'
 done < "$tmpfile.blocks"
 
 if [[ ${#created[@]} -eq 0 ]]; then
