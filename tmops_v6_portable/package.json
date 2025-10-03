@@ -1,8 +1,26 @@
 {
-  "name": "tmops-cli",
-  "version": "0.0.1",
-  "description": "TeamOps portable CLI: init, multi-run, and BDD/Gherkin scaffolding",
+  "name": "@happycode/tmops",
+  "version": "0.1.0",
+  "description": "TeamOps CLI by Anthony Calek (@happycode): init, multi-run, and BDD/Gherkin scaffolding",
   "license": "MIT",
+  "author": "Anthony Calek (@happycode)",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/happycode-ch/tmops_framework.git"
+  },
+  "homepage": "https://github.com/happycode-ch/tmops_framework#readme",
+  "bugs": {
+    "url": "https://github.com/happycode-ch/tmops_framework/issues"
+  },
+  "keywords": [
+    "tmops",
+    "teamops",
+    "bdd",
+    "gherkin",
+    "cli",
+    "orchestration",
+    "tdd"
+  ],
   "bin": {
     "tmops": "bin/tmops.js"
   },
@@ -21,4 +39,3 @@
     "templates/"
   ]
 }
-
