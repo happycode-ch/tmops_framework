@@ -43,8 +43,11 @@ jobs:
         run: node tmops_v6_portable/bin/tmops.js demo-gherkin
       - name: Scaffold features from curated doc
         run: node tmops_v6_portable/bin/tmops.js bdd-scaffold --from docs/product/gherkin/acceptance_demo.md --stack js --gen-steps
-      - name: Verify feature files
+      - name: Verify feature files exist
         run: |
           test -d tests/features
           test -f tests/steps/acceptance-demo.steps.js
-
+      - name: Lint Gherkin features
+        run: npx --yes --package=gherkin-lint gherkin-lint tests/features
+      - name: Dry-run cucumber-js (parse features)
+        run: npx --yes --package=@cucumber/cucumber cucumber-js tests/features --dry-run --publish-quiet

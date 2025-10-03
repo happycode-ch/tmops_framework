@@ -1,0 +1,9 @@
+{
+  "no-empty-file": "error",
+  "no-unnamed-features": "error",
+  "no-unnamed-scenarios": "error",
+  "no-dupe-scenario-names": "error",
+  "no-trailing-spaces": "warn",
+  "name-length": ["off", {"min": 3, "max": 120}]
+}
+

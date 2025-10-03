@@ -108,6 +108,25 @@ Examples
   tmops bdd-scaffold --from docs/product/gherkin/acceptance_demo.md --stack js --gen-steps
   ```
 
+## CI Quickstart (GitHub Actions)
+
+Included workflows:
+- `ci.yml` runs on push/PR and performs:
+  - `tmops doctor` (environment check)
+  - Types-first smoke (`demo-types-first`) to verify docs/types and stubs
+  - BDD smoke: creates a curated doc, scaffolds features, runs `gherkin-lint`, and performs a cucumber-js dry-run
+
+Beginner-friendly notes:
+- The BDD job does not execute real steps (dry-run) and uses linting to keep things simple.
+- You can later install `@cucumber/cucumber` in your project and remove `--dry-run` to run scenarios.
+
+## Publishing to npm (tag + approval)
+
+- Configure repo secret: `NPM_TOKEN` (npm auth token with publish rights).
+- Create a tag: `git tag v0.1.0 && git push --tags` (version must match `tmops_v6_portable/package.json`).
+- A `publish.yml` workflow triggers, requires manual approval, and publishes `@happycode/tmops`.
+- The job uses environment `npm-publish` (you can add required reviewers in repo settings for extra protection).
+
 ### Setup & Usage
 
 1. **Clone and navigate**

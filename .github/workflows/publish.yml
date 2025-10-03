@@ -1,0 +1,50 @@
+name: npm publish (tagged)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  approval:
+    name: Manual approval
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          approvers: ${{ github.actor }}
+          minimum-approvals: 1
+          issue-title: "Approve npm publish for tag ${{ github.ref_name }}"
+          issue-body: |
+            Approve to publish @happycode/tmops for tag `${{ github.ref_name }}`.
+            Ensure NPM_TOKEN is configured in repo secrets.
+
+  publish:
+    name: Publish to npm
+    needs: approval
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Verify package version matches tag
+        run: |
+          cd tmops_v6_portable
+          PKG_VER=$(jq -r .version package.json)
+          TAG_VER=${GITHUB_REF_NAME#v}
+          echo "package.json version: $PKG_VER, tag: $TAG_VER"
+          test "$PKG_VER" = "$TAG_VER"
+      - name: Publish package
+        run: |
+          cd tmops_v6_portable
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
