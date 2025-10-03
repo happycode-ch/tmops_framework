@@ -1,0 +1,50 @@
+name: tmops CI
+
+on:
+  push:
+    branches: [ main, feature/** ]
+  pull_request:
+    branches: [ main, feature/** ]
+
+jobs:
+  doctor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Run tmops doctor
+        run: node tmops_v6_portable/bin/tmops.js doctor
+
+  types-first-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Demo types-first
+        run: node tmops_v6_portable/bin/tmops.js demo-types-first
+      - name: Verify types artifacts
+        run: |
+          test -f docs/types/types.json
+          test -d src/types
+          test -d tests/types
+
+  bdd-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Create acceptance demo
+        run: node tmops_v6_portable/bin/tmops.js demo-gherkin
+      - name: Scaffold features from curated doc
+        run: node tmops_v6_portable/bin/tmops.js bdd-scaffold --from docs/product/gherkin/acceptance_demo.md --stack js --gen-steps
+      - name: Verify feature files
+        run: |
+          test -d tests/features
+          test -f tests/steps/acceptance-demo.steps.js
+

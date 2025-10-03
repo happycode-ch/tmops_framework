@@ -53,6 +53,13 @@ async function cmdBddScaffold(argv) {
       console.log('Usage: tmops bdd-scaffold --from <file> [--stack js|python] [--feature-slug <slug>] [--out <dir>] [--gen-steps] [--interactive]');
       process.exit(1);
     }
+    // normalize --from path to be relative to portableDir()
+    const idx = args.indexOf('--from');
+    if (idx >= 0 && idx + 1 < args.length) {
+      const val = args[idx + 1];
+      const abs = path.isAbsolute(val) ? val : path.join(process.cwd(), val);
+      args[idx + 1] = path.relative(portableDir(), abs);
+    }
     await runBash(scaffold, args);
     return;
   }
