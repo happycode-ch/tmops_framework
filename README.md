@@ -189,6 +189,26 @@ Essential scripts for the tmops workflow:
   # (after publishing) npx tmops-cli demo-gherkin
   ```
 
+## Types‑First Workflow (Optional)
+
+Why types first
+- Illegal states become unrepresentable; types serve as compile‑time specs.
+- Pair strict types with runtime validation at boundaries and tests (examples + properties).
+
+Artifacts
+- `docs/types/types.json` (source of truth); optional `contracts/openapi.yaml`, `schema/*.json`
+- Generated stubs/tests: `src/types/…`, `tests/types/…`
+
+Commands
+- `tmops types-init` — scaffold `docs/types/types.json` and docs
+- `tmops types-materialize` — create minimal TS/Py stubs/tests (placeholder code)
+- `tmops types-gate` — print suggested CI gates
+- `tmops demo-types-first` — end‑to‑end tiny demo
+
+Gates (suggested)
+- TS: `tsc --noEmit`, ESLint strict rules, type‑coverage ≥ 95%
+- Py: `pyright --strict --verifytypes <pkg> ≥ 90%`, mypy strict Any budget
+
 - **`extract_metrics.py`** - Extract performance and quality metrics
   ```bash
   ./tmops_v6_portable/tmops_tools/extract_metrics.py <feature-name> --format report

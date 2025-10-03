@@ -218,6 +218,10 @@ async function main() {
     console.log('  demo-gherkin     Create a tiny curated doc and extract features');
     console.log('  bdd-scaffold     Extract features from a curated doc (supports --interactive)');
     console.log('  doctor           Environment checks and suggestions');
+    console.log('  types-init       Scaffold types.json and types docs');
+    console.log('  types-materialize  Create minimal TS/Py stubs from types (placeholder)');
+    console.log('  types-gate       Print suggested type gates and checks (placeholder)');
+    console.log('  demo-types-first Create a tiny types.json and minimal stubs/tests');
     process.exit(0);
   }
   try {
@@ -231,6 +235,14 @@ async function main() {
       await cmdBddScaffold(process.argv.slice(3));
     } else if (cmd === 'doctor') {
       await cmdDoctor();
+    } else if (cmd === 'types-init') {
+      await cmdTypesInit();
+    } else if (cmd === 'types-materialize') {
+      await cmdTypesMaterialize();
+    } else if (cmd === 'types-gate') {
+      await cmdTypesGate();
+    } else if (cmd === 'demo-types-first') {
+      await cmdDemoTypesFirst();
     } else {
       console.error(`Unknown command: ${cmd}`);
       process.exit(1);
@@ -315,4 +327,87 @@ async function cmdDoctor() {
   console.log('\nTMOPS Doctor Report');
   results.forEach(r => console.log(`${r.ok ? '✅' : '❌'} ${r.name}${r.ok ? '' : ` — ${r.fix}`}`));
   process.exit(criticalOk ? 0 : 1);
+}
+
+// --------------------
+// Types-first commands
+async function cmdTypesInit() {
+  const root = process.cwd();
+  const typesDir = path.join(root, 'docs', 'types');
+  fs.mkdirSync(typesDir, { recursive: true });
+  const typesPath = path.join(typesDir, 'types.json');
+  if (!fs.existsSync(typesPath)) {
+    const skeleton = {
+      domain: "Demo",
+      types: {
+        Money: { kind: "value", fields: { amount: "decimal>=0", currency: "ISO-4217" } },
+        Status: { kind: "sum", variants: ["pending", "done", "failed"] },
+        Entity: { kind: "product", fields: { id: "Ulid", amount: "Money", status: "Status" } }
+      },
+      invariants: ["done ⇒ amount.amount > 0"],
+      examples: { Entity: { valid: [{ id: "01H..", amount: { amount: 10, currency: "CHF" }, status: "done" }], invalid: [] } }
+    };
+    fs.writeFileSync(typesPath, JSON.stringify(skeleton, null, 2));
+    console.log(`Created ${path.relative(root, typesPath)}`);
+  } else {
+    console.log(`Found existing ${path.relative(root, typesPath)}`);
+  }
+  const typesReadme = path.join(typesDir, 'README.md');
+  if (!fs.existsSync(typesReadme)) {
+    fs.writeFileSync(typesReadme, `# Types (Source of Truth)\n\n- Edit types.json via the Types Curator flow.\n- Optional: add OpenAPI at contracts/openapi.yaml or JSON Schema under schema/.\n- Bind Gherkin and tests to these types.\n`);
+    console.log(`Created ${path.relative(root, typesReadme)}`);
+  }
+  console.log('\nNext: tmops types-materialize  # create stubs');
+}
+
+async function cmdTypesMaterialize() {
+  const root = process.cwd();
+  const stack = (await askInput('Stack to scaffold (js/python)', 'js')).toLowerCase();
+  if (stack === 'js') {
+    const target = path.join(root, 'src', 'types');
+    fs.mkdirSync(target, { recursive: true });
+    const file = path.join(target, 'index.ts');
+    if (!fs.existsSync(file)) {
+      fs.writeFileSync(file, `import { z } from 'zod';\n\nexport const MoneySchema = z.object({ amount: z.number().nonnegative(), currency: z.string() });\nexport type Money = z.infer<typeof MoneySchema>;\n`);
+      console.log(`Created ${path.relative(root, file)}`);
+    }
+    const testDir = path.join(root, 'tests', 'types');
+    fs.mkdirSync(testDir, { recursive: true });
+    const testFile = path.join(testDir, 'property.money.test.ts');
+    if (!fs.existsSync(testFile)) {
+      fs.writeFileSync(testFile, `import fc from 'fast-check';\nimport { MoneySchema } from '../../src/types';\n\ntest('amount is nonnegative', () => {\n  fc.assert(fc.property(fc.float({ noDefaultInfinity: true }), (x) => {\n    const amt = Math.abs(x);\n    const parsed = MoneySchema.safeParse({ amount: amt, currency: 'CHF' });\n    return parsed.success;\n  }));\n});\n`);
+      console.log(`Created ${path.relative(root, testFile)}`);
+    }
+  } else if (stack === 'python') {
+    const target = path.join(root, 'src', 'types');
+    fs.mkdirSync(target, { recursive: true });
+    const file = path.join(target, 'models.py');
+    if (!fs.existsSync(file)) {
+      fs.writeFileSync(file, `from pydantic import BaseModel, Field\n\nclass Money(BaseModel):\n    amount: float = Field(ge=0)\n    currency: str\n`);
+      console.log(`Created ${path.relative(root, file)}`);
+    }
+    const testDir = path.join(root, 'tests', 'types');
+    fs.mkdirSync(testDir, { recursive: true });
+    const testFile = path.join(testDir, 'test_property_money.py');
+    if (!fs.existsSync(testFile)) {
+      fs.writeFileSync(testFile, `from hypothesis import given, strategies as st\nfrom src.types.models import Money\n\n@given(st.floats(allow_infinity=False, allow_nan=False).map(abs))\ndef test_amount_nonnegative(x):\n    m = Money(amount=x, currency='CHF')\n    assert m.amount >= 0\n`);
+      console.log(`Created ${path.relative(root, testFile)}`);
+    }
+  } else {
+    console.log('Unknown stack. Use js or python.');
+  }
+  console.log('Next: implement strict type gates in your CI. See tmops types-gate');
+}
+
+async function cmdTypesGate() {
+  console.log('Suggested gates (configure in your CI):');
+  console.log('- TypeScript: tsc --noEmit, ESLint no-explicit-any + strict-boolean, type-coverage >= 95%');
+  console.log('- Python: pyright --strict --verifytypes <pkg> >= 90%, mypy --strict with Any budget');
+  console.log('- Contracts: oasdiff (OpenAPI breaking) + Spectral lint (if applicable)');
+}
+
+async function cmdDemoTypesFirst() {
+  await cmdTypesInit();
+  await cmdTypesMaterialize();
+  console.log('\nDemo ready. Run your tests, then bind your Gherkin steps to these types.');
 }

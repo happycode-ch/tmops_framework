@@ -22,3 +22,8 @@ Notes
 - Keep scenario steps declarative (intent), not UI actions.
 - Tag scenarios for traceability (e.g., @req-*, @feat-*, @persona-*).
 - Test data fixtures should live under `tests/data/`.
+
+Advanced
+- Optional Gherkin Author role instructions: `tmops_v6_portable/instance_instructions/02a_gherkin_author.md`
+- Use tags to filter runs: `npx cucumber-js --tags "@feat-directory-search and not @wip"`
+- Bind steps to runtime schemas (Zod/Pydantic) for input validation before executing behavior.
