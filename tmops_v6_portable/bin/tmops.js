@@ -44,13 +44,95 @@ async function cmdDemoGherkin(argv) {
 }
 
 async function cmdBddScaffold(argv) {
-  const args = process.argv.slice(3);
-  if (args.length === 0) {
-    console.log('Usage: tmops bdd-scaffold --from <file> [--stack js|python] [--feature-slug <slug>] [--out <dir>] [--gen-steps]');
+  let args = process.argv.slice(3);
+  const interactive = args.includes('--interactive');
+  const scaffold = path.join(portableDir(), 'tmops_tools', 'bdd_scaffold.sh');
+
+  if (!interactive) {
+    if (args.length === 0) {
+      console.log('Usage: tmops bdd-scaffold --from <file> [--stack js|python] [--feature-slug <slug>] [--out <dir>] [--gen-steps] [--interactive]');
+      process.exit(1);
+    }
+    await runBash(scaffold, args);
+    return;
+  }
+
+  // Interactive wizard
+  // 1) Discover curated docs
+  const root = process.cwd();
+  const defaultDir = path.join(root, 'docs', 'product', 'gherkin');
+  let candidates = [];
+  try {
+    if (fs.existsSync(defaultDir)) {
+      candidates = fs.readdirSync(defaultDir)
+        .filter(f => f.endsWith('.md'))
+        .map(f => path.join(defaultDir, f));
+    }
+  } catch {}
+
+  let chosen = '';
+  if (candidates.length > 0) {
+    console.log('Found curated docs:');
+    candidates.forEach((f, i) => console.log(`  [${i+1}] ${path.relative(root, f)}`));
+    const pick = await askInput('Pick a file by number or enter a path', '1');
+    const idx = parseInt(pick, 10);
+    if (!isNaN(idx) && idx >= 1 && idx <= candidates.length) {
+      chosen = candidates[idx-1];
+    } else {
+      chosen = path.isAbsolute(pick) ? pick : path.join(root, pick);
+    }
+  } else {
+    chosen = await askInput('Path to curated acceptance doc (Markdown)', 'docs/product/gherkin/acceptance_demo.md');
+    chosen = path.isAbsolute(chosen) ? chosen : path.join(root, chosen);
+  }
+  if (!fs.existsSync(chosen)) {
+    console.error(`ERROR: File not found: ${chosen}`);
     process.exit(1);
   }
-  const scaffold = path.join(portableDir(), 'tmops_tools', 'bdd_scaffold.sh');
-  await runBash(scaffold, args);
+
+  // 2) Optional check for gherkin blocks
+  const content = fs.readFileSync(chosen, 'utf8');
+  const blockRe = /```gherkin[\s\S]*?```/g;
+  const blocks = content.match(blockRe) || [];
+  if (blocks.length === 0) {
+    console.warn('WARNING: No ```gherkin blocks found. The scaffold may not create any feature files.');
+  } else {
+    console.log(`Detected ${blocks.length} gherkin block(s).`);
+  }
+
+  // 3) Stack selection
+  const stackAns = await askInput('Stack (js/python)', 'js');
+  const stack = (stackAns || 'js').toLowerCase();
+
+  // 4) Feature slug suggestion
+  const base = path.basename(chosen, path.extname(chosen));
+  const suggestedSlug = base.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const featureSlug = await askInput('Feature group slug', suggestedSlug);
+
+  // 5) Output dir suggestion
+  const suggestedOut = path.join(root, 'tests', 'features', featureSlug);
+  const outDir = await askInput('Output directory for .feature files', path.relative(root, suggestedOut));
+
+  // 6) Step stubs
+  const genSteps = await askYN('Generate step stubs?', true);
+
+  // Build args
+  const callArgs = ['--from', path.relative(portableDir(), chosen), '--stack', stack, '--feature-slug', featureSlug, '--out', outDir];
+  if (genSteps) callArgs.push('--gen-steps');
+
+  await runBash(scaffold, callArgs);
+
+  const runCmd = stack === 'python' ? 'pytest -q' : 'npx cucumber-js tests/features';
+  const runNow = await askYN(`Run tests now? (${runCmd})`, false);
+  if (runNow) {
+    const [cmd, ...cmdArgs] = runCmd.split(' ');
+    await new Promise((resolve) => {
+      const proc = spawn(cmd, cmdArgs, { stdio: 'inherit', cwd: root });
+      proc.on('exit', () => resolve());
+    });
+  } else {
+    console.log(`Next: ${runCmd}`);
+  }
 }
 
 function rl() {
@@ -134,7 +216,8 @@ async function main() {
     console.log('  init             Initialize a feature (supports --interactive)');
     console.log('  run-manager      Manage runs: list/new/clear/switch');
     console.log('  demo-gherkin     Create a tiny curated doc and extract features');
-    console.log('  bdd-scaffold     Extract features from a curated doc (wrapper)');
+    console.log('  bdd-scaffold     Extract features from a curated doc (supports --interactive)');
+    console.log('  doctor           Environment checks and suggestions');
     process.exit(0);
   }
   try {
@@ -146,6 +229,8 @@ async function main() {
       await cmdDemoGherkin(process.argv.slice(3));
     } else if (cmd === 'bdd-scaffold') {
       await cmdBddScaffold(process.argv.slice(3));
+    } else if (cmd === 'doctor') {
+      await cmdDoctor();
     } else {
       console.error(`Unknown command: ${cmd}`);
       process.exit(1);
@@ -157,3 +242,77 @@ async function main() {
 }
 
 main();
+
+// --------------------
+// Doctor
+async function cmdDoctor() {
+  const results = [];
+  function add(name, ok, fix) { results.push({ name, ok, fix }); }
+
+  // Node
+  const nodeOk = (() => {
+    try {
+      const v = process.versions.node.split('.')[0];
+      return parseInt(v, 10) >= 16;
+    } catch { return false; }
+  })();
+  add('Node >= 16', nodeOk, 'Install Node 16+ (https://nodejs.org/)');
+
+  // bash
+  const bashOk = await new Promise((resolve) => {
+    const p = spawn(process.platform === 'win32' ? 'bash.exe' : 'bash', ['-lc', 'echo ok'], { stdio: 'ignore' });
+    p.on('exit', code => resolve(code === 0));
+    p.on('error', () => resolve(false));
+  });
+  add('Bash available', bashOk, 'Install Git Bash (Windows) or ensure bash is in PATH');
+
+  // git
+  const gitOk = await new Promise((resolve) => {
+    const p = spawn('git', ['--version'], { stdio: 'ignore' });
+    p.on('exit', code => resolve(code === 0));
+    p.on('error', () => resolve(false));
+  });
+  add('Git available', gitOk, 'Install Git and ensure it is in PATH');
+
+  // repo
+  const inRepo = await new Promise((resolve) => {
+    const p = spawn('git', ['rev-parse', '--is-inside-work-tree'], { stdio: 'ignore' });
+    p.on('exit', code => resolve(code === 0));
+    p.on('error', () => resolve(false));
+  });
+  add('Inside a Git repository', inRepo, 'Run tmops inside a Git repo');
+
+  // write access
+  const canWrite = (() => {
+    try {
+      const probe = path.join(process.cwd(), `.tmops_write_probe_${Date.now()}`);
+      fs.writeFileSync(probe, 'ok');
+      fs.unlinkSync(probe);
+      return true;
+    } catch { return false; }
+  })();
+  add('Write access to current directory', canWrite, 'Check permissions for current directory');
+
+  // scripts executable
+  const scripts = [
+    'tmops_tools/init_feature_multi.sh',
+    'tmops_tools/run_manager.sh',
+    'tmops_tools/bdd_scaffold.sh',
+    'tmops_tools/init_preflight.sh',
+  ];
+  const scriptChecks = scripts.map(rel => {
+    const full = path.join(portableDir(), rel);
+    try { fs.accessSync(full, fs.constants.X_OK); return true; } catch { return false; }
+  });
+  add('Core scripts executable', scriptChecks.every(Boolean), 'Ensure executable bit on tmops_v6_portable/tmops_tools/*.sh');
+
+  // BDD toolchain (advisory)
+  const hasCucumber = fs.existsSync(path.join(process.cwd(), 'node_modules', '@cucumber', 'cucumber'));
+  add('JS BDD: @cucumber/cucumber present (advisory)', hasCucumber, 'npm i -D @cucumber/cucumber');
+
+  // Summarize
+  const criticalOk = nodeOk && bashOk && gitOk && canWrite;
+  console.log('\nTMOPS Doctor Report');
+  results.forEach(r => console.log(`${r.ok ? '✅' : '❌'} ${r.name}${r.ok ? '' : ` — ${r.fix}`}`));
+  process.exit(criticalOk ? 0 : 1);
+}
