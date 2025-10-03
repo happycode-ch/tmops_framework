@@ -2,9 +2,6 @@
 
 Lightweight, test‑driven orchestration for multiple AI code agent instances using checkpoints and Markdown instructions.
 
-<details>
-<summary>TeamOps Logo</summary>
-
 <div align="center">
   <div style="background-color: #DC143C; color: white; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 24px; font-weight: bold; margin: 20px 0;">
     <pre style="color: white; margin: 0; background: none;">
@@ -17,8 +14,6 @@ Lightweight, test‑driven orchestration for multiple AI code agent instances us
     </pre>
   </div>
 </div>
-
-</details>
 
 ## Multi-Instance AI Orchestration Workflow
 
