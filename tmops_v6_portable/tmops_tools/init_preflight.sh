@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# 📁 FILE: tmops_v6_portable/tmops_tools/init_preflight.sh
+# 🎯 PURPOSE: Initialize preflight (3-instance) specification refinement workflow
+# 🤖 AI-HINT: Supports branch-flexible modes; prepares refined spec for main workflow
+# 🔗 DEPENDENCIES: tmops_tools/lib/common.sh, git
+# 📝 CONTEXT: Preflight produces refined TASK_SPEC.md for auto-handoff to main TeamOps
 # TeamOps Preflight Initialization Script
 # Separate 3-instance workflow for specification refinement
 
@@ -13,7 +18,35 @@ check_dependencies
 
 # Parse arguments
 FEATURE="${1:-}"
-RUN_TYPE="${2:-initial}"
+MODE="default"        # default|use_current|skip|explicit
+RESOLVED_BRANCH=""
+
+if [[ -z "$FEATURE" ]]; then
+    error_exit "Usage: $0 <feature-name> [run-type] [--use-current-branch|--skip-branch|--branch <name>]"
+fi
+
+# Determine RUN_TYPE from second arg if not a flag
+if [[ -n "${2:-}" && "${2}" != --* ]]; then
+  RUN_TYPE="$2"
+  shift 2
+else
+  RUN_TYPE="initial"
+  shift 1
+fi
+
+# Parse optional branch control flags
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --use-current-branch)
+      MODE="use_current"; shift ;;
+    --skip-branch)
+      MODE="skip"; shift ;;
+    --branch)
+      MODE="explicit"; RESOLVED_BRANCH="$2"; shift 2 ;;
+    *)
+      shift ;;
+  esac
+done
 
 if [[ -z "$FEATURE" ]]; then
     error_exit "Usage: $0 <feature-name> [run-type]"
@@ -32,7 +65,14 @@ print_header "TeamOps Preflight Initialization"
 
 log_info "Feature: $FEATURE"
 log_info "Run Type: $RUN_TYPE"
-log_info "Branch: feature/$FEATURE"
+if [[ "$MODE" == "use_current" || "$MODE" == "skip" ]]; then
+  RESOLVED_BRANCH="$(current_git_branch || git branch --show-current)"
+fi
+if [[ -z "$RESOLVED_BRANCH" ]]; then
+  RESOLVED_BRANCH="feature/$FEATURE"
+fi
+
+log_info "Branch: $RESOLVED_BRANCH"
 echo ""
 
 # Check for conflicting main workflow
@@ -47,8 +87,12 @@ fi
 log_info "Creating feature workspace..."
 eval "$(create_feature_structure "$FEATURE" "$RUN_TYPE")"
 
-# Ensure feature branch exists
-ensure_feature_branch "$FEATURE"
+# Ensure feature branch exists unless skipped or using current
+if [[ "$MODE" != "skip" && "$MODE" != "use_current" ]]; then
+  ensure_feature_branch "$FEATURE" "$RESOLVED_BRANCH"
+else
+  log_info "Skipping branch operations (mode: $MODE). Using current branch: $RESOLVED_BRANCH"
+fi
 
 # Create initial preflight task spec template
 TASK_SPEC_PATH="$RUN_DIR/TASK_SPEC.md"
@@ -127,8 +171,8 @@ mkdir -p "$PREFLIGHT_CHECKPOINTS"
 PREFLIGHT_LOGS="$RUN_DIR/logs"
 mkdir -p "$PREFLIGHT_LOGS"
 
-# Track feature (mark as preflight)
-track_feature "$FEATURE" "preflight" "feature/$FEATURE"
+# Track feature (mark as preflight) with resolved branch
+track_feature "$FEATURE" "preflight" "$RESOLVED_BRANCH"
 
 # Create initial status file
 {

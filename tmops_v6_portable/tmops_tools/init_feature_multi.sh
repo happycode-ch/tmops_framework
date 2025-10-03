@@ -1,11 +1,46 @@
 #!/bin/bash
+# 📁 FILE: tmops_v6_portable/tmops_tools/init_feature_multi.sh
+# 🎯 PURPOSE: Initialize TeamOps features with directory structure, branches, and runs
+# 🤖 AI-HINT: Supports multi-run and flexible branch modes
+# 🔗 DEPENDENCIES: git, tmops_tools/lib/common.sh
+# 📝 CONTEXT: Multi-feature initialization with optional preflight handoff detection
 # TeamOps v6.1 - Multi-feature initialization
 # Can run multiple features simultaneously
 
 set -e
 
-FEATURE="$1"
-RUN_TYPE="${2:-initial}"
+# Positional and flags parsing
+FEATURE="${1:-}"
+MODE="default"        # default|use_current|skip|explicit
+RESOLVED_BRANCH=""
+
+if [[ -z "$FEATURE" ]]; then
+  echo "Usage: $0 <feature> [run-type] [--use-current-branch|--skip-branch|--branch <name>]" >&2
+  exit 1
+fi
+
+# Determine RUN_TYPE from second arg if not a flag
+if [[ -n "${2:-}" && "${2}" != --* ]]; then
+  RUN_TYPE="$2"
+  shift 2
+else
+  RUN_TYPE="initial"
+  shift 1
+fi
+
+# Parse flags
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --use-current-branch)
+      MODE="use_current"; shift ;;
+    --skip-branch)
+      MODE="skip"; shift ;;
+    --branch)
+      MODE="explicit"; RESOLVED_BRANCH="$2"; shift 2 ;;
+    *)
+      shift ;;
+  esac
+done
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -45,7 +80,16 @@ echo "  TeamOps Feature Initialization"
 echo "═══════════════════════════════════════════════"
 echo ""
 echo "Feature: $FEATURE"
-echo "Branch: feature/$FEATURE"
+
+# Determine resolved branch name
+if [[ "$MODE" == "use_current" || "$MODE" == "skip" ]]; then
+  RESOLVED_BRANCH="$(git branch --show-current)"
+fi
+if [[ -z "$RESOLVED_BRANCH" ]]; then
+  RESOLVED_BRANCH="feature/$FEATURE"
+fi
+
+echo "Branch: $RESOLVED_BRANCH"
 echo ""
 
 # Create feature directory in project root
@@ -113,19 +157,31 @@ fi
 # Create current symlink for this feature
 ln -sfn "runs/$RUN_TYPE" "$FEATURE_DIR/current"
 
-# Create or checkout feature branch
-echo "Setting up feature branch..."
-if git show-ref --verify --quiet "refs/heads/feature/$FEATURE"; then
-    echo "  ✓ Checking out existing branch: feature/$FEATURE"
-    git checkout "feature/$FEATURE"
+# Create or checkout feature branch (unless skipped or using current)
+if [[ "$MODE" != "skip" && "$MODE" != "use_current" ]]; then
+    echo "Setting up feature branch..."
+    if git show-ref --verify --quiet "refs/heads/$RESOLVED_BRANCH"; then
+        echo "  ✓ Checking out existing branch: $RESOLVED_BRANCH"
+        git checkout "$RESOLVED_BRANCH"
+    else
+        echo "  ✓ Creating new branch: $RESOLVED_BRANCH"
+        git checkout -b "$RESOLVED_BRANCH"
+    fi
 else
-    echo "  ✓ Creating new branch: feature/$FEATURE"
-    git checkout -b "feature/$FEATURE"
+    echo "Skipping branch operations (mode: $MODE). Using current branch: $RESOLVED_BRANCH"
 fi
 
 # Track in simple text file (not JSON)
 mkdir -p "$TMOPS_DIR"
-echo "$FEATURE:active:$(date -Iseconds):feature/$FEATURE" >> "$TMOPS_DIR/FEATURES.txt"
+# Track feature with resolved branch (idempotent)
+if [[ -f "$PORTABLE_DIR/tmops_tools/lib/common.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "$PORTABLE_DIR/tmops_tools/lib/common.sh"
+  get_project_paths
+  track_feature "$FEATURE" "active" "$RESOLVED_BRANCH"
+else
+  echo "$FEATURE:active:$(date -Iseconds):$RESOLVED_BRANCH" >> "$TMOPS_DIR/FEATURES.txt"
+fi
 
 echo ""
 echo "═══════════════════════════════════════════════"

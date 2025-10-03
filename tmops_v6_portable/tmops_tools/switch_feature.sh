@@ -1,4 +1,8 @@
 #!/bin/bash
+# 📁 FILE: tmops_v6_portable/tmops_tools/switch_feature.sh
+# 🎯 PURPOSE: Show context and branch info for a specific feature
+# 🤖 AI-HINT: Reads branch from FEATURES.txt to guide checkout
+# 🔗 DEPENDENCIES: .tmops/FEATURES.txt, git
 # Switch context to a specific feature (show info)
 
 set -e
@@ -32,11 +36,15 @@ echo ""
 
 echo "🌿 Branch Status:"
 CURRENT_BRANCH=$(git branch --show-current)
-if [[ "$CURRENT_BRANCH" == "feature/$FEATURE" ]]; then
-    echo "  ✓ Currently on feature/$FEATURE"
+BRANCH_INFO=$(grep -m1 "^$FEATURE:" ../.tmops/FEATURES.txt | cut -d: -f4)
+if [[ -z "$BRANCH_INFO" ]]; then
+    BRANCH_INFO="feature/$FEATURE"
+fi
+if [[ "$CURRENT_BRANCH" == "$BRANCH_INFO" ]]; then
+    echo "  ✓ Currently on $BRANCH_INFO"
 else
     echo "  ⚠️  Not on feature branch (current: $CURRENT_BRANCH)"
-    echo "  To switch: git checkout feature/$FEATURE"
+    echo "  To switch: git checkout $BRANCH_INFO"
 fi
 
 echo ""
@@ -74,6 +82,6 @@ fi
 echo ""
 echo "To start working:"
 echo "  1. cd ..  # Go to root project directory"
-echo "  2. git checkout feature/$FEATURE"
+echo "  2. git checkout $BRANCH_INFO"
 echo "  3. Open 4 Claude Code instances (all in root directory)"
 echo "  4. Paste role instructions from tmops_v6_portable/instance_instructions/"

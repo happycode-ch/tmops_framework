@@ -1,0 +1,24 @@
+{
+  "name": "tmops-cli",
+  "version": "0.0.1",
+  "description": "TeamOps portable CLI: init, multi-run, and BDD/Gherkin scaffolding",
+  "license": "MIT",
+  "bin": {
+    "tmops": "bin/tmops.js"
+  },
+  "type": "commonjs",
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "demo": "node bin/tmops.js demo-gherkin",
+    "scaffold": "node bin/tmops.js bdd-scaffold"
+  },
+  "files": [
+    "bin/",
+    "tmops_tools/",
+    "instance_instructions/",
+    "templates/"
+  ]
+}
+

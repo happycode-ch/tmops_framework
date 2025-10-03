@@ -1,3 +1,10 @@
+# TeamOps (tmops) – Multi‑Instance AI Orchestration
+
+Lightweight, test‑driven orchestration for multiple AI code agent instances using checkpoints and Markdown instructions.
+
+<details>
+<summary>TeamOps Logo</summary>
+
 <div align="center">
   <div style="background-color: #DC143C; color: white; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 24px; font-weight: bold; margin: 20px 0;">
     <pre style="color: white; margin: 0; background: none;">
@@ -11,9 +18,11 @@
   </div>
 </div>
 
+</details>
+
 ## Multi-Instance AI Orchestration Workflow
 
-TeamOps or tmops (as I refer to it) is a sophisticated orchestration protocol that coordinates multiple Claude AI instances to work collaboratively on software development tasks. By dividing responsibilities across specialized instances and using a checkpoint-based communication system, tmops enables parallel, conflict-free development with built-in quality gates.
+TeamOps (tmops) coordinates multiple AI code agent instances to work collaboratively on software development tasks. By dividing responsibilities across specialized instances and using a checkpoint-based communication system, tmops enables parallel, conflict‑free development with built‑in quality gates.
 
 tmops introduces comprehensive AI-ready templates and enhanced documentation structure for complete development workflows.
 
@@ -49,18 +58,41 @@ tmops embodies the principle that complex software development benefits from spe
 - **Efficiency**: Sequential, specialized execution with clear handoff protocols
 - **Traceability**: Complete audit trail via checkpoints
 
-### Why Separate Instances Over Subagents?
+### Why Markdown Instructions Over Subagents?
 
-tmops deliberately uses separate Claude Code instances rather than subagents for two critical technical reasons. First, each subagent operates within Claude Code's 20,000 token response limit, which constrains the depth and complexity of outputs during intensive development phases like comprehensive test creation or detailed code reviews. Second, and more importantly, separate instances prevent *context contamination*—the gradual degradation that occurs when diverse conversational threads introduce noise into a shared context window. By maintaining isolated contexts, tmops ensures each specialized role (Orchestrator, Tester, Implementer, Verifier) operates with maximum clarity and focus, preventing the context degradation syndrome that can cause AI models to lose coherence over extended development sessions. This architectural choice prioritizes conversation quality and role-specific precision over convenience, resulting in more reliable and predictable AI-assisted development workflows.
+Using version‑controlled Markdown files for role and workflow instructions keeps guidance portable, reviewable, and light on orchestration overhead. Instructions live in Git (diffable, auditable, revertible) and work with any agent CLI (Codex, Claude Code, OpenAI, etc.). In many setups, large system prompts are repeated across subagents and calls; centralizing instructions in Markdown avoids duplicating long prompts per subagent and reduces repeated context across roles. This improves reproducibility across sessions and simplifies failure modes. Note: actual token consumption depends on how your agent CLI loads files; the benefit comes from avoiding redundant, per‑agent prompt duplication while retaining a single source of truth.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Claude.ai account (for strategic planning)
-- Claude Code CLI access (3-4 terminals)
+- Agent CLI (e.g., Codex, Claude Code, OpenAI, aider)
+- 3–4 terminals (or panes) to run agent instances
 - Unix-like environment (Linux, macOS, or WSL)
 - Python 3.6+ (for metrics extraction)
+
+## Choose Your Agent
+
+Pick the CLI you prefer and set `AGENT_CMD` so examples work consistently across tools.
+
+Examples
+
+- Codex CLI
+  ```bash
+  export AGENT_CMD="codex"
+  ```
+- Claude Code CLI
+  ```bash
+  export AGENT_CMD="claude"
+  ```
+- aider (OpenAI/GPTs via Git‑aware assistant)
+  ```bash
+  export AGENT_CMD="aider"
+  ```
+- OpenAI CLI (non‑interactive by default; use a wrapper if needed)
+  ```bash
+  export AGENT_CMD="openai"
+  ```
 
 ### Setup & Usage
 
@@ -86,12 +118,16 @@ tmops deliberately uses separate Claude Code instances rather than subagents for
    vim .tmops/my-feature/runs/current/TASK_SPEC.md
    ```
 
-4. **Launch 4 Claude Code instances from project root**
+4. **Choose your agent and launch 4 instances from project root**
    ```bash
-   # Terminal 1: claude  # Paste tmops_v6_portable/instance_instructions/01_orchestrator.md
-   # Terminal 2: claude  # Paste tmops_v6_portable/instance_instructions/02_tester.md
-   # Terminal 3: claude  # Paste tmops_v6_portable/instance_instructions/03_implementer.md
-   # Terminal 4: claude  # Paste tmops_v6_portable/instance_instructions/04_verifier.md
+   # Pick one:
+   export AGENT_CMD="codex"   # or: claude | openai | aider
+
+   # Terminals:
+   # T1: ${AGENT_CMD}  # Paste tmops_v6_portable/instance_instructions/01_orchestrator.md
+   # T2: ${AGENT_CMD}  # Paste tmops_v6_portable/instance_instructions/02_tester.md
+   # T3: ${AGENT_CMD}  # Paste tmops_v6_portable/instance_instructions/03_implementer.md
+   # T4: ${AGENT_CMD}  # Paste tmops_v6_portable/instance_instructions/04_verifier.md
    ```
    Copy and paste the respective role instructions to prime each instance.
 
@@ -102,9 +138,9 @@ tmops deliberately uses separate Claude Code instances rather than subagents for
 
 6. **Clean up after completion**
    ```bash
-   ./tmops_tools/cleanup_feature.sh my-feature
+   ./tmops_v6_portable/tmops_tools/cleanup_safe.sh my-feature
    ```
-   This removes branches and `.tmops/` artifacts.
+   Safely archives `.tmops/` artifacts and removes the feature branch.
 
 ## 🛠️ Tools
 
@@ -118,6 +154,25 @@ Essential scripts for the tmops workflow:
 - **`cleanup_safe.sh`** - Safely clean up features with backups and archiving
   ```bash
   ./tmops_v6_portable/tmops_tools/cleanup_safe.sh <feature-name>
+  ```
+
+- **`run_manager.sh`** - Multi-run support (list/new/clear/switch), archive-first
+  ```bash
+  ./tmops_v6_portable/tmops_tools/run_manager.sh <feature> list
+  ./tmops_v6_portable/tmops_tools/run_manager.sh <feature> new --name cycle-YYYYMMDD-HHMM --spec new|copy
+  ```
+
+- **`bdd_scaffold.sh`** - Extract ```gherkin blocks from curated docs into `.feature` files
+  ```bash
+  ./tmops_v6_portable/tmops_tools/bdd_scaffold.sh --from docs/product/gherkin/<file>.md --stack js --gen-steps
+  ```
+
+- **tmops CLI (package-ready)**
+  ```bash
+  # local usage
+  node tmops_v6_portable/bin/tmops.js demo-gherkin
+  node tmops_v6_portable/bin/tmops.js bdd-scaffold --from docs/product/gherkin/<file>.md --stack js
+  # (after publishing) npx tmops-cli demo-gherkin
   ```
 
 - **`extract_metrics.py`** - Extract performance and quality metrics
@@ -373,8 +428,10 @@ Created by Anthony Calek - [GitHub Profile](https://github.com/happycode-ch)
 **Status:** Active Development | **Last Updated:** September 2025
 
 ### Latest Updates
-- **AI-Ready Templates**: 8 comprehensive markdown templates for complete workflow
-- **Documentation Structure**: New docs folders with internal/external/archive/images subdirectories per feature
-- **Enhanced Scripts**: Updated tmops_tools to support new documentation structure
-- **Template System**: From research to review, complete development lifecycle coverage
-- **Improved Organization**: Historical docs moved to .docs/, templates in dedicated directory
+- Model-agnostic README with `AGENT_CMD` and collapsible logo
+- Branch-flexible init: `--use-current-branch`, `--skip-branch`, `--branch <name>`
+- Multi-run manager (`run_manager.sh`) with archive-first behavior
+- Docs structure preserved: `internal`, `external`, `archive`, `images`
+- Optional Gherkin Author role + interview blueprint and scaffold
+- `bdd_scaffold.sh` extracts ```gherkin blocks to runnable features
+- tmops CLI skeleton (demo-gherkin, bdd-scaffold) for future npm package
